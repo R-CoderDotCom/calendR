@@ -119,7 +119,7 @@ calendaR <- function(year = format(Sys.Date(), "%Y"),
     }
 
     Day <- seq(as.Date("2020-08-23"), by = 1, len=7)
-    weeknames <- up(weekdays(Day))
+    weeknames <- c(up(weekdays(Day))[2:7], up(weekdays(Day))[1])
   }
 
   if(is.null(month)){
