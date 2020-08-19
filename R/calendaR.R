@@ -10,8 +10,8 @@
 #' @param title Title of the the calendar. If not supplied is the year and the month, or the year if `month = NULL`.
 #' @param title.size Size of the main title.
 #' @param title.col Color of the main title.
-#' @param motivation Motivational phrase added as subtitle of the plot.
-#' @param motivation.col Color of the motivational phrase.
+#' @param subtitle subtitleal phrase added as subtitle of the plot.
+#' @param subtitle.col Color of the subtitleal phrase.
 #' @param text Character vector of texts to be added on the calendar. Only for monthly calendars.
 #' @param text.at Number of days where to add the texts of the `text` argument.
 #' @param text.size Font size of the texts added with the `text` argument.
@@ -22,7 +22,7 @@
 #' @param col Color of the lines of the calendar.
 #' @param lwd Line width of the calendar.
 #' @param lty Line type of the calendar.
-#' @param font.family Font family of all the texts except the motivational phrase.
+#' @param font.family Font family of all the texts except the subtitleal phrase.
 #' @param font.style Style of the texts added with the `text` argument.
 #' @param weekdays.col Color of the names of the days.
 #' @param month.col If `month = NULL`, is the color of the month names.
@@ -52,15 +52,15 @@ calendaR <- function(year = format(Sys.Date(), "%Y"),
 
                      start = c("S", "M"),
 
-                     weeknames = c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"),
+                     weeknames,
                      position = c("horizontal", "vertical"),
 
                      title,
                      title.size = 20,
                      title.col = "gray30",
 
-                     motivation = "",
-                     motivation.col = "gray30",
+                     subtitle = "",
+                     subtitle.col = "gray30",
 
                      text = "",
                      text.at = NULL,
@@ -162,6 +162,10 @@ calendaR <- function(year = format(Sys.Date(), "%Y"),
     }
 
   } else {
+
+    if(any(special.days > length(dates)) | any(special.days <= 0)) {
+      warning("special.days must be numbers of the corresponding month")
+    }
 
     if(gradient == TRUE & (length(special.days) != length(dates))) {
       stop("If gradient = TRUE, the length of 'special.days' must be the same as the number of days of the month or the year")
@@ -283,7 +287,7 @@ calendaR <- function(year = format(Sys.Date(), "%Y"),
               scale_fill_gradient(low = "white", high = special.col) +
               facet_wrap( ~ monlabel, ncol = 4, scales = "free") +
               ggtitle(title) +
-              labs(subtitle = motivation) +
+              labs(subtitle = subtitle) +
               scale_x_continuous(expand = c(0.01, 0.01), position = "top",
                                  breaks = seq(0, 6), labels = weekdays) +
               scale_y_continuous(expand = c(0.05, 0.05)) +
@@ -299,7 +303,7 @@ calendaR <- function(year = format(Sys.Date(), "%Y"),
                     axis.text.y = element_blank(),
                     axis.text.x = element_text(colour = weekdays.col),
                     plot.title = element_text(hjust = 0.5, size = title.size, colour = title.col),
-                    plot.subtitle = element_text(hjust = 0.5, face = "italic", colour = motivation.col),
+                    plot.subtitle = element_text(hjust = 0.5, face = "italic", colour = subtitle.col),
                     legend.position = "none",
                     plot.margin = unit(c(1, 0.5, 1, 0.5), "cm"),
                     text = element_text(family = font.family, face = font.style),
@@ -310,7 +314,7 @@ calendaR <- function(year = format(Sys.Date(), "%Y"),
               scale_fill_gradient(low = "white", high = special.col) +
               facet_wrap( ~ monlabel, ncol = 3, scales = "free") +
               ggtitle(year) +
-              labs(subtitle = motivation) +
+              labs(subtitle = subtitle) +
               scale_x_continuous(expand = c(0.01, 0.01), position = "top",
                                  breaks = seq(0, 6), labels = weekdays) +
               scale_y_continuous(expand = c(0.05, 0.05)) +
@@ -326,7 +330,7 @@ calendaR <- function(year = format(Sys.Date(), "%Y"),
                     axis.text.y = element_blank(),
                     axis.text.x = element_text(colour = weekdays.col),
                     plot.title = element_text(hjust = 0.5, size = title.size, colour = title.col),
-                    plot.subtitle = element_text(hjust = 0.5, face = "italic", colour = motivation.col),
+                    plot.subtitle = element_text(hjust = 0.5, face = "italic", colour = subtitle.col),
                     legend.position = "none",
                     plot.margin = unit(c(1, 0.5, 1, 0.5), "cm"),
                     text = element_text(family = font.family, face = font.style),
@@ -339,7 +343,7 @@ calendaR <- function(year = format(Sys.Date(), "%Y"),
             geom_tile(aes(fill = fills), color = col, size = lwd, linetype = lty) +
             scale_fill_gradient(low = "white", high = special.col) +
             ggtitle(title) +
-            labs(subtitle = motivation) +
+            labs(subtitle = subtitle) +
             geom_text(data = df, aes(label = week, x = pos.x, y = pos.y), size = 4.5, family = font.family, color = weekdays.col, fontface = font.style) +
             geom_text(aes(label = texts), color = text.col, size = text.size, family = font.family) +
             # scale_x_continuous(expand = c(0.01, 0.01), position = "top",
@@ -355,7 +359,7 @@ calendaR <- function(year = format(Sys.Date(), "%Y"),
                   axis.text.y = element_blank(),
                   axis.text.x = element_blank(),
                   plot.title = element_text(hjust = 0.5, size = title.size, colour = title.col),
-                  plot.subtitle = element_text(hjust = 0.5, face = "italic", colour = motivation.col),
+                  plot.subtitle = element_text(hjust = 0.5, face = "italic", colour = subtitle.col),
                   legend.position = "none",
                   plot.margin = unit(c(1, 0, 1, 0), "cm"),
                   text = element_text(family = font.family, face = font.style),
