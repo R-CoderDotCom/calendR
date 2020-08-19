@@ -1,0 +1,12 @@
+Package: calendaR
+Title: Ready to Print Monthly and Yearly Calendars Made with ggplot2
+Version: 1.0
+Authors@R: c(
+  person("José Carlos", "Soage González", email = "jsoage@uvigo.es", role = "cre"))
+Description: What the package does (one paragraph).
+Imports: ggplot2, dplyr, forcats
+License: GPL-2
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1
