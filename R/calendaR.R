@@ -15,7 +15,7 @@
 #' @param text Character vector of texts to be added on the calendar. Only for monthly calendars.
 #' @param text.at Number of days where to add the texts of the `text` argument.
 #' @param text.size Font size of the texts added with the `text` argument.
-#' @param text.style Style of the texts added with the `text` argument.
+#' @param font.style Style of the texts added with the `text` argument.
 #' @param text.col Color of the texts added with the `text` argument.
 #' @param special.days Numeric vector indicating the days to color or `"weekend"` for coloring all the weekends.
 #' @param special.col Color for the days indicated in special.days.
@@ -47,9 +47,11 @@
 #' @import ggplot2 dplyr forcats
 #' @importFrom grDevices rgb
 #' @export
-calendaR <- function(start = c("S", "M"),
+calendaR <- function(year = format(Sys.Date(), "%Y"),
                      month = NULL,
-                     year = format(Sys.Date(), "%Y"),
+
+                     start = c("S", "M"),
+
                      weeknames = c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"),
                      position = c("horizontal", "vertical"),
 
@@ -63,7 +65,6 @@ calendaR <- function(start = c("S", "M"),
                      text = "",
                      text.at = NULL,
                      text.size = 4,
-                     text.style = "plain",
                      text.col = "gray30",
 
                      special.days = NULL,
@@ -71,10 +72,11 @@ calendaR <- function(start = c("S", "M"),
                      gradient = FALSE,
 
                      col = "gray30",
-                     lwd = 0.75,
+                     lwd = 0.5,
                      lty = 1,
 
                      font.family = "sans",
+                     font.style = "plain",
 
                      weekdays.col = "gray30",
                      month.col = "gray30",
@@ -107,6 +109,17 @@ calendaR <- function(start = c("S", "M"),
 
   if(text == "" && !is.null(text.at)){
     warning("Add the text with the 'text' argument")
+  }
+
+  if(missing(weeknames)) {
+
+    up <- function(x) {
+      substr(x, 1, 1) <- toupper(substr(x, 1, 1))
+      x
+    }
+
+    Day <- seq(as.Date("2020-08-23"), by = 1, len=7)
+    weeknames <- up(weekdays(Day))
   }
 
   if(is.null(month)){
@@ -274,12 +287,12 @@ calendaR <- function(start = c("S", "M"),
               scale_x_continuous(expand = c(0.01, 0.01), position = "top",
                                  breaks = seq(0, 6), labels = weekdays) +
               scale_y_continuous(expand = c(0.05, 0.05)) +
-              geom_text(data = t2, aes(label = format(date, "%d")),
+              geom_text(data = t2, aes(label = gsub("^0+", "", format(date, "%d"))),
                         size = day.size, family = font.family,
-                        color = days.col, fontface = text.style) +
+                        color = days.col, fontface = font.style) +
               theme(panel.background = element_rect(fill = NA, color = NA),
                     strip.background = element_rect(fill = NA, color = NA),
-                    strip.text.x = element_text(hjust = 0, face = "bold", color = month.col),
+                    strip.text.x = element_text(hjust = 0, face = font.style, color = month.col),
                     legend.title = element_blank(),
                     axis.ticks = element_blank(),
                     axis.title = element_blank(),
@@ -289,7 +302,7 @@ calendaR <- function(start = c("S", "M"),
                     plot.subtitle = element_text(hjust = 0.5, face = "italic", colour = motivation.col),
                     legend.position = "none",
                     plot.margin = unit(c(1, 0.5, 1, 0.5), "cm"),
-                    text = element_text(family = font.family, face = text.style),
+                    text = element_text(family = font.family, face = font.style),
                     strip.placement = "outsite"))
     } else {
       print(ggplot(t2, aes(dow, y, fill = fill)) +
@@ -301,12 +314,12 @@ calendaR <- function(start = c("S", "M"),
               scale_x_continuous(expand = c(0.01, 0.01), position = "top",
                                  breaks = seq(0, 6), labels = weekdays) +
               scale_y_continuous(expand = c(0.05, 0.05)) +
-              geom_text(data = t2, aes(label = format(date, "%d")),
+              geom_text(data = t2, aes(label = gsub("^0+", "", format(date, "%d"))),
                         size = day.size, family = font.family,
-                        color = days.col, fontface = text.style) +
+                        color = days.col, fontface = font.style) +
               theme(panel.background = element_rect(fill = NA, color = NA),
                     strip.background = element_rect(fill = NA, color = NA),
-                    strip.text.x = element_text(hjust = 0, face = "bold", color = month.col),
+                    strip.text.x = element_text(hjust = 0, face = font.style, color = month.col),
                     legend.title = element_blank(),
                     axis.ticks = element_blank(),
                     axis.title = element_blank(),
@@ -316,7 +329,7 @@ calendaR <- function(start = c("S", "M"),
                     plot.subtitle = element_text(hjust = 0.5, face = "italic", colour = motivation.col),
                     legend.position = "none",
                     plot.margin = unit(c(1, 0.5, 1, 0.5), "cm"),
-                    text = element_text(family = font.family, face = text.style),
+                    text = element_text(family = font.family, face = font.style),
                     strip.placement = "outsite"))
     }
 
@@ -332,10 +345,10 @@ calendaR <- function(start = c("S", "M"),
             # scale_x_continuous(expand = c(0.01, 0.01), position = "top",
             #                   breaks = seq(0, 6), labels = weekdays) +
             scale_y_continuous(expand = c(0.05, 0.05)) +
-            geom_text(data = t2, aes(label = 1:nrow(filler), x = dow -0.4, y = y + 0.35), size = day.size, family = font.family, color = days.col) +
+            geom_text(data = t2, aes(label = 1:nrow(filler), x = dow -0.4, y = y + 0.35), size = day.size, family = font.family, color = days.col, fontface = font.style) +
             theme(panel.background = element_rect(fill = NA, color = NA),
                   strip.background = element_rect(fill = NA, color = NA),
-                  strip.text.x = element_text(hjust = 0, face = "bold"),
+                  strip.text.x = element_text(hjust = 0, face = font.style),
                   legend.title = element_blank(),
                   axis.ticks = element_blank(),
                   axis.title = element_blank(),
@@ -345,7 +358,7 @@ calendaR <- function(start = c("S", "M"),
                   plot.subtitle = element_text(hjust = 0.5, face = "italic", colour = motivation.col),
                   legend.position = "none",
                   plot.margin = unit(c(1, 0, 1, 0), "cm"),
-                  text = element_text(family = font.family, face = text.style),
+                  text = element_text(family = font.family, face = font.style),
                   strip.placement = "outsite"))
   }
 
