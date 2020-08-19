@@ -36,7 +36,7 @@ calendaR(month = 1, start = "M") # Week starts on Monday
 ![Calendar_enero_2020](https://user-images.githubusercontent.com/67192157/90624910-02f6a600-e219-11ea-8b8e-4b9a00aa7f06.png)
 
 
-## Position
+## Position (vertical or horizontal)
 
 ``` r
 # calendaR(year = 2021, position = "horizontal") # Default
@@ -44,6 +44,14 @@ calendaR(year = 2021, position = "vertical")
 ```
 
 ![Calendar_2021](https://user-images.githubusercontent.com/67192157/90625001-291c4600-e219-11ea-9478-7c65accc259a.png)
+
+## Gradient
+
+``` r
+calendaR(year = 2021, special.days = 1:365, gradient = TRUE, special.col = rgb(1, 0, 0, alpha = 0.6))
+```
+
+![Calendar_2021_GRADIENT](https://user-images.githubusercontent.com/67192157/90626971-ce381e00-e21b-11ea-919a-b5265c415110.png)
 
 
 ## Save as PDF (as A4 paper size)
