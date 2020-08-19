@@ -15,7 +15,6 @@
 #' @param text Character vector of texts to be added on the calendar. Only for monthly calendars.
 #' @param text.at Number of days where to add the texts of the `text` argument.
 #' @param text.size Font size of the texts added with the `text` argument.
-#' @param font.style Style of the texts added with the `text` argument.
 #' @param text.col Color of the texts added with the `text` argument.
 #' @param special.days Numeric vector indicating the days to color or `"weekend"` for coloring all the weekends.
 #' @param special.col Color for the days indicated in special.days.
@@ -24,6 +23,7 @@
 #' @param lwd Line width of the calendar.
 #' @param lty Line type of the calendar.
 #' @param font.family Font family of all the texts except the motivational phrase.
+#' @param font.style Style of the texts added with the `text` argument.
 #' @param weekdays.col Color of the names of the days.
 #' @param month.col If `month = NULL`, is the color of the month names.
 #' @param days.col Color of the number of the days.
@@ -340,7 +340,7 @@ calendaR <- function(year = format(Sys.Date(), "%Y"),
             scale_fill_gradient(low = "white", high = special.col) +
             ggtitle(title) +
             labs(subtitle = motivation) +
-            geom_text(data = df, aes(label = week, x = pos.x, y = pos.y), size = 4.5, family = font.family, color = weekdays.col) +
+            geom_text(data = df, aes(label = week, x = pos.x, y = pos.y), size = 4.5, family = font.family, color = weekdays.col, fontface = font.style) +
             geom_text(aes(label = texts), color = text.col, size = text.size, family = font.family) +
             # scale_x_continuous(expand = c(0.01, 0.01), position = "top",
             #                   breaks = seq(0, 6), labels = weekdays) +
@@ -348,7 +348,7 @@ calendaR <- function(year = format(Sys.Date(), "%Y"),
             geom_text(data = t2, aes(label = 1:nrow(filler), x = dow -0.4, y = y + 0.35), size = day.size, family = font.family, color = days.col, fontface = font.style) +
             theme(panel.background = element_rect(fill = NA, color = NA),
                   strip.background = element_rect(fill = NA, color = NA),
-                  strip.text.x = element_text(hjust = 0, face = font.style),
+                  strip.text.x = element_text(hjust = 0, face = "bold"),
                   legend.title = element_blank(),
                   axis.ticks = element_blank(),
                   axis.title = element_blank(),
@@ -382,3 +382,4 @@ calendaR <- function(year = format(Sys.Date(), "%Y"),
     }
   }
 }
+
