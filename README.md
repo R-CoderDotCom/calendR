@@ -17,13 +17,14 @@ devtools::install_github("R-CoderDotCom/calendaR")
 library(calendaR)
 calendaR() # Defaults to the current year
 ```
-
+![Calendar_2020](https://user-images.githubusercontent.com/67192157/90624537-67653580-e218-11ea-80f6-8d329dba4474.png)
 
 ## Monthly calendar
 
 ``` r
 calendaR(month = 1, year = 2028)
 ```
+![Calendar_enero_2028](https://user-images.githubusercontent.com/67192157/90624619-82d04080-e218-11ea-8570-a2c3b0ccab6d.png)
 
 ## Start of the week (Monday or Sunday)
 
