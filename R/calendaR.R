@@ -2,9 +2,9 @@
 #'
 #' @description Create ready to print monthly and yearly calendars with ggplot2. The package allows personalizing colors (even setting a gradient color scale for a full month or year), texts and fonts and adding texts on the days for monthly calendars.
 #'
-#' @param start `"S"` (default) for starting the week on Sunday or `"M"` for starting the week on Monday.
-#' @param month Month of the year or NULL for the yearly calendar.
 #' @param year Year of the calendar. By default uses the current year.
+#' @param month Month of the year or NULL for the yearly calendar.
+#' @param start `"S"` (default) for starting the week on Sunday or `"M"` for starting the week on Monday.
 #' @param weeknames Names of the days of the week. By default they will be in english.
 #' @param position `"vertical"` or `"horizontal"` (default)
 #' @param title Title of the the calendar. If not supplied is the year and the month, or the year if `month = NULL`.
@@ -382,4 +382,3 @@ calendaR <- function(year = format(Sys.Date(), "%Y"),
     }
   }
 }
-
