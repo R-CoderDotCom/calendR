@@ -6,7 +6,7 @@
 #' @param month Month of the year or NULL for the yearly calendar.
 #' @param year Year of the calendar. By default uses the current year.
 #' @param weeknames Names of the days of the week. By default they will be in english.
-#' @param position `"vertical"` or `"horizontal"`
+#' @param position `"vertical"` or `"horizontal"` (default)
 #' @param title Title of the the calendar. If not supplied is the year and the month, or the year if `month = NULL`.
 #' @param title.size Size of the main title.
 #' @param title.col Color of the main title.
@@ -151,7 +151,7 @@ calendaR <- function(start = c("S", "M"),
   } else {
 
     if(gradient == TRUE & (length(special.days) != length(dates))) {
-      stop("If gradient = TRUE, the length of 'special.days' must be the same as the number of days of the month")
+      stop("If gradient = TRUE, the length of 'special.days' must be the same as the number of days of the month or the year")
     }
   }
 
@@ -215,7 +215,7 @@ calendaR <- function(start = c("S", "M"),
       # arrange(year, month) %>%
       mutate(monlabel = month)
 
-    if (!is.null(month)) { # multi-year data set
+    if (!is.null(month)) { # Multi-year data set
       t1$monlabel <- paste(t1$month, t1$year)
     }
 
@@ -236,11 +236,13 @@ calendaR <- function(start = c("S", "M"),
         if(special.days == "weekend") {
           fills <- t2$weekend
         }
-      }
+      } else {
 
-      else {
-
-        fills[special.days] <- 1
+        if(gradient == TRUE) {
+          fills <- special.days
+        } else {
+          fills[special.days] <- 1
+        }
       }
     }
   }
@@ -250,7 +252,13 @@ calendaR <- function(start = c("S", "M"),
                    pos.y = rep(max(t2$monthweek) + 1.75, 7))
 
   if(missing(title)){
+
+    if(is.null(month)) {
+      title <- year
+    } else {
     title <- levels(t2$monlabel)
+    }
+
   }
 
 
@@ -361,9 +369,3 @@ calendaR <- function(start = c("S", "M"),
     }
   }
 }
-
-
-
-
-
-# calendaR(year = 1945)
