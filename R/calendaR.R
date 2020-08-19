@@ -261,7 +261,7 @@ calendaR <- function(start = c("S", "M"),
               geom_tile(aes(fill = fills), color = col, size = lwd, linetype = lty) +
               scale_fill_gradient(low = "white", high = special.col) +
               facet_wrap( ~ monlabel, ncol = 4, scales = "free") +
-              ggtitle(year) +
+              ggtitle(title) +
               labs(subtitle = motivation) +
               scale_x_continuous(expand = c(0.01, 0.01), position = "top",
                                  breaks = seq(0, 6), labels = weekdays) +
