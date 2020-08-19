@@ -19,12 +19,23 @@ calendaR() # Defaults to the current year
 ```
 ![Calendar_2020](https://user-images.githubusercontent.com/67192157/90624811-d93d7f00-e218-11ea-97fb-bb42020f792c.png)
 
+
 ## Monthly calendar
 
 ``` r
 calendaR(month = 1, year = 2028)
 ```
 ![Calendar_enero_2028](https://user-images.githubusercontent.com/67192157/90624619-82d04080-e218-11ea-8570-a2c3b0ccab6d.png)
+
+``` r
+calendaR(month = 7, year = 2022, 
+         special.days = c(1, 5, 12, 28),       # Color days of the month
+         text = "Visit\nhttps://r-coder.com/", # Add some text
+         text.at = c(1, 5, 12, 28))            # Where to add the text
+```
+
+![Calendar_julio_2022](https://user-images.githubusercontent.com/67192157/90627714-a301fe80-e21c-11ea-84ad-e1038d1b1282.png)
+
 
 ## Start of the week (Monday or Sunday)
 
@@ -44,6 +55,7 @@ calendaR(year = 2021, position = "vertical")
 ```
 
 ![Calendar_2021](https://user-images.githubusercontent.com/67192157/90625001-291c4600-e219-11ea-9478-7c65accc259a.png)
+
 
 ## Gradient
 
