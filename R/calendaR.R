@@ -375,11 +375,11 @@ calendaR <- function(year = format(Sys.Date(), "%Y"),
 
     if(!is.null(month)) {
 
-      doc_name <- paste0("Calendar_", tolower(t2$month[1]), "_", year, ".png")
+      doc_name <- paste0("Calendar_", tolower(t2$month[1]), "_", year, ".pdf")
 
     } else{
 
-      doc_name <- paste0("Calendar_", year, ".png")
+      doc_name <- paste0("Calendar_", year, ".pdf")
     }
 
     if(orientation == "landscape" | orientation == "l") {
