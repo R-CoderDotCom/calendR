@@ -23,7 +23,7 @@
 #' @param lwd Line width of the calendar.
 #' @param lty Line type of the calendar.
 #' @param font.family Font family of all the texts.
-#' @param font.style Style of all the texts and numbers except the subtitle. Possible options are `"plain"` (default), `"bold"`, `"italics"` and `"bold.italic"`.
+#' @param font.style Style of all the texts and numbers except the subtitle. Possible options are `"plain"` (default), `"bold"`, `"italic"` and `"bold.italic"`.
 #' @param weekdays.col Color of the names of the days.
 #' @param month.col If `month = NULL`, is the color of the month names.
 #' @param days.col Color of the number of the days.
@@ -42,12 +42,14 @@
 #' # Calendar of the current year
 #' calendaR()
 #'
-#' # Calendar of September, 1995
-#' calendaR(year = 1995, month = 9)
+#' # Calendar of July, 2005, starting on Monday
+#' calendaR(year = 2005, month = 7, start = "M")
 #'
+#' \dontrun{
 #' # Create ready to print monthly calendars for all the months of the current year
 #' # with week starting on Sunday
 #' invisible(sapply(1:12 , function(i) calendaR(month = i, pdf = TRUE)))
+#' }
 #'
 #' @import ggplot2 dplyr forcats
 #' @importFrom grDevices rgb
