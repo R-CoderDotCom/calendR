@@ -17,7 +17,8 @@ devtools::install_github("R-CoderDotCom/calendaR")
 library(calendaR)
 calendaR() # Defaults to the current year
 ```
-![Calendar_2020](https://user-images.githubusercontent.com/67192157/90624811-d93d7f00-e218-11ea-97fb-bb42020f792c.png)
+
+![Calendar_2020](https://user-images.githubusercontent.com/67192157/90884872-db3a4600-e3b0-11ea-8259-31f9c373fc74.png)
 
 
 ## Monthly calendar
