@@ -3,15 +3,15 @@
 #' @description Create ready to print monthly and yearly calendars with ggplot2. The package allows personalizing colors (even setting a gradient color scale for a full month or year), texts and fonts and adding texts on the days for monthly calendars.
 #'
 #' @param year Year of the calendar. By default uses the current year.
-#' @param month Month of the year or NULL for the yearly calendar.
+#' @param month Month of the year or `NULL` (default) for the yearly calendar.
 #' @param start `"S"` (default) for starting the week on Sunday or `"M"` for starting the week on Monday.
-#' @param weeknames Names of the days of the week. By default they will be in english.
-#' @param position `"vertical"` or `"horizontal"` (default)
+#' @param weeknames Character vector with the names of the days of the week. By default they will be in the language of the computer.
+#' @param orientation The calendar orientation: `"vertical"` or `"horizontal"` (default). Also accepts `"v"` and `"h"`.
 #' @param title Title of the the calendar. If not supplied is the year and the month, or the year if `month = NULL`.
 #' @param title.size Size of the main title.
 #' @param title.col Color of the main title.
-#' @param subtitle subtitleal phrase added as subtitle of the plot.
-#' @param subtitle.col Color of the subtitleal phrase.
+#' @param subtitle subtitle of the plot in italics.
+#' @param subtitle.col Color of the subtitle.
 #' @param text Character vector of texts to be added on the calendar. Only for monthly calendars.
 #' @param text.at Number of days where to add the texts of the `text` argument.
 #' @param text.size Font size of the texts added with the `text` argument.
@@ -22,7 +22,7 @@
 #' @param col Color of the lines of the calendar.
 #' @param lwd Line width of the calendar.
 #' @param lty Line type of the calendar.
-#' @param font.family Font family of all the texts except the subtitleal phrase.
+#' @param font.family Font family of all the texts except the subtitle.
 #' @param font.style Style of the texts added with the `text` argument.
 #' @param weekdays.col Color of the names of the days.
 #' @param month.col If `month = NULL`, is the color of the month names.
@@ -39,11 +39,16 @@
 #'
 #'
 #' @examples
-#' \dontrun{
+#' # Calendar of the current year
+#' calendaR()
+#'
+#' # Calendar of September, 1995
+#' calendaR(year = 1995, month = 9)
+#'
 #' # Create ready to print monthly calendars for all the months of the current year
 #' # with week starting on Sunday
-#' invisible(sapply(1:12 , function(i) calendaR(month = i, pdf = T)))
-#' }
+#' invisible(sapply(1:12 , function(i) calendaR(month = i, pdf = TRUE)))
+#'
 #' @import ggplot2 dplyr forcats
 #' @importFrom grDevices rgb
 #' @export
@@ -53,7 +58,7 @@ calendaR <- function(year = format(Sys.Date(), "%Y"),
                      start = c("S", "M"),
 
                      weeknames,
-                     position = c("horizontal", "vertical"),
+                     orientation = c("horizontal", "vertical"),
 
                      title,
                      title.size = 20,
@@ -93,13 +98,13 @@ calendaR <- function(year = format(Sys.Date(), "%Y"),
     # cat("~The week will start on Sunday by default. Set start = 'M' if you prefer the week starting on monday\n")
   }
 
-  if (length(unique(position)) != 1) {
-    position <- "horizontal"
-    # cat("~The calendar will be horizontal by default. Set position = 'vertical' for a vertical calendar")
+  if (length(unique(orientation)) != 1) {
+    orientation <- "horizontal"
+    # cat("~The calendar will be horizontal by default. Set orientation = 'vertical' for a vertical calendar")
   }
 
   match.arg(start, c("S", "M"))
-  match.arg(position, c("horizontal", "vertical", "h", "v"))
+  match.arg(orientation, c("horizontal", "vertical", "h", "v"))
 
   months <- format(seq(as.Date("2016-01-01"), as.Date("2016-12-01"), by = "1 month"), "%B")
 
@@ -281,7 +286,7 @@ calendaR <- function(year = format(Sys.Date(), "%Y"),
 
   if(is.null(month)){
 
-    if(position == "horizontal" | position == "h") {
+    if(orientation == "horizontal" | orientation == "h") {
       print(ggplot(t2, aes(dow, y, fill = fill)) +
               geom_tile(aes(fill = fills), color = col, size = lwd, linetype = lty) +
               scale_fill_gradient(low = "white", high = special.col) +
@@ -377,7 +382,7 @@ calendaR <- function(year = format(Sys.Date(), "%Y"),
       doc_name <- paste0("Calendar_", year, ".pdf")
     }
 
-    if(position == "horizontal" | position == "h") {
+    if(orientation == "horizontal" | orientation == "h") {
       ggsave(filename = if(!file.exists(doc_name)) doc_name else stop("File does already exist!"),
              height = 210, width = 297, units = "mm")
     } else {
@@ -386,3 +391,9 @@ calendaR <- function(year = format(Sys.Date(), "%Y"),
     }
   }
 }
+
+
+
+
+
+# calendaR(year = 1945)

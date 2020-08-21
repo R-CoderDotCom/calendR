@@ -2,5 +2,5 @@
 # On load
 #===================
 .onAttach <- function(libname, pkgname) {
-  packageStartupMessage("Package calendaR\n~~ Visit https://r-coder.com/ for R tutorials ~~")
+  packageStartupMessage("~~ Package calendaR\nVisit https://r-coder.com/ for R tutorials ~~")
 }

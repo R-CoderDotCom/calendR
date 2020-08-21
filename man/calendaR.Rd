@@ -5,29 +5,28 @@
 \title{ggplot2 monthly and yearly calendars}
 \usage{
 calendaR(
-  start = c("S", "M"),
-  month = NULL,
   year = format(Sys.Date(), "\%Y"),
-  weeknames = c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday",
-    "Sunday"),
-  position = c("horizontal", "vertical"),
+  month = NULL,
+  start = c("S", "M"),
+  weeknames,
+  orientation = c("horizontal", "vertical"),
   title,
   title.size = 20,
   title.col = "gray30",
-  motivation = "",
-  motivation.col = "gray30",
+  subtitle = "",
+  subtitle.col = "gray30",
   text = "",
   text.at = NULL,
   text.size = 4,
-  text.style = "plain",
   text.col = "gray30",
   special.days = NULL,
   special.col = rgb(0, 0, 1, alpha = 0.25),
   gradient = FALSE,
   col = "gray30",
-  lwd = 0.75,
+  lwd = 0.5,
   lty = 1,
   font.family = "sans",
+  font.style = "plain",
   weekdays.col = "gray30",
   month.col = "gray30",
   days.col = "gray30",
@@ -36,15 +35,15 @@ calendaR(
 )
 }
 \arguments{
-\item{start}{\code{"S"} (default) for starting the week on Sunday or \code{"M"} for starting the week on Monday.}
-
-\item{month}{Month of the year or NULL for the yearly calendar.}
-
 \item{year}{Year of the calendar. By default uses the current year.}
 
-\item{weeknames}{Names of the days of the week. By default they will be in english.}
+\item{month}{Month of the year or \code{NULL} (default) for the yearly calendar.}
 
-\item{position}{\code{"vertical"} or \code{"horizontal"}}
+\item{start}{\code{"S"} (default) for starting the week on Sunday or \code{"M"} for starting the week on Monday.}
+
+\item{weeknames}{Character vector with the names of the days of the week. By default they will be in the language of the computer.}
+
+\item{orientation}{The calendar orientation: \code{"vertical"} or \code{"horizontal"} (default). Also accepts \code{"v"} and \code{"h"}.}
 
 \item{title}{Title of the the calendar. If not supplied is the year and the month, or the year if \code{month = NULL}.}
 
@@ -52,17 +51,15 @@ calendaR(
 
 \item{title.col}{Color of the main title.}
 
-\item{motivation}{Motivational phrase added as subtitle of the plot.}
+\item{subtitle}{subtitle of the plot in italics.}
 
-\item{motivation.col}{Color of the motivational phrase.}
+\item{subtitle.col}{Color of the subtitle.}
 
 \item{text}{Character vector of texts to be added on the calendar. Only for monthly calendars.}
 
 \item{text.at}{Number of days where to add the texts of the \code{text} argument.}
 
 \item{text.size}{Font size of the texts added with the \code{text} argument.}
-
-\item{text.style}{Style of the texts added with the \code{text} argument.}
 
 \item{text.col}{Color of the texts added with the \code{text} argument.}
 
@@ -78,7 +75,9 @@ calendaR(
 
 \item{lty}{Line type of the calendar.}
 
-\item{font.family}{Font family of all the texts except the motivational phrase.}
+\item{font.family}{Font family of all the texts except the subtitle.}
+
+\item{font.style}{Style of the texts added with the \code{text} argument.}
 
 \item{weekdays.col}{Color of the names of the days.}
 
@@ -94,11 +93,16 @@ calendaR(
 Create ready to print monthly and yearly calendars with ggplot2. The package allows personalizing colors (even setting a gradient color scale for a full month or year), texts and fonts and adding texts on the days for monthly calendars.
 }
 \examples{
-\dontrun{
+# Calendar of the current year
+calendaR()
+
+# Calendar of September, 1995
+calendaR(year = 1995, month = 9)
+
 # Create ready to print monthly calendars for all the months of the current year
 # with week starting on Sunday
-invisible(sapply(1:12 , function(i) calendaR(month = i, pdf = T)))
-}
+invisible(sapply(1:12 , function(i) calendaR(month = i, pdf = TRUE)))
+
 }
 \author{
 \itemize{
