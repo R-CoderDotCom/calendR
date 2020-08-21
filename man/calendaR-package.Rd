@@ -25,5 +25,6 @@ Useful links:
 \author{
 \itemize{
 \item{Soage González, José Carlos.}
+\item{Pérez Veiga, Natalia.}
 }
 }

@@ -9,14 +9,14 @@ calendaR(
   month = NULL,
   start = c("S", "M"),
   weeknames,
-  orientation = c("horizontal", "vertical"),
+  orientation = c("portrait", "landscape"),
   title,
   title.size = 20,
   title.col = "gray30",
   subtitle = "",
   subtitle.col = "gray30",
   text = "",
-  text.at = NULL,
+  text.pos = NULL,
   text.size = 4,
   text.col = "gray30",
   special.days = NULL,
@@ -35,15 +35,15 @@ calendaR(
 )
 }
 \arguments{
-\item{year}{Year of the calendar. By default uses the current year.}
+\item{year}{Calendar year. By default uses the current year.}
 
 \item{month}{Month of the year or \code{NULL} (default) for the yearly calendar.}
 
 \item{start}{\code{"S"} (default) for starting the week on Sunday or \code{"M"} for starting the week on Monday.}
 
-\item{weeknames}{Character vector with the names of the days of the week. By default they will be in the language of the computer.}
+\item{weeknames}{Character vector with the names of the days of the week. By default they will be in the system locale.}
 
-\item{orientation}{The calendar orientation: \code{"vertical"} or \code{"horizontal"} (default). Also accepts \code{"v"} and \code{"h"}.}
+\item{orientation}{The calendar orientation: \code{"portrait"} or \code{"landscape"} (default). Also accepts \code{"p"} and \code{"v"}.}
 
 \item{title}{Title of the the calendar. If not supplied is the year and the month, or the year if \code{month = NULL}.}
 
@@ -51,13 +51,13 @@ calendaR(
 
 \item{title.col}{Color of the main title.}
 
-\item{subtitle}{subtitle of the plot in italics.}
+\item{subtitle}{Subtitle of the calendar in italics (optional).}
 
 \item{subtitle.col}{Color of the subtitle.}
 
 \item{text}{Character vector of texts to be added on the calendar. Only for monthly calendars.}
 
-\item{text.at}{Number of days where to add the texts of the \code{text} argument.}
+\item{text.pos}{Numeric vector containing the number of days of the month where to add the texts of the \code{text} argument.}
 
 \item{text.size}{Font size of the texts added with the \code{text} argument.}
 
@@ -75,9 +75,9 @@ calendaR(
 
 \item{lty}{Line type of the calendar.}
 
-\item{font.family}{Font family of all the texts except the subtitle.}
+\item{font.family}{Font family of all the texts.}
 
-\item{font.style}{Style of the texts added with the \code{text} argument.}
+\item{font.style}{Style of all the texts and numbers except the subtitle. Possible options are \code{"plain"} (default), \code{"bold"}, \code{"italics"} and \code{"bold.italic"}.}
 
 \item{weekdays.col}{Color of the names of the days.}
 
@@ -90,7 +90,7 @@ calendaR(
 \item{pdf}{Boolean. If TRUE, saves the calendar in the working directory in A4.}
 }
 \description{
-Create ready to print monthly and yearly calendars with ggplot2. The package allows personalizing colors (even setting a gradient color scale for a full month or year), texts and fonts and adding texts on the days for monthly calendars.
+Create ready to print monthly and yearly calendars with ggplot2. The package allows personalizing colors (even setting a gradient color scale for a full month or year), texts and fonts. In addition, for monthly calendars you can also add text on the days.
 }
 \examples{
 # Calendar of the current year

@@ -12,6 +12,7 @@
 #' @author
 #' \itemize{
 #'  \item{Soage González, José Carlos.}
+#'  \item{Pérez Veiga, Natalia.}
 #' }
 "_PACKAGE"
 #> [1] "_PACKAGE"

@@ -1,19 +1,19 @@
 #' @title ggplot2 monthly and yearly calendars
 #'
-#' @description Create ready to print monthly and yearly calendars with ggplot2. The package allows personalizing colors (even setting a gradient color scale for a full month or year), texts and fonts and adding texts on the days for monthly calendars.
+#' @description Create ready to print monthly and yearly calendars with ggplot2. The package allows personalizing colors (even setting a gradient color scale for a full month or year), texts and fonts. In addition, for monthly calendars you can also add text on the days.
 #'
-#' @param year Year of the calendar. By default uses the current year.
+#' @param year Calendar year. By default uses the current year.
 #' @param month Month of the year or `NULL` (default) for the yearly calendar.
 #' @param start `"S"` (default) for starting the week on Sunday or `"M"` for starting the week on Monday.
-#' @param weeknames Character vector with the names of the days of the week. By default they will be in the language of the computer.
-#' @param orientation The calendar orientation: `"vertical"` or `"horizontal"` (default). Also accepts `"v"` and `"h"`.
+#' @param weeknames Character vector with the names of the days of the week. By default they will be in the system locale.
+#' @param orientation The calendar orientation: `"portrait"` or `"landscape"` (default). Also accepts `"p"` and `"v"`.
 #' @param title Title of the the calendar. If not supplied is the year and the month, or the year if `month = NULL`.
 #' @param title.size Size of the main title.
 #' @param title.col Color of the main title.
-#' @param subtitle subtitle of the plot in italics.
+#' @param subtitle Subtitle of the calendar in italics (optional).
 #' @param subtitle.col Color of the subtitle.
 #' @param text Character vector of texts to be added on the calendar. Only for monthly calendars.
-#' @param text.at Number of days where to add the texts of the `text` argument.
+#' @param text.pos Numeric vector containing the number of days of the month where to add the texts of the `text` argument.
 #' @param text.size Font size of the texts added with the `text` argument.
 #' @param text.col Color of the texts added with the `text` argument.
 #' @param special.days Numeric vector indicating the days to color or `"weekend"` for coloring all the weekends.
@@ -22,8 +22,8 @@
 #' @param col Color of the lines of the calendar.
 #' @param lwd Line width of the calendar.
 #' @param lty Line type of the calendar.
-#' @param font.family Font family of all the texts except the subtitle.
-#' @param font.style Style of the texts added with the `text` argument.
+#' @param font.family Font family of all the texts.
+#' @param font.style Style of all the texts and numbers except the subtitle. Possible options are `"plain"` (default), `"bold"`, `"italics"` and `"bold.italic"`.
 #' @param weekdays.col Color of the names of the days.
 #' @param month.col If `month = NULL`, is the color of the month names.
 #' @param days.col Color of the number of the days.
@@ -58,7 +58,7 @@ calendaR <- function(year = format(Sys.Date(), "%Y"),
                      start = c("S", "M"),
 
                      weeknames,
-                     orientation = c("horizontal", "vertical"),
+                     orientation = c("portrait", "landscape"),
 
                      title,
                      title.size = 20,
@@ -68,7 +68,7 @@ calendaR <- function(year = format(Sys.Date(), "%Y"),
                      subtitle.col = "gray30",
 
                      text = "",
-                     text.at = NULL,
+                     text.pos = NULL,
                      text.size = 4,
                      text.col = "gray30",
 
@@ -99,20 +99,20 @@ calendaR <- function(year = format(Sys.Date(), "%Y"),
   }
 
   if (length(unique(orientation)) != 1) {
-    orientation <- "horizontal"
-    # cat("~The calendar will be horizontal by default. Set orientation = 'vertical' for a vertical calendar")
+    orientation <- "landscape"
+    # cat("~The calendar will be horizontal by default. Set orientation = 'portrait' for a vertical calendar")
   }
 
   match.arg(start, c("S", "M"))
-  match.arg(orientation, c("horizontal", "vertical", "h", "v"))
+  match.arg(orientation, c("landscape", "portrait", "l", "p"))
 
   months <- format(seq(as.Date("2016-01-01"), as.Date("2016-12-01"), by = "1 month"), "%B")
 
-  if(text != "" && is.null(text.at)){
-    warning("Select the number of days for the text with the 'text.at' argument")
+  if(text != "" && is.null(text.pos)){
+    warning("Select the number of days for the text with the 'text.pos' argument")
   }
 
-  if(text == "" && !is.null(text.at)){
+  if(text == "" && !is.null(text.pos)){
     warning("Add the text with the 'text' argument")
   }
 
@@ -153,7 +153,7 @@ calendaR <- function(year = format(Sys.Date(), "%Y"),
 
   # Texts
   texts <- character(length(dates))
-  texts[text.at] <- text
+  texts[text.pos] <- text
 
 
   if(is.character(special.days)){
@@ -286,7 +286,7 @@ calendaR <- function(year = format(Sys.Date(), "%Y"),
 
   if(is.null(month)){
 
-    if(orientation == "horizontal" | orientation == "h") {
+    if(orientation == "landscape" | orientation == "l") {
       print(ggplot(t2, aes(dow, y, fill = fill)) +
               geom_tile(aes(fill = fills), color = col, size = lwd, linetype = lty) +
               scale_fill_gradient(low = "white", high = special.col) +
@@ -375,14 +375,14 @@ calendaR <- function(year = format(Sys.Date(), "%Y"),
 
     if(!is.null(month)) {
 
-      doc_name <- paste0("Calendar_", tolower(t2$month[1]), "_", year, ".pdf")
+      doc_name <- paste0("Calendar_", tolower(t2$month[1]), "_", year, ".png")
 
     } else{
 
-      doc_name <- paste0("Calendar_", year, ".pdf")
+      doc_name <- paste0("Calendar_", year, ".png")
     }
 
-    if(orientation == "horizontal" | orientation == "h") {
+    if(orientation == "landscape" | orientation == "l") {
       ggsave(filename = if(!file.exists(doc_name)) doc_name else stop("File does already exist!"),
              height = 210, width = 297, units = "mm")
     } else {

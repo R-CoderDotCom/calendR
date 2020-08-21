@@ -2,7 +2,9 @@ Package: calendaR
 Title: Ready to Print Monthly and Yearly Calendars Made with 'ggplot2'
 Version: 1.0
 Authors@R: c(
-  person("José Carlos", "Soage González", email = "jsoage@uvigo.es", role = "cre"))
+  person("José Carlos", "Soage González", email = "jsoage@uvigo.es", role = c("aut", "cre")),
+   person("Natalia", "Pérez Veiga", email = "naperez@uvigo.es", role = "aut")
+  )
 Description: Contains the function 'calendaR()' for creating fully customizable monthly and yearly calendars.
 Imports: ggplot2, dplyr, forcats
 License: GPL-2
