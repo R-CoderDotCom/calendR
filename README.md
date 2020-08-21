@@ -24,7 +24,7 @@ calendR() # Defaults to the current year
 ## Monthly calendar
 
 ``` r
-calendR(month = 1, year = 2028)
+calendR(year = 2028, month = 1)
 ```
 ![Calendar_enero_2028](https://user-images.githubusercontent.com/67192157/90624619-82d04080-e218-11ea-8570-a2c3b0ccab6d.png)
 
@@ -77,9 +77,9 @@ calendR(year = 2021, position = "vertical", pdf = TRUE)
 
 ``` r
 
-calendR(title = "My calendar",                            # Change the title
+calendR( year = 2020,                                      # Year
          month = 10,                                       # Month
-         year = 2020,                                      # Year
+         title = "My calendar",                            # Change the title
          subtitle = "Have a nice day",                     # Add a subtitle (or motivational phrase)
          subtitle.col = 3,                                 # Color of the subtitle
          weeknames = c("S", "M", "T", "W", "T", "F", "S"), # Change week day names
