@@ -2,6 +2,8 @@
 #'
 #' @description Create ready to print monthly and yearly calendars with ggplot2. The package allows personalizing colors (even setting a gradient color scale for a full month or year), texts and fonts. In addition, for monthly calendars you can also add text on the days.
 #'
+#' @aliases function
+#'
 #' @param year Calendar year. By default uses the current year.
 #' @param month Month of the year or `NULL` (default) for the yearly calendar.
 #' @param start `"S"` (default) for starting the week on Sunday or `"M"` for starting the week on Monday.

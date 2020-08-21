@@ -6,7 +6,7 @@
 \alias{_PACKAGE}
 \title{Package calendaR}
 \description{
-This package creates monthly and yearly calendars based on ggplot2 package. The function provided allows coloring the days, adding texts, customizing the font colors, styles and fonts and saving ready to print calendars to your working directory in PDF (in horizontal or vertical A4 format).
+This package creates monthly and yearly calendars based on ggplot2 package. The function provided allows coloring the days, adding texts, customizing the font colors, styles and fonts and saving ready to print calendars to your working directory in PDF (in landscape or portrait A4 format).
 }
 \details{
 \itemize{

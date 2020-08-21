@@ -2,6 +2,7 @@
 % Please edit documentation in R/calendaR.R
 \name{calendaR}
 \alias{calendaR}
+\alias{function}
 \title{ggplot2 monthly and yearly calendars}
 \usage{
 calendaR(
