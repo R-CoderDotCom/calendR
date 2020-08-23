@@ -30,6 +30,8 @@
 #' @param month.col If `month = NULL`, is the color of the month names.
 #' @param days.col Color of the number of the days.
 #' @param day.size Font size of the number of the days.
+#' @param legend.pos If `gradient = TRUE`, is the position of the legend. It can be set to `"none"` (default), `"top"`, `"bottom"`, `"left"` and `"right"`.
+#' @param legend.title If `legend.pos != "none"` and  `gradient = TRUE`, is the title of the legend.
 #' @param pdf Boolean. If TRUE, saves the calendar in the working directory in A4.
 #'
 #' @author
@@ -90,6 +92,9 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
                      days.col = "gray30",
 
                      day.size = 3,
+
+                     legend.pos = "none",
+                     legend.title = "",
 
                      pdf = FALSE) {
 
@@ -164,11 +169,33 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
       stop("special.days must be a numeric vector or 'weekend'")
     }
 
-    if(gradient == TRUE ){
-      warning("Gradient won't be created as 'special.days' parameters are of type character. Set gradient = FALSE in this scenario to avoid this warning")
+    if(gradient == TRUE){
+      warning("Gradient won't be created as 'special.days' is of type character. Set gradient = FALSE in this scenario to avoid this warning")
+
+      if(legend.title != "" & legend.pos == "none"){
+        warning("Legend title specified, but legend.pos == 'none', so no legend will be plotted")
+      }
+
+    } else {
+      if(legend.pos != "none" | legend.title != "") {
+        legend.pos = "none"
+        warning("gradient = FALSE, so no legend will be plotted")
+      }
     }
 
   } else {
+
+    if(gradient == FALSE){
+      if(legend.pos != "none" | legend.title != "") {
+        legend.pos = "none"
+        warning("gradient = FALSE, so no legend will be plotted")
+      }
+    } else {
+
+      if(legend.title != "" & legend.pos == "none"){
+        warning("Legend title specified, but legend.pos == 'none', so no legend will be plotted")
+      }
+    }
 
     if(any(special.days > length(dates))) {
 
@@ -179,6 +206,7 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
       stop("If gradient = TRUE, the length of 'special.days' must be the same as the number of days of the corresponding month or year")
     }
   }
+
 
   if(start == "M") {
 
@@ -302,17 +330,18 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
               geom_text(data = t2, aes(label = gsub("^0+", "", format(date, "%d"))),
                         size = day.size, family = font.family,
                         color = days.col, fontface = font.style) +
+              labs(fill = legend.title) +
               theme(panel.background = element_rect(fill = NA, color = NA),
                     strip.background = element_rect(fill = NA, color = NA),
                     strip.text.x = element_text(hjust = 0, face = font.style, color = month.col),
-                    legend.title = element_blank(),
+                    legend.title = element_text(),
                     axis.ticks = element_blank(),
                     axis.title = element_blank(),
                     axis.text.y = element_blank(),
                     axis.text.x = element_text(colour = weekdays.col),
                     plot.title = element_text(hjust = 0.5, size = title.size, colour = title.col),
                     plot.subtitle = element_text(hjust = 0.5, face = "italic", colour = subtitle.col),
-                    legend.position = "none",
+                    legend.position = legend.pos,
                     plot.margin = unit(c(1, 0.5, 1, 0.5), "cm"),
                     text = element_text(family = font.family, face = font.style),
                     strip.placement = "outsite"))
@@ -329,17 +358,18 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
               geom_text(data = t2, aes(label = gsub("^0+", "", format(date, "%d"))),
                         size = day.size, family = font.family,
                         color = days.col, fontface = font.style) +
+              labs(fill = legend.title) +
               theme(panel.background = element_rect(fill = NA, color = NA),
                     strip.background = element_rect(fill = NA, color = NA),
                     strip.text.x = element_text(hjust = 0, face = font.style, color = month.col),
-                    legend.title = element_blank(),
+                    legend.title = element_text(),
                     axis.ticks = element_blank(),
                     axis.title = element_blank(),
                     axis.text.y = element_blank(),
                     axis.text.x = element_text(colour = weekdays.col),
                     plot.title = element_text(hjust = 0.5, size = title.size, colour = title.col),
                     plot.subtitle = element_text(hjust = 0.5, face = "italic", colour = subtitle.col),
-                    legend.position = "none",
+                    legend.position = legend.pos,
                     plot.margin = unit(c(1, 0.5, 1, 0.5), "cm"),
                     text = element_text(family = font.family, face = font.style),
                     strip.placement = "outsite"))
@@ -358,17 +388,18 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
             #                   breaks = seq(0, 6), labels = weekdays) +
             scale_y_continuous(expand = c(0.05, 0.05)) +
             geom_text(data = t2, aes(label = 1:nrow(filler), x = dow -0.4, y = y + 0.35), size = day.size, family = font.family, color = days.col, fontface = font.style) +
+            labs(fill = legend.title) +
             theme(panel.background = element_rect(fill = NA, color = NA),
                   strip.background = element_rect(fill = NA, color = NA),
                   strip.text.x = element_text(hjust = 0, face = "bold"),
-                  legend.title = element_blank(),
+                  legend.title = element_text(),
                   axis.ticks = element_blank(),
                   axis.title = element_blank(),
                   axis.text.y = element_blank(),
                   axis.text.x = element_blank(),
                   plot.title = element_text(hjust = 0.5, size = title.size, colour = title.col),
                   plot.subtitle = element_text(hjust = 0.5, face = "italic", colour = subtitle.col),
-                  legend.position = "none",
+                  legend.position = legend.pos,
                   plot.margin = unit(c(1, 0, 1, 0), "cm"),
                   text = element_text(family = font.family, face = font.style),
                   strip.placement = "outsite"))
