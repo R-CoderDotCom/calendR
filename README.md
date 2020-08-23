@@ -70,7 +70,7 @@ calendR(year = 2021, special.days = 1:365, gradient = TRUE, special.col = rgb(1,
 ## Save as PDF (as A4 paper size)
 
 ``` r
-calendR(year = 2021, position = "vertical", pdf = TRUE)
+calendR(year = 2021, orientation = "portrait", pdf = TRUE)
 ```
 
 ## Further customization
