@@ -47,7 +47,7 @@
 #'
 #' \dontrun{
 #' # Create ready to print monthly calendars for all the months of the current year
-#' # with week starting on Sunday
+#' # with week startitng on Sunday
 #' invisible(sapply(1:12 , function(i) calendR(month = i, pdf = TRUE)))
 #' }
 #'
@@ -164,18 +164,19 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
       stop("special.days must be a numeric vector or 'weekend'")
     }
 
-    if(gradient == TRUE){
+    if(gradient == TRUE ){
       warning("Gradient won't be created as 'special.days' parameters are of type character. Set gradient = FALSE in this scenario to avoid this warning")
     }
 
   } else {
 
-    if(any(special.days > length(dates)) | any(special.days <= 0)) {
-      warning("special.days must be numbers of the corresponding month")
+    if(any(special.days > length(dates))) {
+
+      stop("No element of the 'special.days' vector can be greater than the number of days of the corresponding month or year")
     }
 
     if(gradient == TRUE & (length(special.days) != length(dates))) {
-      stop("If gradient = TRUE, the length of 'special.days' must be the same as the number of days of the month or the year")
+      stop("If gradient = TRUE, the length of 'special.days' must be the same as the number of days of the corresponding month or year")
     }
   }
 
