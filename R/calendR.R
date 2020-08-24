@@ -32,7 +32,7 @@
 #' @param legend.pos If `gradient = TRUE`, is the position of the legend. It can be set to `"none"` (default), `"top"`, `"bottom"`, `"left"` and `"right"`.
 #' @param legend.title If `legend.pos != "none"` and  `gradient = TRUE`, is the title of the legend.
 #' @param pdf Boolean. If TRUE, saves the calendar in the working directory in A4 format.
-#' @param doc_name If `pdf = TRUE`, is the name of the generated file (without the file extension).
+#' @param doc_name If `pdf = TRUE`, is the name of the generated file (without the file extension). If not specified, creates files of the format: `Calendar_year.pdf` for yearly calendars and `Calendar_month_year.pdf` for monthly calendars.
 #'
 #' @author
 #' \itemize{

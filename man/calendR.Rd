@@ -99,7 +99,7 @@ calendR(
 
 \item{pdf}{Boolean. If TRUE, saves the calendar in the working directory in A4 format.}
 
-\item{doc_name}{If \code{pdf = TRUE}, is the name of the generated file (without the file extension).}
+\item{doc_name}{If \code{pdf = TRUE}, is the name of the generated file (without the file extension). If not specified, creates files of the format: \code{Calendar_year.pdf} for yearly calendars and \code{Calendar_month_year.pdf} for monthly calendars.}
 }
 \description{
 Create ready to print monthly and yearly calendars with ggplot2. The package allows personalizing colors (even setting a gradient color scale for a full month or year), texts and fonts. In addition, for monthly calendars you can also add text on the days.
