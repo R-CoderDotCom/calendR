@@ -2,13 +2,11 @@
 #'
 #' @description Create ready to print monthly and yearly calendars with ggplot2. The package allows personalizing colors (even setting a gradient color scale for a full month or year), texts and fonts. In addition, for monthly calendars you can also add text on the days.
 #'
-#' @aliases function
-#'
 #' @param year Calendar year. By default uses the current year.
 #' @param month Month of the year or `NULL` (default) for the yearly calendar.
 #' @param start `"S"` (default) for starting the week on Sunday or `"M"` for starting the week on Monday.
 #' @param weeknames Character vector with the names of the days of the week. By default they will be in the system locale.
-#' @param orientation The calendar orientation: `"portrait"` or `"landscape"` (default). Also accepts `"p"` and `"v"`.
+#' @param orientation The calendar orientation: `"portrait"` or `"landscape"` (default). Also accepts `"p"` and `"l"`.
 #' @param title Title of the the calendar. If not supplied is the year and the month, or the year if `month = NULL`.
 #' @param title.size Size of the main title.
 #' @param title.col Color of the main title.
@@ -19,8 +17,9 @@
 #' @param text.size Font size of the texts added with the `text` argument.
 #' @param text.col Color of the texts added with the `text` argument.
 #' @param special.days Numeric vector indicating the days to color or `"weekend"` for coloring all the weekends.
-#' @param special.col Color for the days indicated in special.days.
+#' @param special.col Color for the days indicated in special.days. If `gradient = TRUE`, is the higher color of the gradient.
 #' @param gradient Boolean. If `special.days` is a numeric vector of the length of the displayed days, `gradient = TRUE` creates a gradient of the `special.col` on the calendar.
+#' @param low.col If `gradient = TRUE`, is the lower color of the gradient. Defaults to `"white"`.
 #' @param col Color of the lines of the calendar.
 #' @param lwd Line width of the calendar.
 #' @param lty Line type of the calendar.
@@ -32,7 +31,8 @@
 #' @param day.size Font size of the number of the days.
 #' @param legend.pos If `gradient = TRUE`, is the position of the legend. It can be set to `"none"` (default), `"top"`, `"bottom"`, `"left"` and `"right"`.
 #' @param legend.title If `legend.pos != "none"` and  `gradient = TRUE`, is the title of the legend.
-#' @param pdf Boolean. If TRUE, saves the calendar in the working directory in A4.
+#' @param pdf Boolean. If TRUE, saves the calendar in the working directory in A4 format.
+#' @param doc_name If `pdf = TRUE`, is the name of the generated file (without the file extension).
 #'
 #' @author
 #' \itemize{
@@ -47,56 +47,58 @@
 #' # Calendar of July, 2005, starting on Monday
 #' calendR(year = 2005, month = 7, start = "M", subtitle = "Have a nice day")
 #'
-#' \dontrun{
+#' \donttest{
 #' # Create ready to print monthly calendars for all the months of the current year
-#' # with week startitng on Sunday
-#' invisible(sapply(1:12 , function(i) calendR(month = i, pdf = TRUE)))
+#' # with week starting on Sunday
+#' invisible(sapply(1:12 , function(i) calendR(month = i, pdf = TRUE,
+#'  doc_name = file.path(tempdir(), paste0("myCalendar", i , ".pdf")))))
 #' }
 #'
 #' @import ggplot2 dplyr forcats
 #' @importFrom grDevices rgb
 #' @export
 calendR <- function(year = format(Sys.Date(), "%Y"),
-                     month = NULL,
+                    month = NULL,
 
-                     start = c("S", "M"),
+                    start = c("S", "M"),
+                    weeknames,
+                    orientation = c("portrait", "landscape"),
 
-                     weeknames,
-                     orientation = c("portrait", "landscape"),
+                    title,
+                    title.size = 20,
+                    title.col = "gray30",
 
-                     title,
-                     title.size = 20,
-                     title.col = "gray30",
+                    subtitle = "",
+                    subtitle.col = "gray30",
 
-                     subtitle = "",
-                     subtitle.col = "gray30",
+                    text = "",
+                    text.pos = NULL,
+                    text.size = 4,
+                    text.col = "gray30",
 
-                     text = "",
-                     text.pos = NULL,
-                     text.size = 4,
-                     text.col = "gray30",
+                    special.days = NULL,
+                    special.col = rgb(0, 0, 1,  alpha = 0.25),
+                    gradient = FALSE,
+                    low.col = "white",
 
-                     special.days = NULL,
-                     special.col = rgb(0, 0, 1,  alpha = 0.25),
-                     gradient = FALSE,
+                    col = "gray30",
+                    lwd = 0.5,
+                    lty = 1,
 
-                     col = "gray30",
-                     lwd = 0.5,
-                     lty = 1,
+                    font.family = "sans",
+                    font.style = "plain",
 
-                     font.family = "sans",
-                     font.style = "plain",
+                    weekdays.col = "gray30",
+                    month.col = "gray30",
+                    days.col = "gray30",
 
-                     weekdays.col = "gray30",
-                     month.col = "gray30",
-                     days.col = "gray30",
+                    day.size = 3,
 
-                     day.size = 3,
+                    legend.pos = "none",
+                    legend.title = "",
 
-                     legend.pos = "none",
-                     legend.title = "",
-
-                     pdf = FALSE) {
+                    pdf = FALSE,
+                    doc_name = ""){
 
 
 
@@ -320,7 +322,7 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
     if(orientation == "landscape" | orientation == "l") {
       print(ggplot(t2, aes(dow, y, fill = fill)) +
               geom_tile(aes(fill = fills), color = col, size = lwd, linetype = lty) +
-              scale_fill_gradient(low = "white", high = special.col) +
+              scale_fill_gradient(low = low.col, high = special.col) +
               facet_wrap( ~ monlabel, ncol = 4, scales = "free") +
               ggtitle(title) +
               labs(subtitle = subtitle) +
@@ -348,7 +350,7 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
     } else {
       print(ggplot(t2, aes(dow, y, fill = fill)) +
               geom_tile(aes(fill = fills), color = col, size = lwd, linetype = lty) +
-              scale_fill_gradient(low = "white", high = special.col) +
+              scale_fill_gradient(low = low.col, high = special.col) +
               facet_wrap( ~ monlabel, ncol = 3, scales = "free") +
               ggtitle(year) +
               labs(subtitle = subtitle) +
@@ -379,7 +381,7 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
 
     print(ggplot(t2, aes(dow, y)) +
             geom_tile(aes(fill = fills), color = col, size = lwd, linetype = lty) +
-            scale_fill_gradient(low = "white", high = special.col) +
+            scale_fill_gradient(low = low.col, high = special.col) +
             ggtitle(title) +
             labs(subtitle = subtitle) +
             geom_text(data = df, aes(label = week, x = pos.x, y = pos.y), size = 4.5, family = font.family, color = weekdays.col, fontface = font.style) +
@@ -405,15 +407,23 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
                   strip.placement = "outsite"))
   }
 
+  if(pdf == FALSE & doc_name != ""){
+    warning("Set pdf = TRUE to save the current calendar")
+  }
+
   if(pdf == TRUE) {
 
-    if(!is.null(month)) {
+    if(doc_name == "") {
+      if(!is.null(month)) {
 
-      doc_name <- paste0("Calendar_", tolower(t2$month[1]), "_", year, ".pdf")
+        doc_name <- paste0("Calendar_", tolower(t2$month[1]), "_", year, ".pdf")
 
-    } else{
+      } else{
 
-      doc_name <- paste0("Calendar_", year, ".pdf")
+        doc_name <- paste0("Calendar_", year, ".pdf")
+      }
+    } else {
+      doc_name <- paste0(doc_name, ".pdf")
     }
 
     if(orientation == "landscape" | orientation == "l") {

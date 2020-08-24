@@ -1,15 +1,15 @@
 Package: calendR
-Title: Ready to Print Monthly and Yearly Calendars Made with 'ggplot2'
+Title: Ready to Print Monthly and Yearly Calendars Made with ggplot2
 Version: 1.0
 Authors@R: c(
   person("José Carlos", "Soage González", email = "jsoage@uvigo.es", role = c("aut", "cre")),
    person("Natalia", "Pérez Veiga", email = "naperez@uvigo.es", role = "aut")
   )
-Description: Contains the function 'calendaR()' for creating fully customizable monthly and yearly calendars.
+Description: Contains the function calendR() for creating fully customizable monthly and yearly calendars (colors, fonts, formats, ...) and even heatmap calendars. In addition, it allows saving the calendars in ready to print A4 format PDF files.
 Imports: ggplot2, dplyr, forcats
 License: GPL-2
 Encoding: UTF-8
-URL: https://r-coder.com/
+URL: https://r-coder.com/, https://r-coder.com/calendar-plot-r/
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1

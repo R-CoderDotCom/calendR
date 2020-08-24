@@ -3,8 +3,7 @@
 \docType{package}
 \name{calendR-package}
 \alias{calendR-package}
-\alias{_PACKAGE}
-\title{Package calendR}
+\title{calendR: Ready to Print Monthly and Yearly Calendars Made with ggplot2}
 \description{
 This package creates monthly and yearly calendars based on ggplot2 package. The function provided allows coloring the days, adding texts, customizing the font colors, styles and fonts and saving ready to print calendars to your working directory in PDF (in landscape or portrait A4 format).
 }
@@ -16,11 +15,10 @@ This package creates monthly and yearly calendars based on ggplot2 package. The 
 }
 }
 \seealso{
-Useful links:
 \itemize{
-  \item \url{https://r-coder.com/}
+\item{\href{https://r-coder.com/}{R programming tutorials}}
+\item{\href{https://r-coder.com/calendar-plot-r/}{Calendar plots tutorial}}
 }
-
 }
 \author{
 \itemize{

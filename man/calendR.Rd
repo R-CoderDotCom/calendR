@@ -2,7 +2,6 @@
 % Please edit documentation in R/calendR.R
 \name{calendR}
 \alias{calendR}
-\alias{function}
 \title{ggplot2 monthly and yearly calendars}
 \usage{
 calendR(
@@ -23,6 +22,7 @@ calendR(
   special.days = NULL,
   special.col = rgb(0, 0, 1, alpha = 0.25),
   gradient = FALSE,
+  low.col = "white",
   col = "gray30",
   lwd = 0.5,
   lty = 1,
@@ -32,7 +32,10 @@ calendR(
   month.col = "gray30",
   days.col = "gray30",
   day.size = 3,
-  pdf = FALSE
+  legend.pos = "none",
+  legend.title = "",
+  pdf = FALSE,
+  doc_name = ""
 )
 }
 \arguments{
@@ -44,7 +47,7 @@ calendR(
 
 \item{weeknames}{Character vector with the names of the days of the week. By default they will be in the system locale.}
 
-\item{orientation}{The calendar orientation: \code{"portrait"} or \code{"landscape"} (default). Also accepts \code{"p"} and \code{"v"}.}
+\item{orientation}{The calendar orientation: \code{"portrait"} or \code{"landscape"} (default). Also accepts \code{"p"} and \code{"l"}.}
 
 \item{title}{Title of the the calendar. If not supplied is the year and the month, or the year if \code{month = NULL}.}
 
@@ -66,9 +69,11 @@ calendR(
 
 \item{special.days}{Numeric vector indicating the days to color or \code{"weekend"} for coloring all the weekends.}
 
-\item{special.col}{Color for the days indicated in special.days.}
+\item{special.col}{Color for the days indicated in special.days. If \code{gradient = TRUE}, is the higher color of the gradient.}
 
 \item{gradient}{Boolean. If \code{special.days} is a numeric vector of the length of the displayed days, \code{gradient = TRUE} creates a gradient of the \code{special.col} on the calendar.}
+
+\item{low.col}{If \code{gradient = TRUE}, is the lower color of the gradient. Defaults to \code{"white"}.}
 
 \item{col}{Color of the lines of the calendar.}
 
@@ -88,7 +93,13 @@ calendR(
 
 \item{day.size}{Font size of the number of the days.}
 
-\item{pdf}{Boolean. If TRUE, saves the calendar in the working directory in A4.}
+\item{legend.pos}{If \code{gradient = TRUE}, is the position of the legend. It can be set to \code{"none"} (default), \code{"top"}, \code{"bottom"}, \code{"left"} and \code{"right"}.}
+
+\item{legend.title}{If \code{legend.pos != "none"} and  \code{gradient = TRUE}, is the title of the legend.}
+
+\item{pdf}{Boolean. If TRUE, saves the calendar in the working directory in A4 format.}
+
+\item{doc_name}{If \code{pdf = TRUE}, is the name of the generated file (without the file extension).}
 }
 \description{
 Create ready to print monthly and yearly calendars with ggplot2. The package allows personalizing colors (even setting a gradient color scale for a full month or year), texts and fonts. In addition, for monthly calendars you can also add text on the days.
@@ -100,10 +111,11 @@ calendR()
 # Calendar of July, 2005, starting on Monday
 calendR(year = 2005, month = 7, start = "M", subtitle = "Have a nice day")
 
-\dontrun{
+\donttest{
 # Create ready to print monthly calendars for all the months of the current year
 # with week starting on Sunday
-invisible(sapply(1:12 , function(i) calendR(month = i, pdf = TRUE)))
+invisible(sapply(1:12 , function(i) calendR(month = i, pdf = TRUE,
+ doc_name = file.path(tempdir(), paste0("myCalendar", i , ".pdf")))))
 }
 
 }
