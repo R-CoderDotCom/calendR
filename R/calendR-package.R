@@ -1,6 +1,6 @@
-#' @title calendR: Ready to Print Monthly and Yearly Calendars Made with ggplot2
+#' @title calendR: Ready to Print Monthly and Yearly Calendars Made with 'ggplot2'
 #'
-#' @description This package creates monthly and yearly calendars based on ggplot2 package. The function provided allows coloring the days, adding texts, customizing the font colors, styles and fonts and saving ready to print calendars to the working directory in PDF (in landscape or portrait A4 format).
+#' @description This package creates monthly and yearly calendars based on 'ggplot2' package. The function provided allows coloring the days, adding texts, customizing the font colors, styles and fonts and saving ready to print calendars to the working directory in PDF (in landscape or portrait A4 format).
 #'
 #' @details
 #' \itemize{

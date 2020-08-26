@@ -1,6 +1,6 @@
-#' @title ggplot2 monthly and yearly calendars
+#' @title Monthly and yearly calendars
 #'
-#' @description Create ready to print monthly and yearly calendars with ggplot2. The package allows personalizing colors (even setting a gradient color scale for a full month or year), texts and fonts. In addition, for monthly calendars you can also add text on the days.
+#' @description Create ready to print monthly and yearly calendars. The function allows personalizing colors (even setting a gradient color scale for a full month or year), texts and fonts. In addition, for monthly calendars you can also add text on the days.
 #'
 #' @param year Calendar year. By default uses the current year.
 #' @param month Month of the year or `NULL` (default) for the yearly calendar.
@@ -100,7 +100,9 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
                     pdf = FALSE,
                     doc_name = ""){
 
-
+  if(year < 0) {
+    stop("You must be kidding. You don't need a calendar of a year Before Christ :)")
+  }
 
   if (length(unique(start)) != 1) {
     start <- "S"
