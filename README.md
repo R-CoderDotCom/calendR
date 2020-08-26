@@ -61,7 +61,9 @@ calendR(year = 2021, orientation = "portrait")
 ## Gradient
 
 ``` r
-calendR(year = 2021, special.days = 1:365, gradient = TRUE, special.col = rgb(1, 0, 0, alpha = 0.6))
+calendR(year = 2021, special.days = 1:365, gradient = TRUE,
+        special.col = rgb(1, 0, 0, alpha = 0.6), # Higher color
+        low.col = "white")                       # Lower color
 ```
 
 ![Calendar_2021_GRADIENT](https://user-images.githubusercontent.com/67192157/90626971-ce381e00-e21b-11ea-919a-b5265c415110.png)
@@ -71,22 +73,25 @@ calendR(year = 2021, special.days = 1:365, gradient = TRUE, special.col = rgb(1,
 
 ``` r
 calendR(year = 2021, orientation = "portrait", pdf = TRUE)
+
+# Specify a custom document name
+calendR(year = 2021, orientation = "portrait", pdf = TRUE, doc_name = "My_calendar")
 ```
 
 ## Further customization
 
 ``` r
 
-calendR( year = 2020,                                      # Year
-         month = 10,                                       # Month
-         title = "My calendar",                            # Change the title
-         subtitle = "Have a nice day",                     # Add a subtitle (or motivational phrase)
-         subtitle.col = 3,                                 # Color of the subtitle
-         weeknames = c("S", "M", "T", "W", "T", "F", "S"), # Change week day names
-         special.days = "weekend",                         # Colorize the weekends (you can also set a vector of days)
-         special.col = rgb(0, 0, 1, 0.15),                 # Color of the special days
-         text = "Running",                                 # Add text (only for monthly calendars)
-         text.pos = c(7, 14, 25))                          # Days of the month where to put the texts       
+calendR(year = 2020,                                      # Year
+        month = 10,                                       # Month
+        title = "My calendar",                            # Change the title
+        subtitle = "Have a nice day",                     # Add a subtitle (or motivational phrase)
+        subtitle.col = 3,                                 # Color of the subtitle
+        weeknames = c("S", "M", "T", "W", "T", "F", "S"), # Change week day names
+        special.days = "weekend",                         # Colorize the weekends (you can also set a vector of days)
+        special.col = rgb(0, 0, 1, 0.15),                 # Color of the special days
+        text = "Running",                                 # Add text (only for monthly calendars)
+        text.pos = c(7, 14, 25))                          # Days of the month where to put the texts       
 
 # See all the arguments of the function for full customization of the colors, text size and style.
 ```
