@@ -72,7 +72,7 @@ calendR(year = 2021, special.days = 1:365, gradient = TRUE,
 # Add several events (only on the GitHub development version)
 
 ``` r
-# Vector of NA of the number of days of the year or month
+# Vector of NA which length is the number of days of the year or month
 myfills <- rep(NA, 366)
 
 # Add the events to the desired days
