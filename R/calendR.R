@@ -19,7 +19,7 @@
 #' @param special.days Numeric vector indicating the days to color or `"weekend"` for coloring all the weekends.
 #' @param special.col Color for the days indicated in special.days. If `gradient = TRUE`, is the higher color of the gradient.
 #' @param gradient Boolean. If `special.days` is a numeric vector of the length of the displayed days, `gradient = TRUE` creates a gradient of the `special.col` on the calendar.
-#' @param low.col If `gradient = TRUE`, is the lower color of the gradient. Defaults to `"white"`.
+#' @param low.col If `gradient = TRUE`, is the lower color of the gradient. If `gradient = FALSE` is the background color of the days. Defaults to `"white"`.
 #' @param col Color of the lines of the calendar.
 #' @param lwd Line width of the calendar.
 #' @param lty Line type of the calendar.
@@ -104,14 +104,18 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
     stop("You must be kidding. You don't need a calendar of a year Before Christ :)")
   }
 
+  wend <- TRUE
+
+  if(is.character(special.days) & length(unique(na.omit(special.days))) != length(special.col)) {
+    stop("The number of colors supplied on 'special.col' argument must be the same of length(unique(na.omit(special.days)))")
+  }
+
   if (length(unique(start)) != 1) {
     start <- "S"
-    # cat("~The week will start on Sunday by default. Set start = 'M' if you prefer the week starting on monday\n")
   }
 
   if (length(unique(orientation)) != 1) {
     orientation <- "landscape"
-    # cat("~The calendar will be horizontal by default. Set orientation = 'portrait' for a vertical calendar")
   }
 
   match.arg(start, c("S", "M"))
@@ -167,11 +171,18 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
   texts[text.pos] <- text
 
 
-  if(is.character(special.days)){
+  if(is.character(special.days)) {
 
-    if(special.days != "weekend") {
-      stop("special.days must be a numeric vector or 'weekend'")
+    if(length(special.days) != length(dates)){
+
+      if(special.days != "weekend") {
+        stop("special.days must be a numeric vector, a character vector of the length of the number of days of the year or month or 'weekend'")
+      } else {
+        wend <- FALSE
+      }
+
     }
+
 
     if(gradient == TRUE){
       warning("Gradient won't be created as 'special.days' is of type character. Set gradient = FALSE in this scenario to avoid this warning")
@@ -181,7 +192,7 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
       }
 
     } else {
-      if(legend.pos != "none" | legend.title != "") {
+      if(length(special.days) != length(dates) & (legend.pos != "none" | legend.title != "")) {
         legend.pos = "none"
         warning("gradient = FALSE, so no legend will be plotted")
       }
@@ -190,7 +201,7 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
   } else {
 
     if(gradient == FALSE){
-      if(legend.pos != "none" | legend.title != "") {
+      if(length(special.days) != length(dates) & (legend.pos != "none" | legend.title != "")) {
         legend.pos = "none"
         warning("gradient = FALSE, so no legend will be plotted")
       }
@@ -244,8 +255,12 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
 
       if(is.character(special.days)) {
 
-        if(special.days == "weekend") {
-          fills <- t2$weekend
+        if (length(special.days) == length(dates)) {
+          fills <- special.days
+        } else {
+          if (special.days == "weekend") {
+            fills <- t2$weekend
+          }
         }
 
       } else {
@@ -290,8 +305,13 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
 
       if(is.character(special.days)) {
 
-        if(special.days == "weekend") {
-          fills <- t2$weekend
+
+        if (length(special.days) == length(dates)) {
+          fills <- special.days
+        } else {
+          if (special.days == "weekend") {
+            fills <- t2$weekend
+          }
         }
       } else {
 
@@ -313,7 +333,7 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
     if(is.null(month)) {
       title <- year
     } else {
-    title <- levels(t2$monlabel)
+      title <- levels(t2$monlabel)
     }
 
   }
@@ -321,92 +341,80 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
 
   if(is.null(month)){
 
-    if(orientation == "landscape" | orientation == "l") {
-      print(ggplot(t2, aes(dow, y, fill = fill)) +
-              geom_tile(aes(fill = fills), color = col, size = lwd, linetype = lty) +
-              scale_fill_gradient(low = low.col, high = special.col) +
-              facet_wrap( ~ monlabel, ncol = 4, scales = "free") +
-              ggtitle(title) +
-              labs(subtitle = subtitle) +
-              scale_x_continuous(expand = c(0.01, 0.01), position = "top",
-                                 breaks = seq(0, 6), labels = weekdays) +
-              scale_y_continuous(expand = c(0.05, 0.05)) +
-              geom_text(data = t2, aes(label = gsub("^0+", "", format(date, "%d"))),
-                        size = day.size, family = font.family,
-                        color = days.col, fontface = font.style) +
-              labs(fill = legend.title) +
-              theme(panel.background = element_rect(fill = NA, color = NA),
-                    strip.background = element_rect(fill = NA, color = NA),
-                    strip.text.x = element_text(hjust = 0, face = font.style, color = month.col),
-                    legend.title = element_text(),
-                    axis.ticks = element_blank(),
-                    axis.title = element_blank(),
-                    axis.text.y = element_blank(),
-                    axis.text.x = element_text(colour = weekdays.col),
-                    plot.title = element_text(hjust = 0.5, size = title.size, colour = title.col),
-                    plot.subtitle = element_text(hjust = 0.5, face = "italic", colour = subtitle.col),
-                    legend.position = legend.pos,
-                    plot.margin = unit(c(1, 0.5, 1, 0.5), "cm"),
-                    text = element_text(family = font.family, face = font.style),
-                    strip.placement = "outsite"))
+   p <- ggplot(t2, aes(dow, y)) +
+      geom_tile(aes(fill = fills), color = col, size = lwd, linetype = lty)
+
+    if(is.character(special.days) & wend & length(unique(special.days) == length(dates))) {
+      p <- p + scale_fill_manual(values = special.col, labels = levels(as.factor(fills)), na.value = "white", na.translate = FALSE)
     } else {
-      print(ggplot(t2, aes(dow, y, fill = fill)) +
-              geom_tile(aes(fill = fills), color = col, size = lwd, linetype = lty) +
-              scale_fill_gradient(low = low.col, high = special.col) +
-              facet_wrap( ~ monlabel, ncol = 3, scales = "free") +
-              ggtitle(year) +
-              labs(subtitle = subtitle) +
-              scale_x_continuous(expand = c(0.01, 0.01), position = "top",
-                                 breaks = seq(0, 6), labels = weekdays) +
-              scale_y_continuous(expand = c(0.05, 0.05)) +
-              geom_text(data = t2, aes(label = gsub("^0+", "", format(date, "%d"))),
-                        size = day.size, family = font.family,
-                        color = days.col, fontface = font.style) +
-              labs(fill = legend.title) +
-              theme(panel.background = element_rect(fill = NA, color = NA),
-                    strip.background = element_rect(fill = NA, color = NA),
-                    strip.text.x = element_text(hjust = 0, face = font.style, color = month.col),
-                    legend.title = element_text(),
-                    axis.ticks = element_blank(),
-                    axis.title = element_blank(),
-                    axis.text.y = element_blank(),
-                    axis.text.x = element_text(colour = weekdays.col),
-                    plot.title = element_text(hjust = 0.5, size = title.size, colour = title.col),
-                    plot.subtitle = element_text(hjust = 0.5, face = "italic", colour = subtitle.col),
-                    legend.position = legend.pos,
-                    plot.margin = unit(c(1, 0.5, 1, 0.5), "cm"),
-                    text = element_text(family = font.family, face = font.style),
-                    strip.placement = "outsite"))
+      p <- p + scale_fill_gradient(low = low.col, high = special.col)
     }
+
+    p <- p + facet_wrap( ~ monlabel, ncol = ifelse(orientation == "landscape" | orientation == "l", 4, 3), scales = "free") +
+      ggtitle(title) +
+      labs(subtitle = subtitle) +
+      scale_x_continuous(expand = c(0.01, 0.01), position = "top",
+                         breaks = seq(0, 6), labels = weekdays) +
+      scale_y_continuous(expand = c(0.05, 0.05)) +
+      geom_text(data = t2, aes(label = gsub("^0+", "", format(date, "%d"))),
+                size = day.size, family = font.family,
+                color = days.col, fontface = font.style) +
+      labs(fill = legend.title) +
+      theme(panel.background = element_rect(fill = NA, color = NA),
+            strip.background = element_rect(fill = NA, color = NA),
+            strip.text.x = element_text(hjust = 0, face = font.style, color = month.col),
+            legend.title = element_text(),
+            axis.ticks = element_blank(),
+            axis.title = element_blank(),
+            axis.text.y = element_blank(),
+            axis.text.x = element_text(colour = weekdays.col),
+            plot.title = element_text(hjust = 0.5, size = title.size, colour = title.col),
+            plot.subtitle = element_text(hjust = 0.5, face = "italic", colour = subtitle.col),
+            legend.position = legend.pos,
+            plot.margin = unit(c(1, 0.5, 1, 0.5), "cm"),
+            text = element_text(family = font.family, face = font.style),
+            strip.placement = "outsite")
+
+  print(p)
 
   } else {
 
-    print(ggplot(t2, aes(dow, y)) +
-            geom_tile(aes(fill = fills), color = col, size = lwd, linetype = lty) +
-            scale_fill_gradient(low = low.col, high = special.col) +
-            ggtitle(title) +
-            labs(subtitle = subtitle) +
-            geom_text(data = df, aes(label = week, x = pos.x, y = pos.y), size = 4.5, family = font.family, color = weekdays.col, fontface = font.style) +
-            geom_text(aes(label = texts), color = text.col, size = text.size, family = font.family) +
-            # scale_x_continuous(expand = c(0.01, 0.01), position = "top",
-            #                   breaks = seq(0, 6), labels = weekdays) +
-            scale_y_continuous(expand = c(0.05, 0.05)) +
-            geom_text(data = t2, aes(label = 1:nrow(filler), x = dow -0.4, y = y + 0.35), size = day.size, family = font.family, color = days.col, fontface = font.style) +
-            labs(fill = legend.title) +
-            theme(panel.background = element_rect(fill = NA, color = NA),
-                  strip.background = element_rect(fill = NA, color = NA),
-                  strip.text.x = element_text(hjust = 0, face = "bold"),
-                  legend.title = element_text(),
-                  axis.ticks = element_blank(),
-                  axis.title = element_blank(),
-                  axis.text.y = element_blank(),
-                  axis.text.x = element_blank(),
-                  plot.title = element_text(hjust = 0.5, size = title.size, colour = title.col),
-                  plot.subtitle = element_text(hjust = 0.5, face = "italic", colour = subtitle.col),
-                  legend.position = legend.pos,
-                  plot.margin = unit(c(1, 0, 1, 0), "cm"),
-                  text = element_text(family = font.family, face = font.style),
-                  strip.placement = "outsite"))
+
+      p <- ggplot(t2, aes(dow, y)) +
+        geom_tile(aes(fill = fills), color = col, size = lwd, linetype = lty)
+
+      if(is.character(special.days) & wend & length(unique(special.days) == length(dates))) {
+        p <- p + scale_fill_manual(values = special.col, labels = levels(as.factor(fills)), na.value = "white", na.translate = FALSE)
+      } else {
+        p <- p + scale_fill_gradient(low = low.col, high = special.col)
+      }
+
+      p <- p + ggtitle(title) +
+        labs(subtitle = subtitle) +
+        geom_text(data = df, aes(label = week, x = pos.x, y = pos.y), size = 4.5, family = font.family, color = weekdays.col, fontface = font.style) +
+        geom_text(aes(label = texts), color = text.col, size = text.size, family = font.family) +
+        # scale_x_continuous(expand = c(0.01, 0.01), position = "top",
+        #                   breaks = seq(0, 6), labels = weekdays) +
+        scale_y_continuous(expand = c(0.05, 0.05)) +
+        geom_text(data = t2, aes(label = 1:nrow(filler), x = dow -0.4, y = y + 0.35), size = day.size, family = font.family, color = days.col, fontface = font.style) +
+        labs(fill = legend.title) +
+        theme(panel.background = element_rect(fill = NA, color = NA),
+              strip.background = element_rect(fill = NA, color = NA),
+              strip.text.x = element_text(hjust = 0, face = "bold"),
+              legend.title = element_text(),
+              axis.ticks = element_blank(),
+              axis.title = element_blank(),
+              axis.text.y = element_blank(),
+              axis.text.x = element_blank(),
+              plot.title = element_text(hjust = 0.5, size = title.size, colour = title.col),
+              plot.subtitle = element_text(hjust = 0.5, face = "italic", colour = subtitle.col),
+              legend.position = legend.pos,
+              plot.margin = unit(c(1, 0, 1, 0), "cm"),
+              text = element_text(family = font.family, face = font.style),
+              strip.placement = "outsite")
+
+   print(p)
+
   }
 
   if(pdf == FALSE & doc_name != ""){
