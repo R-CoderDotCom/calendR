@@ -69,6 +69,25 @@ calendR(year = 2021, special.days = 1:365, gradient = TRUE,
 ![Calendar_2021_GRADIENT](https://user-images.githubusercontent.com/67192157/90626971-ce381e00-e21b-11ea-919a-b5265c415110.png)
 
 
+# Add several events
+
+``` r
+# Vector of NA of the number of days of the year
+myfills <- rep(NA, 366)
+
+# Add the events to the desired days
+myfills[c(1:4, 50, 300:315)] <- "Holidays"
+myfills[16] <- "Birthday"
+
+
+calendR(special.days = myfills,
+        special.col = 2:3,     # Add as many colors as events
+        legend.pos = "right")  # Add a legend if desired
+```
+
+![imagen](https://user-images.githubusercontent.com/67192157/91709531-2dceeb80-eb83-11ea-8b07-89a84e69ec2d.png)
+
+
 ## Save as PDF (as A4 paper size)
 
 ``` r
