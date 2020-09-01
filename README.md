@@ -87,6 +87,13 @@ calendR(special.days = myfills,
 
 ![imagen](https://user-images.githubusercontent.com/67192157/91709531-2dceeb80-eb83-11ea-8b07-89a84e69ec2d.png)
 
+## Custom start and end date
+
+``` r
+calendR2(start_date = "2020-09-01", end_date = "2021-05-31", lty = 0, title = "2020-2021", start = "M")
+```
+
+![imagen](https://user-images.githubusercontent.com/67192157/91883430-b5505380-ec84-11ea-88bf-df7a6fad0dba.png)
 
 
 ## Save as PDF (as A4 paper size)
