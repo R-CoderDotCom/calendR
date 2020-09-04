@@ -23,6 +23,17 @@ calendR() # Defaults to the current year
 ![Calendar_2020](https://user-images.githubusercontent.com/67192157/90884872-db3a4600-e3b0-11ea-8259-31f9c373fc74.png)
 
 
+``` r
+calendR(mb.col = 2,           # Background color for the month names
+        month.col = "white",  # Text color of the month names
+        special.days = c(1, 50, 12, 125, 80,     # Color days of the year
+                         99, 102, 205, 266, 360),
+        special.col = "pink") # Color of the special.days
+```
+
+![CalendR](https://user-images.githubusercontent.com/67192157/92282020-1c783d00-eefd-11ea-9508-bc822aba31bb.png)
+
+
 ## Monthly calendar
 
 ``` r
