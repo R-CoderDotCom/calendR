@@ -31,7 +31,7 @@ calendR(mb.col = 2,           # Background color for the month names
         special.days = c(1, 50, 12, 125, 80,     # Color days of the year
                          99, 102, 205, 266, 360),
         special.col = "pink", # Color of the special.days
-        hjust = 0.5)          # Horizontal aligment of the month names
+        hjust = 0.5)          # Horizontal alignment of the month names
 ```
 
 ![calendR](https://user-images.githubusercontent.com/67192157/92282070-331e9400-eefd-11ea-83c9-0b6d7b5dc6e5.png)
