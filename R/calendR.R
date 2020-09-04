@@ -28,6 +28,8 @@
 #' @param weekdays.col Color of the names of the days.
 #' @param month.col If `month = NULL`, is the color of the month names.
 #' @param days.col Color of the number of the days.
+#' @param mb.col Background color of the month names. Defaults to "white".
+#' @param hjust Horizontal align of the month names. Defaults to 0. Set `hjust = 0.5` for horizontally centered month names.
 #' @param day.size Font size of the number of the days.
 #' @param legend.pos If `gradient = TRUE`, is the position of the legend. It can be set to `"none"` (default), `"top"`, `"bottom"`, `"left"` and `"right"`.
 #' @param legend.title If `legend.pos != "none"` and  `gradient = TRUE`, is the title of the legend.
@@ -91,6 +93,9 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
                     weekdays.col = "gray30",
                     month.col = "gray30",
                     days.col = "gray30",
+                    mb.col = "white",
+
+                    hjust = 0,
 
                     day.size = 3,
 
@@ -361,8 +366,8 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
                 color = days.col, fontface = font.style) +
       labs(fill = legend.title) +
       theme(panel.background = element_rect(fill = NA, color = NA),
-            strip.background = element_rect(fill = NA, color = NA),
-            strip.text.x = element_text(hjust = 0, face = font.style, color = month.col),
+            strip.background = element_rect(fill = mb.col, color = mb.col),
+            strip.text.x = element_text(hjust = hjust, face = font.style, color = month.col),
             legend.title = element_text(),
             axis.ticks = element_blank(),
             axis.title = element_blank(),
