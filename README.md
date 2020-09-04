@@ -31,7 +31,7 @@ calendR(mb.col = 2,           # Background color for the month names
         special.col = "pink") # Color of the special.days
 ```
 
-![CalendR](https://user-images.githubusercontent.com/67192157/92282020-1c783d00-eefd-11ea-9508-bc822aba31bb.png)
+![calendR](https://user-images.githubusercontent.com/67192157/92282070-331e9400-eefd-11ea-83c9-0b6d7b5dc6e5.png)
 
 
 ## Monthly calendar
