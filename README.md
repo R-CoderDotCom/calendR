@@ -1,6 +1,8 @@
 # calendR R package
 Ready to print monthly and yearly calendars made with ggplot2
 
+[https://r-coder.com/calendar-plot-r/](Full calendR package tutorial)
+
 
 ## Installation
 
