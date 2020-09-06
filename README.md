@@ -75,7 +75,7 @@ calendR(year = 2021, orientation = "portrait")
 ![Calendar_2021](https://user-images.githubusercontent.com/67192157/90625001-291c4600-e219-11ea-9478-7c65accc259a.png)
 
 
-## Gradient
+## Calendar heatmap (Gradient)
 
 ``` r
 calendR(year = 2021, special.days = 1:365, gradient = TRUE,
