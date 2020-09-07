@@ -5,7 +5,7 @@
 #' @param year Calendar year. By default uses the current year.
 #' @param month Month of the year or `NULL` (default) for the yearly calendar.
 #' @param start `"S"` (default) for starting the week on Sunday or `"M"` for starting the week on Monday.
-#' @param weeknames Character vector with the names of the days of the week. By default they will be in the system locale.
+#' @param weeknames Character vector with the names of the days of the week starting on Monday. By default they will be in the system locale.
 #' @param orientation The calendar orientation: `"portrait"` or `"landscape"` (default). Also accepts `"p"` and `"l"`.
 #' @param title Title of the the calendar. If not supplied is the year and the month, or the year if `month = NULL`.
 #' @param title.size Size of the main title.
@@ -29,7 +29,8 @@
 #' @param month.col If `month = NULL`, is the color of the month names.
 #' @param days.col Color of the number of the days.
 #' @param mb.col Background color of the month names. Defaults to "white".
-#' @param hjust Horizontal align of the month names. Defaults to 0. Set `hjust = 0.5` for horizontally centered month names.
+#' @param bg.col Background color of the calendar. Defaults to "white".
+#' @param hjust Horizontal align of the month names. Defaults to 0.5 (center).
 #' @param day.size Font size of the number of the days.
 #' @param legend.pos If `gradient = TRUE`, is the position of the legend. It can be set to `"none"` (default), `"top"`, `"bottom"`, `"left"` and `"right"`.
 #' @param legend.title If `legend.pos != "none"` and  `gradient = TRUE`, is the title of the legend.
@@ -95,7 +96,9 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
                     days.col = "gray30",
                     mb.col = "white",
 
-                    hjust = 0,
+                    bg.col = "white",
+
+                    hjust = 0.5,
 
                     day.size = 3,
 
@@ -367,6 +370,8 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
       labs(fill = legend.title) +
       theme(panel.background = element_rect(fill = NA, color = NA),
             strip.background = element_rect(fill = mb.col, color = mb.col),
+            plot.background = element_rect(fill = bg.col),
+            panel.grid = element_line(colour = bg.col),
             strip.text.x = element_text(hjust = hjust, face = font.style, color = month.col),
             legend.title = element_text(),
             axis.ticks = element_blank(),
@@ -405,6 +410,8 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
         labs(fill = legend.title) +
         theme(panel.background = element_rect(fill = NA, color = NA),
               strip.background = element_rect(fill = NA, color = NA),
+              plot.background = element_rect(fill = bg.col),
+              panel.grid = element_line(colour = bg.col),
               strip.text.x = element_text(hjust = 0, face = "bold"),
               legend.title = element_text(),
               axis.ticks = element_blank(),

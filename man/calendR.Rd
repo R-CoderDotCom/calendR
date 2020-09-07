@@ -31,6 +31,9 @@ calendR(
   weekdays.col = "gray30",
   month.col = "gray30",
   days.col = "gray30",
+  mb.col = "white",
+  bg.col = "white",
+  hjust = 0.5,
   day.size = 3,
   legend.pos = "none",
   legend.title = "",
@@ -45,7 +48,7 @@ calendR(
 
 \item{start}{\code{"S"} (default) for starting the week on Sunday or \code{"M"} for starting the week on Monday.}
 
-\item{weeknames}{Character vector with the names of the days of the week. By default they will be in the system locale.}
+\item{weeknames}{Character vector with the names of the days of the week starting on Monday. By default they will be in the system locale.}
 
 \item{orientation}{The calendar orientation: \code{"portrait"} or \code{"landscape"} (default). Also accepts \code{"p"} and \code{"l"}.}
 
@@ -90,6 +93,12 @@ calendR(
 \item{month.col}{If \code{month = NULL}, is the color of the month names.}
 
 \item{days.col}{Color of the number of the days.}
+
+\item{mb.col}{Background color of the month names. Defaults to "white".}
+
+\item{bg.col}{Background color of the calendar. Defaults to "white".}
+
+\item{hjust}{Horizontal align of the month names. Defaults to 0.5 (center).}
 
 \item{day.size}{Font size of the number of the days.}
 
