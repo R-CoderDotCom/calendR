@@ -131,37 +131,42 @@ calendR(year = 2021, orientation = "portrait", pdf = TRUE, doc_name = "My_calend
 ```
 
 ## Further customization
+
+### Example 1
 ``` r
-calendR(year = 2022,
-        mb.col = 2,           # Background color for the month names
-        month.col = "white",  # Text color of the month names
+calendR(year = 2022,                             # Year
+        mb.col = 2,                              # Background color for the month names
+        month.col = "white",                     # Text color of the month names
         special.days = c(1, 50, 12, 125, 80,     # Color days of the year
                           99, 102, 205, 266, 359),
-        special.col = "pink", # Color of the special.days
-        hjust = 0.5,  # Center the month names
-        lty = 0,      # Line type
-        weeknames = c("Mo", "Tu", "We", "Th", "Fr", "Sa","Su"), # Week names
-        bg = "#f4f4f4",    # Background color
-        title.size = 60,   # Title size
-        orientation = "p") # Orientation
+        special.col = "pink",                    # Color of the special.days
+        hjust = 0.5,                             # Center the month names
+        lty = 0,                                 # Line type
+        weeknames = c("Mo", "Tu", "We", "Th",    # Week names
+                      "Fr", "Sa","Su"), 
+        bg = "#f4f4f4",                          # Background color
+        title.size = 60,                         # Title size
+        orientation = "p")                       # Orientation
 ```
 <p align="center">
  <img src="https://user-images.githubusercontent.com/67192157/92388597-da771300-f117-11ea-8c9b-baaa68cf8a41.png">
 </p>
 
 
+### Example 2
 ``` r
-calendR(year = 2020,                                      # Year
-        month = 10,                                       # Month
-        title = "My calendar",                            # Change the title
-        subtitle = "Have a nice day",                     # Add a subtitle (or motivational phrase)
-        subtitle.col = 3,                                 # Color of the subtitle
-        weeknames = c("S", "M", "T", "W", "T", "F", "S"), # Change week day names
-        bg.col = "white",                                 # Background color
-        special.days = "weekend",                         # Colorize the weekends (you can also set a vector of days)
-        special.col = rgb(0, 0, 1, 0.15),                 # Color of the special days
-        text = "Running",                                 # Add text (only for monthly calendars)
-        text.pos = c(7, 14, 25))                          # Days of the month where to put the texts       
+calendR(year = 2020,                        # Year
+        month = 10,                         # Month
+        title = "My calendar",              # Change the title
+        subtitle = "Have a nice day",       # Add a subtitle (or motivational phrase)
+        subtitle.col = 3,                   # Color of the subtitle
+        weeknames = c("S", "M", "T", "W",   # Change week day names
+                      "T", "F", "S"), 
+        bg.col = "white",                   # Background color
+        special.days = "weekend",           # Colorize the weekends (you can also set a vector of days)
+        special.col = rgb(0, 0, 1, 0.15),   # Color of the special days
+        text = "Running",                   # Add text (only for monthly calendars)
+        text.pos = c(7, 14, 25))            # Days of the month where to put the texts       
 
 # See all the arguments of the function for full customization of the colors, text size and style.
 ```
