@@ -9,11 +9,19 @@ Ready to print monthly and yearly calendars made with ggplot2
 
 ## Installation
 
+### GitHub
 ``` r
 # Install the development version from GitHub:
 # install.packages("devtools")
 devtools::install_github("R-CoderDotCom/calendR")
 ```
+
+### CRAN
+``` r
+install.packages("calendR")
+```
+
+[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/calendR)](https://cran.r-project.org/package=calendR)
 
 
 ## Yearly calendar
