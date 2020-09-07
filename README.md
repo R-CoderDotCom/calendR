@@ -115,7 +115,7 @@ calendR(special.days = myfills,
 ## Custom start and end date
 
 ``` r
-calendR2(start_date = "2020-09-01", end_date = "2021-05-31", lty = 0, title = "2020-2021", start = "M")
+calendR(start_date = "2020-09-01", end_date = "2021-05-31", lty = 0, title = "2020-2021", start = "M")
 ```
 
 ![imagen](https://user-images.githubusercontent.com/67192157/91883430-b5505380-ec84-11ea-88bf-df7a6fad0dba.png)
@@ -168,7 +168,34 @@ calendR(year = 2020,                        # Year
         text = "Running",                   # Add text (only for monthly calendars)
         text.pos = c(7, 14, 25))            # Days of the month where to put the texts       
 
-# See all the arguments of the function for full customization of the colors, text size and style.
+
 ```
 
 ![Calendar_octubre_2020](https://user-images.githubusercontent.com/67192157/90625501-f6bf1880-e219-11ea-8c57-e10512d790b6.png)
+
+
+### Example 3
+``` r
+calendR(start_date = "2020-09-01", # Custom start date
+        end_date = "2021-05-31",   # Custom end date
+        mb.col = 4,                # Background color for the month names
+        month.col = "white",       # Text color of the month names
+        special.days = "weekend",  # Color the weekends
+        special.col = "lightblue", # Color of the special.days
+        lty = 0,                   # Line type
+        weeknames = c("Mo", "Tu",  # Week names
+                      "We", "Th",
+                      "Fr", "Sa",
+                      "Su"),
+        bg = "#f4f4f4",            # Background color
+        title = "Academic calendar 2020-2021", # Title
+        title.size = 30,                       # Title size
+        orientation = "p", # Portrait orientation
+        start = "M")       # Start of the week
+# See all the arguments of the function for full customization of the colors, text size and style.
+```
+<p align="center">
+ <img src="https://user-images.githubusercontent.com/67192157/92406650-dc050300-f138-11ea-938b-18f418cb1180.png">
+</p>
+
+
