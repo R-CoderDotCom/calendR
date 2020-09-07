@@ -2,12 +2,10 @@
 #'
 #' @description Create ready to print monthly and yearly calendars. The function allows personalizing colors (even setting a gradient color scale for a full month or year), texts and fonts. In addition, for monthly calendars you can also add text on the days.
 #'
-#' @param year Calendar year. By default uses the current year.
-#' @param month Month of the year or `NULL` (default) for the yearly calendar.
-#' @param start_date Custom start date of the calendar. If `start_date != NULL`, `year` and `month` arguments won't be taken into account.
-#' @param end_date Custom end date of the calendar.
+#' @param start_date Start date
+#' @param end_date End date
 #' @param start `"S"` (default) for starting the week on Sunday or `"M"` for starting the week on Monday.
-#' @param weeknames Character vector with the names of the days of the week starting on Monday. By default they will be in the system locale.
+#' @param weeknames Character vector with the names of the days of the week. By default they will be in the system locale.
 #' @param orientation The calendar orientation: `"portrait"` or `"landscape"` (default). Also accepts `"p"` and `"l"`.
 #' @param title Title of the the calendar. If not supplied is the year and the month, or the year if `month = NULL`.
 #' @param title.size Size of the main title.
@@ -30,9 +28,6 @@
 #' @param weekdays.col Color of the names of the days.
 #' @param month.col If `month = NULL`, is the color of the month names.
 #' @param days.col Color of the number of the days.
-#' @param mb.col Background color of the month names. Defaults to "white".
-#' @param bg.col Background color of the calendar. Defaults to "white".
-#' @param hjust Horizontal align of the month names. Defaults to 0.5 (center).
 #' @param day.size Font size of the number of the days.
 #' @param legend.pos If `gradient = TRUE`, is the position of the legend. It can be set to `"none"` (default), `"top"`, `"bottom"`, `"left"` and `"right"`.
 #' @param legend.title If `legend.pos != "none"` and  `gradient = TRUE`, is the title of the legend.
@@ -45,27 +40,11 @@
 #' \item{Maintainer: José Carlos Soage González. \email{jsoage@@uvigo.es}}
 #' }
 #'
-#' @examples
-#' # Calendar of the current year
-#' calendR()
-#'
-#' # Calendar of July, 2005, starting on Monday
-#' calendR(year = 2005, month = 7, start = "M", subtitle = "Have a nice day")
-#'
-#' \donttest{
-#' # Create ready to print monthly calendars for all the months of the current year
-#' # with week starting on Sunday
-#' invisible(sapply(1:12 , function(i) calendR(month = i, pdf = TRUE,
-#'  doc_name = file.path(tempdir(), paste0("myCalendar", i , ".pdf")))))
-#' }
 #'
 #' @import ggplot2 dplyr forcats
 #' @importFrom grDevices rgb
 #' @export
-calendR <- function(year = format(Sys.Date(), "%Y"),
-                    month = NULL,
-
-                    start_date = NULL,
+calendR2 <- function(start_date = NULL,
                     end_date = NULL,
 
                     start = c("S", "M"),
@@ -99,11 +78,6 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
                     weekdays.col = "gray30",
                     month.col = "gray30",
                     days.col = "gray30",
-                    mb.col = "white",
-
-                    bg.col = "white",
-
-                    hjust = 0.5,
 
                     day.size = 3,
 
@@ -113,21 +87,10 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
                     pdf = FALSE,
                     doc_name = ""){
 
-  if(year < 0) {
-    stop("You must be kidding. You don't need a calendar of a year Before Christ :)")
-  }
+  year <- 2020
+  month = NULL
 
   wend <- TRUE
-
-  if((!is.null(start_date) & is.null(end_date))) {
-
-    stop("Provide an end date with the 'end_date' argument")
-
-  }
-
-  if((is.null(start_date) & !is.null(end_date))) {
-    stop("Provide a start date with the 'start_date' argument")
-  }
 
   if(is.character(special.days) & length(unique(na.omit(special.days))) != length(special.col)) {
     stop("The number of colors supplied on 'special.col' argument must be the same of length(unique(na.omit(special.days)))")
@@ -165,8 +128,7 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
     weeknames <- c(up(weekdays(Day))[2:7], up(weekdays(Day))[1])
   }
 
-
-  if(!is.null(start_date) & !is.null(end_date)){
+  if(is.null(month)){
 
     mindate <- as.Date(start_date)
     maxdate <- as.Date(end_date)
@@ -174,22 +136,13 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
 
   } else {
 
-    if(is.null(month)){
-
-      mindate <- as.Date(format(as.Date(paste0(year, "-0", 01, "-01")), "%Y-%m-01"))
-      maxdate <- as.Date(format(as.Date(paste0(year, "-12-", 31)), "%Y-%m-31"))
-      weeknames <- substring(weeknames, 1, 3)
-
+    if(month >= 10){
+      mindate <- as.Date(format(as.Date(paste0(year, "-", month, "-01")), "%Y-%m-01"))
     } else {
-
-      if(month >= 10){
-        mindate <- as.Date(format(as.Date(paste0(year, "-", month, "-01")), "%Y-%m-01"))
-      } else {
-        mindate <- as.Date(format(as.Date(paste0(year, "-0", month, "-01")), "%Y-%m-01"))
-      }
-
-      maxdate <- seq(mindate, length = 2, by = "months")[2] - 1
+      mindate <- as.Date(format(as.Date(paste0(year, "-0", month, "-01")), "%Y-%m-01"))
     }
+
+    maxdate <- seq(mindate, length = 2, by = "months")[2] - 1
   }
 
   # set up tibble with all the dates.
@@ -374,7 +327,7 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
 
   if(is.null(month)){
 
-   p <- ggplot(t2, aes(dow, y)) +
+    p <- ggplot(t2, aes(dow, y)) +
       geom_tile(aes(fill = fills), color = col, size = lwd, linetype = lty)
 
     if(is.character(special.days) & wend & length(unique(special.days) == length(dates))) {
@@ -394,10 +347,8 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
                 color = days.col, fontface = font.style) +
       labs(fill = legend.title) +
       theme(panel.background = element_rect(fill = NA, color = NA),
-            strip.background = element_rect(fill = mb.col, color = mb.col),
-            plot.background = element_rect(fill = bg.col),
-            panel.grid = element_line(colour = bg.col),
-            strip.text.x = element_text(hjust = hjust, face = font.style, color = month.col),
+            strip.background = element_rect(fill = NA, color = NA),
+            strip.text.x = element_text(hjust = 0, face = font.style, color = month.col),
             legend.title = element_text(),
             axis.ticks = element_blank(),
             axis.title = element_blank(),
@@ -410,47 +361,45 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
             text = element_text(family = font.family, face = font.style),
             strip.placement = "outsite")
 
-  print(p)
+    print(p)
 
   } else {
 
 
-      p <- ggplot(t2, aes(dow, y)) +
-        geom_tile(aes(fill = fills), color = col, size = lwd, linetype = lty)
+    p <- ggplot(t2, aes(dow, y)) +
+      geom_tile(aes(fill = fills), color = col, size = lwd, linetype = lty)
 
-      if(is.character(special.days) & wend & length(unique(special.days) == length(dates))) {
-        p <- p + scale_fill_manual(values = special.col, labels = levels(as.factor(fills)), na.value = "white", na.translate = FALSE)
-      } else {
-        p <- p + scale_fill_gradient(low = low.col, high = special.col)
-      }
+    if(is.character(special.days) & wend & length(unique(special.days) == length(dates))) {
+      p <- p + scale_fill_manual(values = special.col, labels = levels(as.factor(fills)), na.value = "white", na.translate = FALSE)
+    } else {
+      p <- p + scale_fill_gradient(low = low.col, high = special.col)
+    }
 
-      p <- p + ggtitle(title) +
-        labs(subtitle = subtitle) +
-        geom_text(data = df, aes(label = week, x = pos.x, y = pos.y), size = 4.5, family = font.family, color = weekdays.col, fontface = font.style) +
-        geom_text(aes(label = texts), color = text.col, size = text.size, family = font.family) +
-        # scale_x_continuous(expand = c(0.01, 0.01), position = "top",
-        #                   breaks = seq(0, 6), labels = weekdays) +
-        scale_y_continuous(expand = c(0.05, 0.05)) +
-        geom_text(data = t2, aes(label = 1:nrow(filler), x = dow -0.4, y = y + 0.35), size = day.size, family = font.family, color = days.col, fontface = font.style) +
-        labs(fill = legend.title) +
-        theme(panel.background = element_rect(fill = NA, color = NA),
-              strip.background = element_rect(fill = NA, color = NA),
-              plot.background = element_rect(fill = bg.col),
-              panel.grid = element_line(colour = bg.col),
-              strip.text.x = element_text(hjust = 0, face = "bold"),
-              legend.title = element_text(),
-              axis.ticks = element_blank(),
-              axis.title = element_blank(),
-              axis.text.y = element_blank(),
-              axis.text.x = element_blank(),
-              plot.title = element_text(hjust = 0.5, size = title.size, colour = title.col),
-              plot.subtitle = element_text(hjust = 0.5, face = "italic", colour = subtitle.col),
-              legend.position = legend.pos,
-              plot.margin = unit(c(1, 0, 1, 0), "cm"),
-              text = element_text(family = font.family, face = font.style),
-              strip.placement = "outsite")
+    p <- p + ggtitle(title) +
+      labs(subtitle = subtitle) +
+      geom_text(data = df, aes(label = week, x = pos.x, y = pos.y), size = 4.5, family = font.family, color = weekdays.col, fontface = font.style) +
+      geom_text(aes(label = texts), color = text.col, size = text.size, family = font.family) +
+      # scale_x_continuous(expand = c(0.01, 0.01), position = "top",
+      #                   breaks = seq(0, 6), labels = weekdays) +
+      scale_y_continuous(expand = c(0.05, 0.05)) +
+      geom_text(data = t2, aes(label = 1:nrow(filler), x = dow -0.4, y = y + 0.35), size = day.size, family = font.family, color = days.col, fontface = font.style) +
+      labs(fill = legend.title) +
+      theme(panel.background = element_rect(fill = NA, color = NA),
+            strip.background = element_rect(fill = NA, color = NA),
+            strip.text.x = element_text(hjust = 0, face = "bold"),
+            legend.title = element_text(),
+            axis.ticks = element_blank(),
+            axis.title = element_blank(),
+            axis.text.y = element_blank(),
+            axis.text.x = element_blank(),
+            plot.title = element_text(hjust = 0.5, size = title.size, colour = title.col),
+            plot.subtitle = element_text(hjust = 0.5, face = "italic", colour = subtitle.col),
+            legend.position = legend.pos,
+            plot.margin = unit(c(1, 0, 1, 0), "cm"),
+            text = element_text(family = font.family, face = font.style),
+            strip.placement = "outsite")
 
-   print(p)
+    print(p)
 
   }
 
@@ -482,3 +431,6 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
     }
   }
 }
+
+
+calendR2(start_date = "2020-09-01", end_date = "2021-05-31")
