@@ -58,7 +58,7 @@ calendR(year = 2028, month = 1)
 calendR(month = 7, year = 2022, 
         special.days = c(1, 5, 12, 28),       # Color days of the month
         text = "Visit\nhttps://r-coder.com/", # Add some text
-        text.at = c(1, 5, 12, 28))            # Where to add the text
+        text.pos = c(1, 5, 12, 28))           # Where to add the text
 ```
 
 ![Calendar_julio_2022](https://user-images.githubusercontent.com/67192157/90627714-a301fe80-e21c-11ea-84ad-e1038d1b1282.png)
