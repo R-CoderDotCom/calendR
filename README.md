@@ -146,7 +146,7 @@ calendR(year = 2022,
         orientation = "p") # Orientation
 ```
 <p align="center">
-  src="https://user-images.githubusercontent.com/67192157/92388597-da771300-f117-11ea-8c9b-baaa68cf8a41.png>
+ <img src="https://user-images.githubusercontent.com/67192157/92388597-da771300-f117-11ea-8c9b-baaa68cf8a41.png">
 </p>
 
 
