@@ -131,9 +131,25 @@ calendR(year = 2021, orientation = "portrait", pdf = TRUE, doc_name = "My_calend
 ```
 
 ## Further customization
+``` r
+calendR(year = 2022,
+        mb.col = 2,           # Background color for the month names
+        month.col = "white",  # Text color of the month names
+        special.days = c(1, 50, 12, 125, 80,     # Color days of the year
+                          99, 102, 205, 266, 359),
+        special.col = "pink", # Color of the special.days
+        hjust = 0.5,  # Center the month names
+        lty = 0,      # Line type
+        weeknames = c("Mo", "Tu", "We", "Th", "Fr", "Sa","Su"), # Week names
+        bg = "#f4f4f4",    # Background color
+        title.size = 60,   # Title size
+        orientation = "p") # Orientation
+```
+
+![customization](https://user-images.githubusercontent.com/67192157/92388597-da771300-f117-11ea-8c9b-baaa68cf8a41.png)
+
 
 ``` r
-
 calendR(year = 2020,                                      # Year
         month = 10,                                       # Month
         title = "My calendar",                            # Change the title
