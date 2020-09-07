@@ -112,7 +112,8 @@ calendR(special.days = myfills,
 
 ![imagen](https://user-images.githubusercontent.com/67192157/91709531-2dceeb80-eb83-11ea-8b07-89a84e69ec2d.png)
 
-## Custom start and end date
+
+## Custom start and end date  (only on the GitHub development version)
 
 ``` r
 calendR(start_date = "2020-09-01", end_date = "2021-05-31", lty = 0, title = "2020-2021", start = "M")
@@ -174,7 +175,7 @@ calendR(year = 2020,                        # Year
 ![Calendar_octubre_2020](https://user-images.githubusercontent.com/67192157/90625501-f6bf1880-e219-11ea-8c57-e10512d790b6.png)
 
 
-### Example 3
+### Example 3 (only on the GitHub development version)
 ``` r
 calendR(start_date = "2020-09-01", # Custom start date
         end_date = "2021-05-31",   # Custom end date
