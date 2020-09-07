@@ -140,6 +140,7 @@ calendR(year = 2020,                                      # Year
         subtitle = "Have a nice day",                     # Add a subtitle (or motivational phrase)
         subtitle.col = 3,                                 # Color of the subtitle
         weeknames = c("S", "M", "T", "W", "T", "F", "S"), # Change week day names
+        bg.col = "white",                                 # Background color
         special.days = "weekend",                         # Colorize the weekends (you can also set a vector of days)
         special.col = rgb(0, 0, 1, 0.15),                 # Color of the special days
         text = "Running",                                 # Add text (only for monthly calendars)
