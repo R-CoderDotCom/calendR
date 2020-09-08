@@ -8,6 +8,20 @@ Ready to print monthly and yearly calendars made with ggplot2
 
 NOTE: additional functionalities (background colors, several events and academic calendar) will be available on CRAN soon.
 
+## Index
+- [Installation](#installation)
+- [Yearly calendar](#yearly-calendar)
+- [Monthly calendar](#monthly-calendar)
+- [Custom start and end date](#custom-start-and-end-date--only-on-the-github-development-version)
+- [Start of the week](#start-of-the-week-monday-or-sunday)
+- [Orientation](#orientation-landscape-or-portrait)
+- [Heat map](#calendar-heatmap-gradient)
+- [Add several events](#add-several-events-only-on-the-github-development-version)
+- [Add background image](#add-background-image)
+- [Save as PDF](#save-as-pdf-as-a4-paper-size)
+- [More examples](#further-customization)
+
+
 ## Installation
 
 ### GitHub
@@ -64,6 +78,15 @@ calendR(month = 7, year = 2022,
 ![Calendar_julio_2022](https://user-images.githubusercontent.com/67192157/90627714-a301fe80-e21c-11ea-84ad-e1038d1b1282.png)
 
 
+## Custom start and end date  (only on the GitHub development version)
+
+``` r
+calendR(start_date = "2020-09-01", end_date = "2021-05-31", lty = 0, title = "2020-2021", start = "M")
+```
+
+![imagen](https://user-images.githubusercontent.com/67192157/91883430-b5505380-ec84-11ea-88bf-df7a6fad0dba.png)
+
+
 ## Start of the week (Monday or Sunday)
 
 ``` r
@@ -114,13 +137,27 @@ calendR(special.days = myfills,
 ![imagen](https://user-images.githubusercontent.com/67192157/91709531-2dceeb80-eb83-11ea-8b07-89a84e69ec2d.png)
 
 
-## Custom start and end date  (only on the GitHub development version)
+## Add background image
 
 ``` r
-calendR(start_date = "2020-09-01", end_date = "2021-05-31", lty = 0, title = "2020-2021", start = "M")
+calendR(mb.col = 4,                # Background color for the month names
+        month.col = "white",       # Text color of the month names
+        special.days = "weekend",  # Color the weekends
+        special.col = "lightblue", # Color of the special.days
+        lty = 0,                   # Line type
+        weeknames = c("Mo", "Tu",  # Week names
+                      "We", "Th",
+                      "Fr", "Sa",
+                      "Su"),
+        title.size = 30,   # Title size
+        orientation = "p", # Portrait orientation
+        start = "M", url = "https://i.pinimg.com/originals/10/1e/f6/101ef6a9e146b23de28fa2cd568ad17b.jpg")  # Image
 ```
 
-![imagen](https://user-images.githubusercontent.com/67192157/91883430-b5505380-ec84-11ea-88bf-df7a6fad0dba.png)
+<p align="center">
+ <img src="https://user-images.githubusercontent.com/67192157/92508606-366d9480-f209-11ea-8303-fa11ba984eb7.png">
+</p>
+
 
 
 ## Save as PDF (as A4 paper size)
