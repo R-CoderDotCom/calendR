@@ -38,6 +38,7 @@
 #' @param legend.title If `legend.pos != "none"` and  `gradient = TRUE`, is the title of the legend.
 #' @param pdf Boolean. If TRUE, saves the calendar in the working directory in A4 format.
 #' @param doc_name If `pdf = TRUE`, is the name of the generated file (without the file extension). If not specified, creates files of the format: `Calendar_year.pdf` for yearly calendars and `Calendar_month_year.pdf` for monthly calendars.
+#' @param url Character string containing the URL of a image to be used as background.
 #'
 #' @author
 #' \itemize{
@@ -111,7 +112,8 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
                     legend.title = "",
 
                     pdf = FALSE,
-                    doc_name = ""){
+                    doc_name = "",
+                    url = ""){
 
   if(year < 0) {
     stop("You must be kidding. You don't need a calendar of a year Before Christ :)")
@@ -396,7 +398,7 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
       theme(panel.background = element_rect(fill = NA, color = NA),
             strip.background = element_rect(fill = mb.col, color = mb.col),
             plot.background = element_rect(fill = bg.col),
-            panel.grid = element_line(colour = bg.col),
+            panel.grid = element_line(colour = ifelse(url ==  "", bg.col, "transparent")),
             strip.text.x = element_text(hjust = hjust, face = font.style, color = month.col),
             legend.title = element_text(),
             axis.ticks = element_blank(),
@@ -409,6 +411,10 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
             plot.margin = unit(c(1, 0.5, 1, 0.5), "cm"),
             text = element_text(family = font.family, face = font.style),
             strip.placement = "outsite")
+
+    if(url != "") {
+      p <- ggbackground(p, url)
+    }
 
   print(p)
 
@@ -436,7 +442,7 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
         theme(panel.background = element_rect(fill = NA, color = NA),
               strip.background = element_rect(fill = NA, color = NA),
               plot.background = element_rect(fill = bg.col),
-              panel.grid = element_line(colour = bg.col),
+              panel.grid = element_line(colour = ifelse(url ==  "", bg.col, "transparent")),
               strip.text.x = element_text(hjust = 0, face = "bold"),
               legend.title = element_text(),
               axis.ticks = element_blank(),
@@ -449,6 +455,10 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
               plot.margin = unit(c(1, 0, 1, 0), "cm"),
               text = element_text(family = font.family, face = font.style),
               strip.placement = "outsite")
+
+      if(url != "") {
+        p <- ggbackground(p, url)
+      }
 
    print(p)
 

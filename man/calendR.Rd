@@ -40,7 +40,8 @@ calendR(
   legend.pos = "none",
   legend.title = "",
   pdf = FALSE,
-  doc_name = ""
+  doc_name = "",
+  url = ""
 )
 }
 \arguments{
