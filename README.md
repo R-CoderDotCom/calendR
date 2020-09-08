@@ -151,7 +151,8 @@ calendR(mb.col = 4,                # Background color for the month names
                       "Su"),
         title.size = 30,   # Title size
         orientation = "p", # Portrait orientation
-        start = "M", url = "https://i.pinimg.com/originals/10/1e/f6/101ef6a9e146b23de28fa2cd568ad17b.jpg")  # Image
+        start = "M",       # Start the week on Mondays
+        url = "https://i.pinimg.com/originals/10/1e/f6/101ef6a9e146b23de28fa2cd568ad17b.jpg")  # Image
 ```
 
 <p align="center">
