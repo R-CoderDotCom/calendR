@@ -60,7 +60,7 @@
 #'  doc_name = file.path(tempdir(), paste0("myCalendar", i , ".pdf")))))
 #' }
 #'
-#' @import ggplot2 dplyr forcats
+#' @import ggplot2 dplyr forcats ggimage
 #' @importFrom grDevices rgb
 #' @export
 calendR <- function(year = format(Sys.Date(), "%Y"),

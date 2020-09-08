@@ -3,5 +3,6 @@
 export(calendR)
 import(dplyr)
 import(forcats)
+import(ggimage)
 import(ggplot2)
 importFrom(grDevices,rgb)
