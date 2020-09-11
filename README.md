@@ -111,7 +111,8 @@ calendR(year = 2021, orientation = "portrait")
 ## Calendar heatmap (Gradient)
 
 ``` r
-calendR(year = 2021, special.days = 1:365, gradient = TRUE,
+calendR(year = 2021, special.days = 1:365,
+        gradient = TRUE,        # Needed to create the heat map
         special.col = rgb(1, 0, 0, alpha = 0.6), # Higher color
         low.col = "white")                       # Lower color
 ```
