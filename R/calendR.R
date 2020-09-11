@@ -7,13 +7,13 @@
 #' @param start_date Custom start date of the calendar. If `start_date != NULL`, `year` and `month` arguments won't be taken into account.
 #' @param end_date Custom end date of the calendar.
 #' @param start `"S"` (default) for starting the week on Sunday or `"M"` for starting the week on Monday.
-#' @param weeknames Character vector with the names of the days of the week starting on Monday. By default they will be in the system locale.
 #' @param orientation The calendar orientation: `"portrait"` or `"landscape"` (default). Also accepts `"p"` and `"l"`.
 #' @param title Title of the the calendar. If not supplied is the year and the month, or the year if `month = NULL`.
 #' @param title.size Size of the main title.
 #' @param title.col Color of the main title.
 #' @param subtitle Subtitle of the calendar in italics (optional).
 #' @param subtitle.col Color of the subtitle.
+#' @param subtitle.size Font size of the subtitle.
 #' @param text Character vector of texts to be added on the calendar. Only for monthly calendars.
 #' @param text.pos Numeric vector containing the number of days of the month where to add the texts of the `text` argument.
 #' @param text.size Font size of the texts added with the `text` argument.
@@ -27,22 +27,24 @@
 #' @param lty Line type of the calendar. If `lty = 0` no lines are drawn.
 #' @param font.family Font family of all the texts.
 #' @param font.style Style of all the texts and numbers except the subtitle. Possible options are `"plain"` (default), `"bold"`, `"italic"` and `"bold.italic"`.
-#' @param weekdays.col Color of the names of the days.
-#' @param months.col If `month = NULL`, is the color of the month names.
-#' @param days.col Color of the number of the days.
-#' @param mbg.col Background color of the month names. Defaults to "white".
-#' @param bg.col Background color of the calendar. Defaults to "white".
-#' @param months.pos Horizontal align of the month names. Defaults to 0.5 (center).
 #' @param day.size Font size of the number of the days.
+#' @param days.col Color of the number of the days.
+#' @param weeknames Character vector with the names of the days of the week starting on Monday. By default they will be in the system locale.
+#' @param weeknames.col Color of the names of the days.
+#' @param weeknames.size Size of the names of the days.
+#' @param months.size Font size of the names of the months.
+#' @param months.col If `month = NULL`, is the color of the month names.
+#' @param months.pos Horizontal align of the month names. Defaults to 0.5 (center).
+#' @param mbg.col Background color of the month names. Defaults to "white".
 #' @param legend.pos If `gradient = TRUE`, is the position of the legend. It can be set to `"none"` (default), `"top"`, `"bottom"`, `"left"` and `"right"`.
 #' @param legend.title If `legend.pos != "none"` and  `gradient = TRUE`, is the title of the legend.
 #' @param pdf Boolean. If `TRUE`, saves the calendar in the working directory in A4 format.
 #' @param doc_name If `pdf = TRUE`, is the name of the generated file (without the file extension). If not specified, creates files of the format: `Calendar_year.pdf` for yearly calendars and `Calendar_month_year.pdf` for monthly calendars.
+#' @param bg.col Background color of the calendar. Defaults to "white".
 #' @param bg.img Character string containing the URL or the local directory of a image to be used as background.
 #' @param lunar Boolean. If `TRUE`, draws the lunar phases. Only available for monthly calendars.
 #' @param lunar.col If `lunar = TRUE`, is the color of the hide part of the moons.
 #' @param lunar.size If `lunar = TRUE`, is the size of the representation of the moons.
-#'
 #'
 #' @author
 #' \itemize{
@@ -75,7 +77,6 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
                     end_date = NULL,
 
                     start = c("S", "M"),
-                    weeknames,
                     orientation = c("portrait", "landscape"),
 
                     title,
@@ -83,6 +84,7 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
                     title.col = "gray30",
 
                     subtitle = "",
+                    subtitle.size = 10,
                     subtitle.col = "gray30",
 
                     text = "",
@@ -102,18 +104,17 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
                     font.family = "sans",
                     font.style = "plain",
 
-                    weekdays.col = "gray30",
-                    months.col = "gray30",
-                    days.col = "gray30",
-                    mbg.col = "white",
-
-                    bg.col = "white",
-
-                    months.pos = 0.5,
-
                     day.size = 3,
+                    days.col = "gray30",
+
+                    weeknames,
+                    weeknames.col = "gray30",
+                    weeknames.size = 4.5,
+
                     months.size = 10,
-                    weekdays.size = 4.5,
+                    months.col = "gray30",
+                    months.pos = 0.5,
+                    mbg.col = "white",
 
                     legend.pos = "none",
                     legend.title = "",
@@ -121,6 +122,7 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
                     pdf = FALSE,
                     doc_name = "",
 
+                    bg.col = "white",
                     bg.img = "",
 
                     lunar = FALSE,
@@ -440,9 +442,9 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
             axis.ticks = element_blank(),
             axis.title = element_blank(),
             axis.text.y = element_blank(),
-            axis.text.x = element_text(colour = weekdays.col, size = weekdays.size * 2.25),
+            axis.text.x = element_text(colour = weeknames.col, size = weeknames.size * 2.25),
             plot.title = element_text(hjust = 0.5, size = title.size, colour = title.col),
-            plot.subtitle = element_text(hjust = 0.5, face = "italic", colour = subtitle.col),
+            plot.subtitle = element_text(hjust = 0.5, face = "italic", colour = subtitle.col, size = subtitle.size),
             legend.position = legend.pos,
             plot.margin = unit(c(1, 0.5, 1, 0.5), "cm"),
             text = element_text(family = font.family, face = font.style),
@@ -487,7 +489,7 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
 
       p <- p + ggtitle(title) +
         labs(subtitle = subtitle) +
-        geom_text(data = df, aes(label = week, x = pos.x, y = pos.y), size = weekdays.size, family = font.family, color = weekdays.col, fontface = font.style) +
+        geom_text(data = df, aes(label = week, x = pos.x, y = pos.y), size = weeknames.size, family = font.family, color = weeknames.col, fontface = font.style) +
         geom_text(aes(label = texts), color = text.col, size = text.size, family = font.family) +
         # scale_x_continuous(expand = c(0.01, 0.01), position = "top",
         #                   breaks = seq(0, 6), labels = weekdays) +
@@ -505,7 +507,7 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
               axis.text.y = element_blank(),
               axis.text.x = element_blank(),
               plot.title = element_text(hjust = 0.5, size = title.size, colour = title.col),
-              plot.subtitle = element_text(hjust = 0.5, face = "italic", colour = subtitle.col),
+              plot.subtitle = element_text(hjust = 0.5, face = "italic", colour = subtitle.col, size = subtitle.size),
               legend.position = legend.pos,
               plot.margin = unit(c(1, 0, 1, 0), "cm"),
               text = element_text(family = font.family, face = font.style),
