@@ -38,7 +38,7 @@ install.packages("calendR")
 ```
 
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/calendR)](https://cran.r-project.org/package=calendR)
-
+[![CRAN_Downloads](https://cranlogs.r-pkg.org/badges/grand-total/calendR)](https://cran.r-project.org/package=calendR)
 
 ## Yearly calendar
 
