@@ -156,18 +156,19 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
   match.arg(orientation, c("landscape", "portrait", "l", "p"))
 
 
-  if(month > 12) {
-    stop("There are no more than 12 months in a year")
-  }
+  if(!is.null(month)){
+    if(month > 12) {
+      stop("There are no more than 12 months in a year")
+    }
 
-  if(month <= 0) {
-    stop("Months must be between 1 and 12")
-  }
+    if(month <= 0) {
+      stop("Months must be between 1 and 12")
+    }
 
-  if(is.character(month)) {
-    stop("You must provide a month in a numeric format, between 1 and 12")
+    if(is.character(month)) {
+      stop("You must provide a month in a numeric format, between 1 and 12")
+    }
   }
-
 
   months <- format(seq(as.Date("2016-01-01"), as.Date("2016-12-01"), by = "1 month"), "%B")
 
