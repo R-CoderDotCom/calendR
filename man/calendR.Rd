@@ -35,7 +35,7 @@ calendR(
   days.col = "gray30",
   mbg.col = "white",
   bg.col = "white",
-  month.pos = 0.5,
+  months.pos = 0.5,
   day.size = 3,
   months.size = 10,
   weekdays.size = 4.5,
@@ -110,7 +110,7 @@ calendR(
 
 \item{bg.col}{Background color of the calendar. Defaults to "white".}
 
-\item{month.pos}{Horizontal align of the month names. Defaults to 0.5 (center).}
+\item{months.pos}{Horizontal align of the month names. Defaults to 0.5 (center).}
 
 \item{day.size}{Font size of the number of the days.}
 
