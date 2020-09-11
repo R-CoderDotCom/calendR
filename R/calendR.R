@@ -380,8 +380,6 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
     } else {
 
       if(is.character(special.days)) {
-
-
         if (length(special.days) == length(dates)) {
           fills <- special.days
         } else {
@@ -406,10 +404,18 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
 
   if(missing(title)) {
 
-    if(is.null(month)) {
-      title <- year
-    } else {
-      title <- levels(t2$monlabel)
+    if(!is.null(start_date) & !is.null(end_date)) {
+
+      title <- paste0(format(as.Date(start_date), "%m"), "/", format(as.Date(start_date), "%Y"), " - ",
+                      format(as.Date(end_date), "%m"), "/", format(as.Date(end_date), "%Y"))
+
+    }else{
+
+      if(is.null(month)) {
+        title <- year
+      } else {
+        title <- levels(t2$monlabel)
+      }
     }
   }
 
