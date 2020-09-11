@@ -28,7 +28,7 @@
 #' @param font.family Font family of all the texts.
 #' @param font.style Style of all the texts and numbers except the subtitle. Possible options are `"plain"` (default), `"bold"`, `"italic"` and `"bold.italic"`.
 #' @param weekdays.col Color of the names of the days.
-#' @param month.col If `month = NULL`, is the color of the month names.
+#' @param months.col If `month = NULL`, is the color of the month names.
 #' @param days.col Color of the number of the days.
 #' @param mbg.col Background color of the month names. Defaults to "white".
 #' @param bg.col Background color of the calendar. Defaults to "white".
@@ -38,7 +38,7 @@
 #' @param legend.title If `legend.pos != "none"` and  `gradient = TRUE`, is the title of the legend.
 #' @param pdf Boolean. If `TRUE`, saves the calendar in the working directory in A4 format.
 #' @param doc_name If `pdf = TRUE`, is the name of the generated file (without the file extension). If not specified, creates files of the format: `Calendar_year.pdf` for yearly calendars and `Calendar_month_year.pdf` for monthly calendars.
-#' @param url Character string containing the URL or the local directory of a image to be used as background.
+#' @param bg.img Character string containing the URL or the local directory of a image to be used as background.
 #' @param lunar Boolean. If `TRUE`, draws the lunar phases. Only available for monthly calendars.
 #' @param lunar.col If `lunar = TRUE`, is the color of the hide part of the moons.
 #' @param lunar.size If `lunar = TRUE`, is the size of the representation of the moons.
@@ -91,7 +91,7 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
                     text.col = "gray30",
 
                     special.days = NULL,
-                    special.col = rgb(0, 0, 1,  alpha = 0.25),
+                    special.col = "gray90",
                     gradient = FALSE,
                     low.col = "white",
 
@@ -103,7 +103,7 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
                     font.style = "plain",
 
                     weekdays.col = "gray30",
-                    month.col = "gray30",
+                    months.col = "gray30",
                     days.col = "gray30",
                     mbg.col = "white",
 
@@ -112,6 +112,8 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
                     month.pos = 0.5,
 
                     day.size = 3,
+                    months.size = 10,
+                    weekdays.size = 4.5,
 
                     legend.pos = "none",
                     legend.title = "",
@@ -119,12 +121,11 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
                     pdf = FALSE,
                     doc_name = "",
 
-                    url = "",
-
+                    bg.img = "",
 
                     lunar = FALSE,
                     lunar.col = "gray60",
-                    lunar.size = 7){
+                    lunar.size = 7) {
 
   if(year < 0) {
     stop("You must be kidding. You don't need a calendar of a year Before Christ :)")
@@ -412,8 +413,6 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
 
    p <- ggplot(t2, aes(dow, y)) +
       geom_tile(aes(fill = fills), color = col, size = lwd, linetype = lty)
-      # geom_point(alpha = 0.3, aes(color = col), size = 7)  # Circular calendars
-
 
 
     if(is.character(special.days) & wend & length(unique(special.days) == length(dates))) {
@@ -435,13 +434,13 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
       theme(panel.background = element_rect(fill = NA, color = NA),
             strip.background = element_rect(fill = mbg.col, color = mbg.col),
             plot.background = element_rect(fill = bg.col),
-            panel.grid = element_line(colour = ifelse(url ==  "", bg.col, "transparent")),
-            strip.text.x = element_text(hjust = month.pos, face = font.style, color = month.col),
+            panel.grid = element_line(colour = ifelse(bg.img ==  "", bg.col, "transparent")),
+            strip.text.x = element_text(hjust = month.pos, face = font.style, color = months.col, size = months.size),
             legend.title = element_text(),
             axis.ticks = element_blank(),
             axis.title = element_blank(),
             axis.text.y = element_blank(),
-            axis.text.x = element_text(colour = weekdays.col),
+            axis.text.x = element_text(colour = weekdays.col, size = weekdays.size * 2.25),
             plot.title = element_text(hjust = 0.5, size = title.size, colour = title.col),
             plot.subtitle = element_text(hjust = 0.5, face = "italic", colour = subtitle.col),
             legend.position = legend.pos,
@@ -449,8 +448,8 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
             text = element_text(family = font.family, face = font.style),
             strip.placement = "outsite")
 
-    if(url != "") {
-      p <- ggbackground(p, url)
+    if(bg.img != "") {
+      p <- ggbackground(p, bg.img)
     }
 
   # print(p)
@@ -488,7 +487,7 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
 
       p <- p + ggtitle(title) +
         labs(subtitle = subtitle) +
-        geom_text(data = df, aes(label = week, x = pos.x, y = pos.y), size = 4.5, family = font.family, color = weekdays.col, fontface = font.style) +
+        geom_text(data = df, aes(label = week, x = pos.x, y = pos.y), size = weekdays.size, family = font.family, color = weekdays.col, fontface = font.style) +
         geom_text(aes(label = texts), color = text.col, size = text.size, family = font.family) +
         # scale_x_continuous(expand = c(0.01, 0.01), position = "top",
         #                   breaks = seq(0, 6), labels = weekdays) +
@@ -498,8 +497,8 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
         theme(panel.background = element_rect(fill = NA, color = NA),
               strip.background = element_rect(fill = NA, color = NA),
               plot.background = element_rect(fill = bg.col),
-              panel.grid = element_line(colour = ifelse(url ==  "", bg.col, "transparent")),
-              strip.text.x = element_text(hjust = 0, face = "bold"),
+              panel.grid = element_line(colour = ifelse(bg.img ==  "", bg.col, "transparent")),
+              strip.text.x = element_text(hjust = 0, face = "bold", size = months.size),
               legend.title = element_text(),
               axis.ticks = element_blank(),
               axis.title = element_blank(),
@@ -512,8 +511,8 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
               text = element_text(family = font.family, face = font.style),
               strip.placement = "outsite")
 
-      if(url != "") {
-        p <- ggbackground(p, url)
+      if(bg.img != "") {
+        p <- ggbackground(p, bg.img)
       }
 
    # print(p)
@@ -531,10 +530,15 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
 
         doc_name <- paste0("Calendar_", tolower(t2$month[1]), "_", year, ".pdf")
 
-      } else{
-
-        doc_name <- paste0("Calendar_", year, ".pdf")
+      } else {
+        if(!is.null(start_date) & !is.null(end_date)) {
+          doc_name <- paste0("Calendar_", start_date, "_", end_date, ".pdf")
+        } else {
+          doc_name <- paste0("Calendar_", year, ".pdf")
+        }
       }
+
+
     } else {
       doc_name <- paste0(doc_name, ".pdf")
     }

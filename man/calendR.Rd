@@ -22,7 +22,7 @@ calendR(
   text.size = 4,
   text.col = "gray30",
   special.days = NULL,
-  special.col = rgb(0, 0, 1, alpha = 0.25),
+  special.col = "gray90",
   gradient = FALSE,
   low.col = "white",
   col = "gray30",
@@ -31,17 +31,19 @@ calendR(
   font.family = "sans",
   font.style = "plain",
   weekdays.col = "gray30",
-  month.col = "gray30",
+  months.col = "gray30",
   days.col = "gray30",
   mbg.col = "white",
   bg.col = "white",
   month.pos = 0.5,
   day.size = 3,
+  months.size = 10,
+  weekdays.size = 4.5,
   legend.pos = "none",
   legend.title = "",
   pdf = FALSE,
   doc_name = "",
-  url = "",
+  bg.img = "",
   lunar = FALSE,
   lunar.col = "gray60",
   lunar.size = 7
@@ -100,7 +102,7 @@ calendR(
 
 \item{weekdays.col}{Color of the names of the days.}
 
-\item{month.col}{If \code{month = NULL}, is the color of the month names.}
+\item{months.col}{If \code{month = NULL}, is the color of the month names.}
 
 \item{days.col}{Color of the number of the days.}
 
@@ -120,7 +122,7 @@ calendR(
 
 \item{doc_name}{If \code{pdf = TRUE}, is the name of the generated file (without the file extension). If not specified, creates files of the format: \code{Calendar_year.pdf} for yearly calendars and \code{Calendar_month_year.pdf} for monthly calendars.}
 
-\item{url}{Character string containing the URL or the local directory of a image to be used as background.}
+\item{bg.img}{Character string containing the URL or the local directory of a image to be used as background.}
 
 \item{lunar}{Boolean. If \code{TRUE}, draws the lunar phases. Only available for monthly calendars.}
 
