@@ -33,9 +33,9 @@ calendR(
   weekdays.col = "gray30",
   month.col = "gray30",
   days.col = "gray30",
-  mb.col = "white",
+  mbg.col = "white",
   bg.col = "white",
-  hjust = 0.5,
+  month.pos = 0.5,
   day.size = 3,
   legend.pos = "none",
   legend.title = "",
@@ -104,11 +104,11 @@ calendR(
 
 \item{days.col}{Color of the number of the days.}
 
-\item{mb.col}{Background color of the month names. Defaults to "white".}
+\item{mbg.col}{Background color of the month names. Defaults to "white".}
 
 \item{bg.col}{Background color of the calendar. Defaults to "white".}
 
-\item{hjust}{Horizontal align of the month names. Defaults to 0.5 (center).}
+\item{month.pos}{Horizontal align of the month names. Defaults to 0.5 (center).}
 
 \item{day.size}{Font size of the number of the days.}
 

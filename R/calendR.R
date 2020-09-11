@@ -30,9 +30,9 @@
 #' @param weekdays.col Color of the names of the days.
 #' @param month.col If `month = NULL`, is the color of the month names.
 #' @param days.col Color of the number of the days.
-#' @param mb.col Background color of the month names. Defaults to "white".
+#' @param mbg.col Background color of the month names. Defaults to "white".
 #' @param bg.col Background color of the calendar. Defaults to "white".
-#' @param hjust Horizontal align of the month names. Defaults to 0.5 (center).
+#' @param month.pos Horizontal align of the month names. Defaults to 0.5 (center).
 #' @param day.size Font size of the number of the days.
 #' @param legend.pos If `gradient = TRUE`, is the position of the legend. It can be set to `"none"` (default), `"top"`, `"bottom"`, `"left"` and `"right"`.
 #' @param legend.title If `legend.pos != "none"` and  `gradient = TRUE`, is the title of the legend.
@@ -105,11 +105,11 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
                     weekdays.col = "gray30",
                     month.col = "gray30",
                     days.col = "gray30",
-                    mb.col = "white",
+                    mbg.col = "white",
 
                     bg.col = "white",
 
-                    hjust = 0.5,
+                    month.pos = 0.5,
 
                     day.size = 3,
 
@@ -133,9 +133,7 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
   wend <- TRUE
 
   if((!is.null(start_date) & is.null(end_date))) {
-
     stop("Provide an end date with the 'end_date' argument")
-
   }
 
   if((is.null(start_date) & !is.null(end_date))) {
@@ -156,6 +154,20 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
 
   match.arg(start, c("S", "M"))
   match.arg(orientation, c("landscape", "portrait", "l", "p"))
+
+
+  if(month > 12) {
+    stop("There are no more than 12 months in a year")
+  }
+
+  if(month <= 0) {
+    stop("Months must be between 1 and 12")
+  }
+
+  if(is.character(month)) {
+    stop("You must provide a month in a numeric format, between 1 and 12")
+  }
+
 
   months <- format(seq(as.Date("2016-01-01"), as.Date("2016-12-01"), by = "1 month"), "%B")
 
@@ -180,6 +192,10 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
 
 
   if(!is.null(start_date) & !is.null(end_date)){
+
+    if(lunar == TRUE) {
+      warning("Lunar phases are only available for monthly calendars")
+    }
 
     mindate <- as.Date(start_date)
     maxdate <- as.Date(end_date)
@@ -377,7 +393,7 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
                    pos.x = 0:6,
                    pos.y = rep(max(t2$monthweek) + 1.75, 7))
 
-  if(missing(title)){
+  if(missing(title)) {
 
     if(is.null(month)) {
       title <- year
@@ -387,7 +403,11 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
   }
 
 
-  if(is.null(month)){
+  if(is.null(month)) {
+
+    if(lunar == TRUE) {
+      warning("Lunar phases are only available for monthly calendars")
+    }
 
    p <- ggplot(t2, aes(dow, y)) +
       geom_tile(aes(fill = fills), color = col, size = lwd, linetype = lty)
@@ -412,10 +432,10 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
                 color = days.col, fontface = font.style) +
       labs(fill = legend.title) +
       theme(panel.background = element_rect(fill = NA, color = NA),
-            strip.background = element_rect(fill = mb.col, color = mb.col),
+            strip.background = element_rect(fill = mbg.col, color = mbg.col),
             plot.background = element_rect(fill = bg.col),
             panel.grid = element_line(colour = ifelse(url ==  "", bg.col, "transparent")),
-            strip.text.x = element_text(hjust = hjust, face = font.style, color = month.col),
+            strip.text.x = element_text(hjust = month.pos, face = font.style, color = month.col),
             legend.title = element_text(),
             axis.ticks = element_blank(),
             axis.title = element_blank(),
@@ -446,7 +466,7 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
     tidymoons2 <- data.frame(
       x = t2$dow + 0.35,
       y =  t2$y + 0.3,
-      ratio = 1 -moon,
+      ratio = 1 - moon,
       right = !right
     )
 
