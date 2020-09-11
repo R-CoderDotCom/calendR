@@ -164,9 +164,9 @@ calendR(mb.col = 4,                # Background color for the month names
 
 ``` r
 calendR(month = 1,  
-        lunar = TRUE,
-        lunar.col = "gray60",
-        lunar.size = 7)
+        lunar = TRUE,         # Add moons to monthly calendar
+        lunar.col = "gray60", # Color of the non-visible area of the moon
+        lunar.size = 7)       # Size of the moons
 ```
 
 ![imagen](https://user-images.githubusercontent.com/67192157/92913288-ea019f00-f42a-11ea-956b-c84619058d41.png)
