@@ -41,13 +41,15 @@ calendR(
   mbg.col = "white",
   legend.pos = "none",
   legend.title = "",
-  pdf = FALSE,
-  doc_name = "",
   bg.col = "white",
   bg.img = "",
+  margin = 1,
   lunar = FALSE,
   lunar.col = "gray60",
-  lunar.size = 7
+  lunar.size = 7,
+  pdf = FALSE,
+  doc_name = "",
+  papersize = "A4"
 )
 }
 \arguments{
@@ -123,19 +125,23 @@ calendR(
 
 \item{legend.title}{If \code{legend.pos != "none"} and  \code{gradient = TRUE}, is the title of the legend.}
 
-\item{pdf}{Boolean. If \code{TRUE}, saves the calendar in the working directory in A4 format.}
-
-\item{doc_name}{If \code{pdf = TRUE}, is the name of the generated file (without the file extension). If not specified, creates files of the format: \code{Calendar_year.pdf} for yearly calendars and \code{Calendar_month_year.pdf} for monthly calendars.}
-
 \item{bg.col}{Background color of the calendar. Defaults to "white".}
 
 \item{bg.img}{Character string containing the URL or the local directory of a image to be used as background.}
+
+\item{margin}{Numeric. Allows controlling the margin of the calendar.}
 
 \item{lunar}{Boolean. If \code{TRUE}, draws the lunar phases. Only available for monthly calendars.}
 
 \item{lunar.col}{If \code{lunar = TRUE}, is the color of the hide part of the moons.}
 
 \item{lunar.size}{If \code{lunar = TRUE}, is the size of the representation of the moons.}
+
+\item{pdf}{Boolean. If \code{TRUE}, saves the calendar in the working directory in A4 format.}
+
+\item{doc_name}{If \code{pdf = TRUE}, is the name of the generated file (without the file extension). If not specified, creates files of the format: \code{Calendar_year.pdf} for yearly calendars and \code{Calendar_month_year.pdf} for monthly calendars.}
+
+\item{papersize}{PDF paper size. Possible options are \code{"A6"}, \code{"A5"}, \code{"A4"} (default), \code{"A3"}, \code{"A2"}, \code{"A1"} and \code{"A0"}.}
 }
 \description{
 Create ready to print monthly and yearly calendars. The function allows personalizing colors (even setting a gradient color scale for a full month or year), texts and fonts. In addition, for monthly calendars you can also add text on the days.

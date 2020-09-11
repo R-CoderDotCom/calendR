@@ -38,13 +38,15 @@
 #' @param mbg.col Background color of the month names. Defaults to "white".
 #' @param legend.pos If `gradient = TRUE`, is the position of the legend. It can be set to `"none"` (default), `"top"`, `"bottom"`, `"left"` and `"right"`.
 #' @param legend.title If `legend.pos != "none"` and  `gradient = TRUE`, is the title of the legend.
-#' @param pdf Boolean. If `TRUE`, saves the calendar in the working directory in A4 format.
-#' @param doc_name If `pdf = TRUE`, is the name of the generated file (without the file extension). If not specified, creates files of the format: `Calendar_year.pdf` for yearly calendars and `Calendar_month_year.pdf` for monthly calendars.
 #' @param bg.col Background color of the calendar. Defaults to "white".
 #' @param bg.img Character string containing the URL or the local directory of a image to be used as background.
+#' @param margin Numeric. Allows controlling the margin of the calendar.
 #' @param lunar Boolean. If `TRUE`, draws the lunar phases. Only available for monthly calendars.
 #' @param lunar.col If `lunar = TRUE`, is the color of the hide part of the moons.
 #' @param lunar.size If `lunar = TRUE`, is the size of the representation of the moons.
+#' @param pdf Boolean. If `TRUE`, saves the calendar in the working directory in A4 format.
+#' @param doc_name If `pdf = TRUE`, is the name of the generated file (without the file extension). If not specified, creates files of the format: `Calendar_year.pdf` for yearly calendars and `Calendar_month_year.pdf` for monthly calendars.
+#' @param papersize PDF paper size. Possible options are `"A6"`, `"A5"`, `"A4"` (default), `"A3"`, `"A2"`, `"A1"` and `"A0"`.
 #'
 #' @author
 #' \itemize{
@@ -119,21 +121,25 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
                     legend.pos = "none",
                     legend.title = "",
 
-                    pdf = FALSE,
-                    doc_name = "",
-
                     bg.col = "white",
                     bg.img = "",
 
+                    margin = 1,
+
                     lunar = FALSE,
                     lunar.col = "gray60",
-                    lunar.size = 7) {
+                    lunar.size = 7,
+
+                    pdf = FALSE,
+                    doc_name = "",
+                    papersize = "A4") {
 
   if(year < 0) {
     stop("You must be kidding. You don't need a calendar of a year Before Christ :)")
   }
 
   wend <- TRUE
+  l <- TRUE
 
   if((!is.null(start_date) & is.null(end_date))) {
     stop("Provide an end date with the 'end_date' argument")
@@ -157,6 +163,7 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
 
   match.arg(start, c("S", "M"))
   match.arg(orientation, c("landscape", "portrait", "l", "p"))
+  match.arg(papersize, c("A6", "A5", "A4", "A3", "A2", "A1", "A0"))
 
 
   if(!is.null(month)){
@@ -198,6 +205,7 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
   if(!is.null(start_date) & !is.null(end_date)){
 
     if(lunar == TRUE) {
+      l <- FALSE
       warning("Lunar phases are only available for monthly calendars")
     }
 
@@ -249,7 +257,6 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
       } else {
         wend <- FALSE
       }
-
     }
 
 
@@ -409,7 +416,7 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
 
   if(is.null(month)) {
 
-    if(lunar == TRUE) {
+    if(lunar == TRUE & l != FALSE) {
       warning("Lunar phases are only available for monthly calendars")
     }
 
@@ -446,7 +453,7 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
             plot.title = element_text(hjust = 0.5, size = title.size, colour = title.col),
             plot.subtitle = element_text(hjust = 0.5, face = "italic", colour = subtitle.col, size = subtitle.size),
             legend.position = legend.pos,
-            plot.margin = unit(c(1, 0.5, 1, 0.5), "cm"),
+            plot.margin = unit(c(1 * margin, 0.5 * margin, 1 * margin, 0.5 * margin), "cm"),
             text = element_text(family = font.family, face = font.style),
             strip.placement = "outsite")
 
@@ -509,7 +516,7 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
               plot.title = element_text(hjust = 0.5, size = title.size, colour = title.col),
               plot.subtitle = element_text(hjust = 0.5, face = "italic", colour = subtitle.col, size = subtitle.size),
               legend.position = legend.pos,
-              plot.margin = unit(c(1, 0, 1, 0), "cm"),
+              plot.margin = unit(c(1 * margin, 0, 1 * margin, 0), "cm"),
               text = element_text(family = font.family, face = font.style),
               strip.placement = "outsite")
 
@@ -526,6 +533,40 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
   }
 
   if(pdf == TRUE) {
+
+    switch (papersize,
+      A6 = {
+        a <- 148
+        b <- 105
+
+      },
+      A5 = {
+        a <- 210
+        b <- 148
+
+      },
+      A4 = {
+        a <- 297
+        b <- 210
+      },
+      A3 = {
+        a <- 420
+        b <- 297
+      },
+      A2 = {
+        a <- 594
+        b <- 420
+      },
+      A1 = {
+        a <- 841
+        b <- 594
+      },
+      A0 = {
+        a <- 1189
+        b <- 841
+      },
+    )
+
 
     if(doc_name == "") {
       if(!is.null(month)) {
@@ -547,10 +588,10 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
 
     if(orientation == "landscape" | orientation == "l") {
       ggsave(filename = if(!file.exists(doc_name)) doc_name else stop("File does already exist!"),
-             height = 210, width = 297, units = "mm")
+             height = b, width = a, units = "mm")
     } else {
       ggsave(filename = if(!file.exists(doc_name)) doc_name else stop("File does already exist!"),
-             width = 210, height = 297, units = "mm")
+             width = b, height = a, units = "mm")
     }
   }
 
