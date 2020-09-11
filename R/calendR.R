@@ -24,7 +24,7 @@
 #' @param low.col If `gradient = TRUE`, is the lower color of the gradient. If `gradient = FALSE` is the background color of the days. Defaults to `"white"`.
 #' @param col Color of the lines of the calendar.
 #' @param lwd Line width of the calendar.
-#' @param lty Line type of the calendar.
+#' @param lty Line type of the calendar. If `lty = 0` no lines are drawn.
 #' @param font.family Font family of all the texts.
 #' @param font.style Style of all the texts and numbers except the subtitle. Possible options are `"plain"` (default), `"bold"`, `"italic"` and `"bold.italic"`.
 #' @param weekdays.col Color of the names of the days.
@@ -36,9 +36,13 @@
 #' @param day.size Font size of the number of the days.
 #' @param legend.pos If `gradient = TRUE`, is the position of the legend. It can be set to `"none"` (default), `"top"`, `"bottom"`, `"left"` and `"right"`.
 #' @param legend.title If `legend.pos != "none"` and  `gradient = TRUE`, is the title of the legend.
-#' @param pdf Boolean. If TRUE, saves the calendar in the working directory in A4 format.
+#' @param pdf Boolean. If `TRUE`, saves the calendar in the working directory in A4 format.
 #' @param doc_name If `pdf = TRUE`, is the name of the generated file (without the file extension). If not specified, creates files of the format: `Calendar_year.pdf` for yearly calendars and `Calendar_month_year.pdf` for monthly calendars.
-#' @param url Character string containing the URL of a image to be used as background.
+#' @param url Character string containing the URL or the local directory of a image to be used as background.
+#' @param lunar Boolean. If `TRUE`, draws the lunar phases. Only available for monthly calendars.
+#' @param lunar.col If `lunar = TRUE`, is the color of the hide part of the moons.
+#' @param lunar.size If `lunar = TRUE`, is the size of the representation of the moons.
+#'
 #'
 #' @author
 #' \itemize{
@@ -60,8 +64,9 @@
 #'  doc_name = file.path(tempdir(), paste0("myCalendar", i , ".pdf")))))
 #' }
 #'
-#' @import ggplot2 dplyr forcats ggimage
+#' @import ggplot2 dplyr forcats suncalc ggimage gggibbous
 #' @importFrom grDevices rgb
+#' @importFrom stats na.omit
 #' @export
 calendR <- function(year = format(Sys.Date(), "%Y"),
                     month = NULL,
@@ -113,7 +118,13 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
 
                     pdf = FALSE,
                     doc_name = "",
-                    url = ""){
+
+                    url = "",
+
+
+                    lunar = FALSE,
+                    lunar.col = "gray60",
+                    lunar.size = 7){
 
   if(year < 0) {
     stop("You must be kidding. You don't need a calendar of a year Before Christ :)")
@@ -205,6 +216,9 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
   texts <- character(length(dates))
   texts[text.pos] <- text
 
+  moon_m <- getMoonIllumination(date = dates, keep = c("fraction", "phase", "angle"))
+  moon <- moon_m[, 2]
+  right <- ifelse(moon_m[, 4] < 0, TRUE, FALSE)
 
   if(is.character(special.days)) {
 
@@ -370,7 +384,6 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
     } else {
       title <- levels(t2$monlabel)
     }
-
   }
 
 
@@ -378,6 +391,9 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
 
    p <- ggplot(t2, aes(dow, y)) +
       geom_tile(aes(fill = fills), color = col, size = lwd, linetype = lty)
+      # geom_point(alpha = 0.3, aes(color = col), size = 7)  # Circular calendars
+
+
 
     if(is.character(special.days) & wend & length(unique(special.days) == length(dates))) {
       p <- p + scale_fill_manual(values = special.col, labels = levels(as.factor(fills)), na.value = "white", na.translate = FALSE)
@@ -416,13 +432,25 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
       p <- ggbackground(p, url)
     }
 
-  print(p)
+  return(p)
 
   } else {
 
+    tidymoons <- data.frame(
+      x = t2$dow + 0.35,
+      y =  t2$y + 0.3,
+      ratio = c(moon, 1 - moon),
+      right = c(right, !right)
+    )
 
-      p <- ggplot(t2, aes(dow, y)) +
-        geom_tile(aes(fill = fills), color = col, size = lwd, linetype = lty)
+    p <- ggplot(t2, aes(dow, y)) +
+      geom_tile(aes(fill = fills), color = col, size = lwd, linetype = lty)
+
+    if(lunar == TRUE){
+      p <- p + geom_moon(data = subset(tidymoons, right), aes(x, y, ratio = ratio, right = right), size = lunar.size, fill = "white") +
+               geom_moon(data = subset(tidymoons, !right), aes(x, y, ratio = ratio, right = right), size = lunar.size, fill = lunar.col)
+    }
+
 
       if(is.character(special.days) & wend & length(unique(special.days) == length(dates))) {
         p <- p + scale_fill_manual(values = special.col, labels = levels(as.factor(fills)), na.value = "white", na.translate = FALSE)
@@ -460,7 +488,7 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
         p <- ggbackground(p, url)
       }
 
-   print(p)
+   return(p)
 
   }
 

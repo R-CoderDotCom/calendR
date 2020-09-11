@@ -10,7 +10,7 @@ This package creates monthly and yearly calendars based on 'ggplot2' package. Th
 \details{
 \itemize{
 \item{Package: calendR}
-\item{Version: 1.0}
+\item{Version: 1.1}
 \item{Maintainer: José Carlos Soage González \email{jsoage@uvigo.es}}
 }
 }

@@ -41,7 +41,10 @@ calendR(
   legend.title = "",
   pdf = FALSE,
   doc_name = "",
-  url = ""
+  url = "",
+  lunar = FALSE,
+  lunar.col = "gray60",
+  lunar.size = 7
 )
 }
 \arguments{
@@ -89,7 +92,7 @@ calendR(
 
 \item{lwd}{Line width of the calendar.}
 
-\item{lty}{Line type of the calendar.}
+\item{lty}{Line type of the calendar. If \code{lty = 0} no lines are drawn.}
 
 \item{font.family}{Font family of all the texts.}
 
@@ -113,11 +116,17 @@ calendR(
 
 \item{legend.title}{If \code{legend.pos != "none"} and  \code{gradient = TRUE}, is the title of the legend.}
 
-\item{pdf}{Boolean. If TRUE, saves the calendar in the working directory in A4 format.}
+\item{pdf}{Boolean. If \code{TRUE}, saves the calendar in the working directory in A4 format.}
 
 \item{doc_name}{If \code{pdf = TRUE}, is the name of the generated file (without the file extension). If not specified, creates files of the format: \code{Calendar_year.pdf} for yearly calendars and \code{Calendar_month_year.pdf} for monthly calendars.}
 
-\item{url}{Character string containing the URL of a image to be used as background.}
+\item{url}{Character string containing the URL or the local directory of a image to be used as background.}
+
+\item{lunar}{Boolean. If \code{TRUE}, draws the lunar phases. Only available for monthly calendars.}
+
+\item{lunar.col}{If \code{lunar = TRUE}, is the color of the hide part of the moons.}
+
+\item{lunar.size}{If \code{lunar = TRUE}, is the size of the representation of the moons.}
 }
 \description{
 Create ready to print monthly and yearly calendars. The function allows personalizing colors (even setting a gradient color scale for a full month or year), texts and fonts. In addition, for monthly calendars you can also add text on the days.
