@@ -18,6 +18,7 @@ NOTE: additional functionalities (background colors, several events and academic
 - [Heat map](#calendar-heatmap-gradient)
 - [Add several events](#add-several-events-only-on-the-github-development-version)
 - [Add background image](#add-background-image)
+- [Lunar calendar](#lunar-calendar)
 - [Save as PDF](#save-as-pdf-as-a4-paper-size)
 - [More examples](#further-customization)
 
@@ -159,6 +160,16 @@ calendR(mb.col = 4,                # Background color for the month names
  <img src="https://user-images.githubusercontent.com/67192157/92508606-366d9480-f209-11ea-8303-fa11ba984eb7.png">
 </p>
 
+## Lunar calendar
+
+``` r
+calendR(month = 1,  
+        lunar = TRUE,
+        lunar.col = "gray60",
+        lunar.size = 7)
+```
+
+![imagen](https://user-images.githubusercontent.com/67192157/92911519-406dde00-f429-11ea-87a7-68d5a683e40c.png)
 
 
 ## Save as PDF (as A4 paper size)
