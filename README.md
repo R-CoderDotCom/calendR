@@ -6,7 +6,7 @@ Ready to print monthly and yearly calendars made with ggplot2
 
 📖 Check the [full calendR package tutorial](https://r-coder.com/calendar-plot-r/).
 
-NOTE: additional functionalities (background colors, several events and academic calendar) will be available on CRAN soon.
+NOTE: additional functionalities (background colors, several events, lunar calendar and academic calendar) will be available on CRAN soon.
 
 ## Index
 - [Installation](#installation)
