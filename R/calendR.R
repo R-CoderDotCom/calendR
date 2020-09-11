@@ -432,7 +432,7 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
       p <- ggbackground(p, url)
     }
 
-  return(p)
+  # print(p)
 
   } else {
 
@@ -488,7 +488,7 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
         p <- ggbackground(p, url)
       }
 
-   return(p)
+   # print(p)
 
   }
 
@@ -519,4 +519,6 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
              width = 210, height = 297, units = "mm")
     }
   }
+
+  return(p)
 }
