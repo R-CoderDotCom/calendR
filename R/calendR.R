@@ -439,16 +439,23 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
     tidymoons <- data.frame(
       x = t2$dow + 0.35,
       y =  t2$y + 0.3,
-      ratio = c(moon, 1 - moon),
-      right = c(right, !right)
+      ratio = moon,
+      right = right
+    )
+
+    tidymoons2 <- data.frame(
+      x = t2$dow + 0.35,
+      y =  t2$y + 0.3,
+      ratio = 1 -moon,
+      right = !right
     )
 
     p <- ggplot(t2, aes(dow, y)) +
       geom_tile(aes(fill = fills), color = col, size = lwd, linetype = lty)
 
     if(lunar == TRUE){
-      p <- p + geom_moon(data = subset(tidymoons, right), aes(x, y, ratio = ratio, right = right), size = lunar.size, fill = "white") +
-               geom_moon(data = subset(tidymoons, !right), aes(x, y, ratio = ratio, right = right), size = lunar.size, fill = lunar.col)
+      p <- p + geom_moon(data = tidymoons, aes(x, y, ratio = ratio, right = right), size = lunar.size, fill = "white") +
+               geom_moon(data = tidymoons2, aes(x, y, ratio = ratio, right = right), size = lunar.size, fill = lunar.col)
     }
 
 
