@@ -169,7 +169,7 @@ calendR(month = 1,
         lunar.size = 7)
 ```
 
-![imagen](https://user-images.githubusercontent.com/67192157/92911519-406dde00-f429-11ea-87a7-68d5a683e40c.png)
+![imagen](https://user-images.githubusercontent.com/67192157/92913288-ea019f00-f42a-11ea-956b-c84619058d41.png)
 
 
 ## Save as PDF (as A4 paper size)
