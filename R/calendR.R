@@ -46,7 +46,7 @@
 #' @param lunar.size If `lunar = TRUE`, is the size of the representation of the moons.
 #' @param pdf Boolean. If `TRUE`, saves the calendar in the working directory in A4 format.
 #' @param doc_name If `pdf = TRUE`, is the name of the generated file (without the file extension). If not specified, creates files of the format: `Calendar_year.pdf` for yearly calendars and `Calendar_month_year.pdf` for monthly calendars.
-#' @param papersize PDF paper size. Possible options are `"A6"`, `"A5"`, `"A4"` (default), `"A3"`, `"A2"`, `"A1"` and `"A0"`.
+#' @param papersize PDF paper size. Possible options are `"A6"`, `"A5"`, `"A4"` (default), `"A3"`, `"A2"`, `"A1"` and `"A0"`. Depending on the size you will need to fine-tune some arguments, like the font sizes.
 #'
 #' @author
 #' \itemize{
@@ -522,7 +522,7 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
               plot.title = element_text(hjust = 0.5, size = title.size, colour = title.col),
               plot.subtitle = element_text(hjust = 0.5, face = "italic", colour = subtitle.col, size = subtitle.size),
               legend.position = legend.pos,
-              plot.margin = unit(c(1 * margin, 0, 1 * margin, 0), "cm"),
+              plot.margin = unit(c(1 * margin,  0.5 * margin, 1 * margin,  0.5 * margin), "cm"),
               text = element_text(family = font.family, face = font.style),
               strip.placement = "outsite")
 

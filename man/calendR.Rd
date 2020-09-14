@@ -141,7 +141,7 @@ calendR(
 
 \item{doc_name}{If \code{pdf = TRUE}, is the name of the generated file (without the file extension). If not specified, creates files of the format: \code{Calendar_year.pdf} for yearly calendars and \code{Calendar_month_year.pdf} for monthly calendars.}
 
-\item{papersize}{PDF paper size. Possible options are \code{"A6"}, \code{"A5"}, \code{"A4"} (default), \code{"A3"}, \code{"A2"}, \code{"A1"} and \code{"A0"}.}
+\item{papersize}{PDF paper size. Possible options are \code{"A6"}, \code{"A5"}, \code{"A4"} (default), \code{"A3"}, \code{"A2"}, \code{"A1"} and \code{"A0"}. Depending on the size you will need to fine-tune some arguments, like the font sizes.}
 }
 \description{
 Create ready to print monthly and yearly calendars. The function allows personalizing colors (even setting a gradient color scale for a full month or year), texts and fonts. In addition, for monthly calendars you can also add text on the days.
