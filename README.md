@@ -51,12 +51,12 @@ calendR() # Defaults to the current year
 
 
 ``` r
-calendR(mb.col = 2,           # Background color for the month names
-        month.col = "white",  # Text color of the month names
+calendR(mbg.col = 2,           # Background color for the month names
+        months.col = "white",  # Text color of the month names
         special.days = c(1, 50, 12, 125, 80,     # Color days of the year
                          99, 102, 205, 266, 360),
         special.col = "pink", # Color of the special.days
-        hjust = 0.5)          # Horizontal alignment of the month names
+        months.pos = 0.5)      # Horizontal alignment of the month names
 ```
 
 ![calendR](https://user-images.githubusercontent.com/67192157/92282070-331e9400-eefd-11ea-83c9-0b6d7b5dc6e5.png)
@@ -142,8 +142,8 @@ calendR(special.days = myfills,
 ## Add background image
 
 ``` r
-calendR(mb.col = 4,                # Background color for the month names
-        month.col = "white",       # Text color of the month names
+calendR(mbg.col = 4,                # Background color for the month names
+        months.col = "white",      # Text color of the month names
         special.days = "weekend",  # Color the weekends
         special.col = "lightblue", # Color of the special.days
         lty = 0,                   # Line type
@@ -154,7 +154,7 @@ calendR(mb.col = 4,                # Background color for the month names
         title.size = 30,   # Title size
         orientation = "p", # Portrait orientation
         start = "M",       # Start the week on Mondays
-        url = "https://i.pinimg.com/originals/10/1e/f6/101ef6a9e146b23de28fa2cd568ad17b.jpg")  # Image
+        bg.img = "https://i.pinimg.com/originals/10/1e/f6/101ef6a9e146b23de28fa2cd568ad17b.jpg")  # Image
 ```
 
 <p align="center">
@@ -187,16 +187,16 @@ calendR(year = 2021, orientation = "portrait", pdf = TRUE, doc_name = "My_calend
 ### Example 1
 ``` r
 calendR(year = 2022,                             # Year
-        mb.col = 2,                              # Background color for the month names
-        month.col = "white",                     # Text color of the month names
+        mbg.col = 2,                             # Background color for the month names
+        months.col = "white",                    # Text color of the month names
         special.days = c(1, 50, 12, 125, 80,     # Color days of the year
                           99, 102, 205, 266, 359),
         special.col = "pink",                    # Color of the special.days
-        hjust = 0.5,                             # Center the month names
+        months.pos = 0.5,                        # Center the month names
         lty = 0,                                 # Line type
         weeknames = c("Mo", "Tu", "We", "Th",    # Week names
                       "Fr", "Sa","Su"), 
-        bg = "#f4f4f4",                          # Background color
+        bg.col = "#f4f4f4",                      # Background color
         title.size = 60,                         # Title size
         orientation = "p")                       # Orientation
 ```
@@ -230,8 +230,8 @@ calendR(year = 2020,                        # Year
 ``` r
 calendR(start_date = "2020-09-01", # Custom start date
         end_date = "2021-05-31",   # Custom end date
-        mb.col = 4,                # Background color for the month names
-        month.col = "white",       # Text color of the month names
+        mbg.col = 4,               # Background color for the month names
+        months.col = "white",      # Text color of the month names
         special.days = "weekend",  # Color the weekends
         special.col = "lightblue", # Color of the special.days
         lty = 0,                   # Line type
@@ -239,7 +239,7 @@ calendR(start_date = "2020-09-01", # Custom start date
                       "We", "Th",
                       "Fr", "Sa",
                       "Su"),
-        bg = "#f4f4f4",            # Background color
+        bg.col = "#f4f4f4",         # Background color
         title = "Academic calendar 2020-2021", # Title
         title.size = 30,                       # Title size
         orientation = "p", # Portrait orientation
