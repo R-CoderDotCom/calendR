@@ -6,17 +6,16 @@ Ready to print monthly and yearly calendars made with ggplot2
 
 📖 Check the [full calendR package tutorial](https://r-coder.com/calendar-plot-r/).
 
-NOTE: additional functionalities (background colors, several events, lunar calendar and academic calendar) will be available on CRAN soon.
 
 ## Index
 - [Installation](#installation)
 - [Yearly calendar](#yearly-calendar)
 - [Monthly calendar](#monthly-calendar)
-- [Custom start and end date](#custom-start-and-end-date--only-on-the-github-development-version)
+- [Custom start and end date](#custom-start-and-end-date)
 - [Start of the week](#start-of-the-week-monday-or-sunday)
 - [Orientation](#orientation-landscape-or-portrait)
 - [Heat map](#calendar-heatmap-gradient)
-- [Add several events](#add-several-events-only-on-the-github-development-version)
+- [Add several events](#add-several-events)
 - [Add background image](#add-background-image)
 - [Lunar calendar](#lunar-calendar)
 - [Save as PDF](#save-as-pdf-as-a4-paper-size)
@@ -79,7 +78,7 @@ calendR(month = 7, year = 2022,
 ![Calendar_julio_2022](https://user-images.githubusercontent.com/67192157/90627714-a301fe80-e21c-11ea-84ad-e1038d1b1282.png)
 
 
-## Custom start and end date  (only on the GitHub development version)
+## Custom start and end date
 
 ``` r
 calendR(start_date = "2020-09-01", end_date = "2021-05-31", lty = 0, title = "2020-2021", start = "M")
@@ -120,7 +119,7 @@ calendR(year = 2021, special.days = 1:365,
 ![Calendar_2021_GRADIENT](https://user-images.githubusercontent.com/67192157/90626971-ce381e00-e21b-11ea-919a-b5265c415110.png)
 
 
-# Add several events (only on the GitHub development version)
+# Add several events
 
 ``` r
 # Vector of NA which length is the number of days of the year or month
