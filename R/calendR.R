@@ -1,6 +1,6 @@
 #' @title Monthly and yearly calendars
 #'
-#' @description Create ready to print monthly and yearly calendars. The function allows personalizing colors (even setting a gradient color scale for a full month or year), texts and fonts. In addition, for monthly calendars you can also add text on the days.
+#' @description Create ready to print monthly and yearly calendars. The function allows personalizing colors (even setting a gradient color scale for a full month or year), texts and fonts. In addition, for monthly calendars you can also add text on the days and moon phases.
 #'
 #' @param year Calendar year. By default uses the current year.
 #' @param month Month of the year or `NULL` (default) for the yearly calendar.
@@ -32,6 +32,9 @@
 #' @param weeknames Character vector with the names of the days of the week starting on Monday. By default they will be in the system locale.
 #' @param weeknames.col Color of the names of the days.
 #' @param weeknames.size Size of the names of the days.
+#' @param week.number If `TRUE`, the week number of the year for each week is added.
+#' @param week.number.col If `week.number = TRUE` is the color of the week numbers.
+#' @param week.number.size If `week.number = TRUE` is the size of the week numbers.
 #' @param months.size Font size of the names of the months.
 #' @param months.col If `month = NULL`, is the color of the month names.
 #' @param months.pos Horizontal align of the month names. Defaults to 0.5 (center).
@@ -112,6 +115,9 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
                     weeknames,
                     weeknames.col = "gray30",
                     weeknames.size = 4.5,
+                    week.number = FALSE,
+                    week.number.col = "gray30",
+                    week.number.size = 8,
 
                     months.size = 10,
                     months.col = "gray30",
@@ -202,7 +208,11 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
   }
 
 
-  if(!is.null(start_date) & !is.null(end_date)){
+  if(!is.null(start_date) & !is.null(end_date)) {
+
+    if(as.numeric(as.Date(start_date) - as.Date(end_date)) > 0) {
+      stop("'end_date' must be posterior to 'start_date'")
+    }
 
     if(lunar == TRUE) {
       l <- FALSE
@@ -215,7 +225,7 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
 
   } else {
 
-    if(is.null(month)){
+    if(is.null(month)) {
 
       mindate <- as.Date(format(as.Date(paste0(year, "-0", 01, "-01")), "%Y-%m-01"))
       maxdate <- as.Date(format(as.Date(paste0(year, "-12-", 31)), "%Y-%m-31"))
@@ -223,7 +233,7 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
 
     } else {
 
-      if(month >= 10){
+      if(month >= 10) {
         mindate <- as.Date(format(as.Date(paste0(year, "-", month, "-01")), "%Y-%m-01"))
       } else {
         mindate <- as.Date(format(as.Date(paste0(year, "-0", month, "-01")), "%Y-%m-01"))
@@ -233,11 +243,24 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
     }
   }
 
-  # set up tibble with all the dates.
-  filler <- tibble(date = seq(mindate, maxdate, by = "1 day"))
+  if(!is.null(start_date) & !is.null(end_date)) {
 
-  # Filling colors
-  dates <- seq(mindate, maxdate, by = "1 day")
+  if(as.numeric(as.Date(end_date) - as.Date(start_date)) > 0) {
+
+    # Set up tibble with all the dates
+    filler <- tibble(date = seq(mindate, maxdate, by = "1 day"))
+
+    # Filling colors
+    dates <- seq(mindate, maxdate, by = "1 day")
+
+  } else {
+    stop("'end_date' must be posterior to 'start_date'")
+  }
+  } else {
+    filler <- tibble(date = seq(mindate, maxdate, by = "1 day"))
+    dates <- seq(mindate, maxdate, by = "1 day")
+  }
+
   fills <- numeric(length(dates))
 
   # Texts
@@ -419,14 +442,18 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
     }
   }
 
+  if(week.number == FALSE) {
+    week.number.col <- "transparent"
+  }
 
-  if(is.null(month)) {
+
+  if(is.null(month) | (!is.null(start_date) & !is.null(end_date))) {
 
     if(lunar == TRUE & l != FALSE) {
       warning("Lunar phases are only available for monthly calendars")
     }
 
-   p <- ggplot(t2, aes(dow, y)) +
+   p <- ggplot(t2, aes(dow, woy + 1)) +
       geom_tile(aes(fill = fills), color = col, size = lwd, linetype = lty)
 
 
@@ -441,7 +468,7 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
       labs(subtitle = subtitle) +
       scale_x_continuous(expand = c(0.01, 0.01), position = "top",
                          breaks = seq(0, 6), labels = weekdays) +
-      scale_y_continuous(expand = c(0.05, 0.05)) +
+      scale_y_continuous(expand = c(0.01, 0.01), trans = "reverse", breaks = unique(t2$woy) + 1) +
       geom_text(data = t2, aes(label = gsub("^0+", "", format(date, "%d"))),
                 size = day.size, family = font.family,
                 color = days.col, fontface = font.style) +
@@ -454,7 +481,7 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
             legend.title = element_text(),
             axis.ticks = element_blank(),
             axis.title = element_blank(),
-            axis.text.y = element_blank(),
+            axis.text.y = element_text(colour = week.number.col, size = week.number.size),
             axis.text.x = element_text(colour = weeknames.col, size = weeknames.size * 2.25),
             plot.title = element_text(hjust = 0.5, size = title.size, colour = title.col),
             plot.subtitle = element_text(hjust = 0.5, face = "italic", colour = subtitle.col, size = subtitle.size),
@@ -488,7 +515,7 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
     p <- ggplot(t2, aes(dow, y)) +
       geom_tile(aes(fill = fills), color = col, size = lwd, linetype = lty)
 
-    if(lunar == TRUE){
+    if(lunar == TRUE) {
       p <- p + geom_moon(data = tidymoons, aes(x, y, ratio = ratio, right = right), size = lunar.size, fill = "white") +
                geom_moon(data = tidymoons2, aes(x, y, ratio = ratio, right = right), size = lunar.size, fill = lunar.col)
     }
@@ -506,18 +533,18 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
         geom_text(aes(label = texts), color = text.col, size = text.size, family = font.family) +
         # scale_x_continuous(expand = c(0.01, 0.01), position = "top",
         #                   breaks = seq(0, 6), labels = weekdays) +
-        scale_y_continuous(expand = c(0.05, 0.05)) +
+        scale_y_continuous(expand = c(0.05, 0.05), labels = rev(unique(t2$woy)), breaks = 1:length(unique(t2$woy))) +
         geom_text(data = t2, aes(label = 1:nrow(filler), x = dow -0.4, y = y + 0.35), size = day.size, family = font.family, color = days.col, fontface = font.style) +
         labs(fill = legend.title) +
         theme(panel.background = element_rect(fill = NA, color = NA),
               strip.background = element_rect(fill = NA, color = NA),
               plot.background = element_rect(fill = bg.col),
-              panel.grid = element_line(colour = ifelse(bg.img ==  "", bg.col, "transparent")),
+              panel.grid = element_line(colour = ifelse(bg.img == "", bg.col, "transparent")),
               strip.text.x = element_text(hjust = 0, face = "bold", size = months.size),
               legend.title = element_text(),
               axis.ticks = element_blank(),
               axis.title = element_blank(),
-              axis.text.y = element_blank(),
+              axis.text.y = element_text(colour = week.number.col, size = week.number.size),
               axis.text.x = element_blank(),
               plot.title = element_text(hjust = 0.5, size = title.size, colour = title.col),
               plot.subtitle = element_text(hjust = 0.5, face = "italic", colour = subtitle.col, size = subtitle.size),

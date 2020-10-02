@@ -35,6 +35,9 @@ calendR(
   weeknames,
   weeknames.col = "gray30",
   weeknames.size = 4.5,
+  week.number = FALSE,
+  week.number.col = "gray30",
+  week.number.size = 8,
   months.size = 10,
   months.col = "gray30",
   months.pos = 0.5,
@@ -113,6 +116,12 @@ calendR(
 
 \item{weeknames.size}{Size of the names of the days.}
 
+\item{week.number}{If \code{TRUE}, the week number of the year for each week is added.}
+
+\item{week.number.col}{If \code{week.number = TRUE} is the color of the week numbers.}
+
+\item{week.number.size}{If \code{week.number = TRUE} is the size of the week numbers.}
+
 \item{months.size}{Font size of the names of the months.}
 
 \item{months.col}{If \code{month = NULL}, is the color of the month names.}
@@ -144,7 +153,7 @@ calendR(
 \item{papersize}{PDF paper size. Possible options are \code{"A6"}, \code{"A5"}, \code{"A4"} (default), \code{"A3"}, \code{"A2"}, \code{"A1"} and \code{"A0"}. Depending on the size you will need to fine-tune some arguments, like the font sizes.}
 }
 \description{
-Create ready to print monthly and yearly calendars. The function allows personalizing colors (even setting a gradient color scale for a full month or year), texts and fonts. In addition, for monthly calendars you can also add text on the days.
+Create ready to print monthly and yearly calendars. The function allows personalizing colors (even setting a gradient color scale for a full month or year), texts and fonts. In addition, for monthly calendars you can also add text on the days and moon phases.
 }
 \examples{
 # Calendar of the current year
