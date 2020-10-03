@@ -2,7 +2,7 @@
 Ready to print monthly and yearly calendars made with ggplot2
 
 
-📅 The calendars will be created by default in the system locale.
+📅 The calendars **will be created by default in the system locale**. Change it with `Sys.setlocale(locale = "the_preferred_language")`.
 
 📖 Check the [full calendR package tutorial](https://r-coder.com/calendar-plot-r/).
 
