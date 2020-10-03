@@ -252,7 +252,7 @@ calendR(year = 2020,                        # Year
 ![Calendar_octubre_2020](https://user-images.githubusercontent.com/67192157/90625501-f6bf1880-e219-11ea-8c57-e10512d790b6.png)
 
 
-### Example 3 (only on the GitHub development version)
+### Example 3
 ``` r
 calendR(start_date = "2020-09-01", # Custom start date
         end_date = "2021-05-31",   # Custom end date
@@ -276,4 +276,66 @@ calendR(start_date = "2020-09-01", # Custom start date
  <img src="https://user-images.githubusercontent.com/67192157/92406650-dc050300-f138-11ea-938b-18f418cb1180.png">
 </p>
 
+### Example 4
+
+``` r
+Sys.setlocale(locale = "English")
+calendR(month = 10,  # Month
+        start = "M", # Week starts on Monday
+        orientation = "landscape", # Horizontal
+        
+        # Size and color of the title
+        title.size = 40,
+        title.col = "white",
+        
+        weeknames = c("MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"),
+        # Subtitle, color y and size
+        subtitle = "I WITCH YOU A HAPPY HALLOWEEN",
+        subtitle.col = "red",
+        subtitle.size = 16,
+        
+        # Text, color, size and position
+        text = "HALLOWEEN",
+        text.col = "red",
+        text.size = 5,
+        text.pos = 31,
+        
+        # Color the weekends with gray
+        special.days = "weekend",
+        special.col = "grey40",
+        
+        # Color of the lines, of the background
+        # and of the days
+        col = "white",
+        bg.col = "grey20",
+        low.col = "transparent", # The same color as the background
+        
+        # Color and size of the number of the days
+        days.col = "white",
+        day.size = 4,
+        
+        # Moon phases and moon sizes
+        lunar = TRUE,
+        lunar.size = 8,
+        lunar.col = "red",
+        
+        # Color and size of the week names
+        weeknames.col = "white",
+        weeknames.size = 6,
+        
+        # Width and line types
+        lwd = 0.25,
+        lty = 1,
+        
+        # Background image
+        bg.img = "https://user-images.githubusercontent.com/67192157/94996404-cdc5cd80-05a4-11eb-97cb-84a195d9138c.png",
+        
+        # Font family and font styles
+        font.family = "CF Halloween",   # You will need to download and import the font with the extrafont package
+        font.style = "plain",
+        pdf = TRUE,
+        doc_name = "halloween")
+```
+
+![halloween](https://user-images.githubusercontent.com/67192157/94996393-bdadee00-05a4-11eb-988d-52eafe72352f.png)
 
