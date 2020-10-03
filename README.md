@@ -16,9 +16,10 @@ Ready to print monthly and yearly calendars made with ggplot2
 - [Orientation](#orientation-landscape-or-portrait)
 - [Heat map](#calendar-heatmap-gradient)
 - [Add several events](#add-several-events)
+- [Add week numbers of the year](#add-week-number-only-on-the-github-development-version)
 - [Add background image](#add-background-image)
 - [Lunar calendar](#lunar-calendar)
-- [Save as PDF](#save-as-pdf-as-a4-paper-size)
+- [Save as PDF](#save-as-pdf)
 - [More examples](#further-customization)
 
 
@@ -119,7 +120,7 @@ calendR(year = 2021, special.days = 1:365,
 ![Calendar_2021_GRADIENT](https://user-images.githubusercontent.com/67192157/90626971-ce381e00-e21b-11ea-919a-b5265c415110.png)
 
 
-# Add several events
+## Add several events
 
 ``` r
 # Vector of NA which length is the number of days of the year or month
@@ -137,6 +138,28 @@ calendR(special.days = myfills,
 
 ![imagen](https://user-images.githubusercontent.com/67192157/91709531-2dceeb80-eb83-11ea-8b07-89a84e69ec2d.png)
 
+
+## Add week number (only on the GitHub development version)
+
+``` r
+calendR(year = 2021,
+        week.number = TRUE,          # Adds the week number of the year for each week 
+        week.number.col = "gray30",  # Color of the week numbers
+        week.number.size = 8)        # Size of the week numbers
+```
+
+![imagen](https://user-images.githubusercontent.com/67192157/94988835-6c840700-0570-11eb-8c1a-cb8828572acb.png)
+
+
+``` r
+calendR(year = 2021,
+        month = 2,
+        week.number = TRUE,      # Adds the week number of the year for each week 
+        week.number.col = 2,     # Color of the week numbers
+        week.number.size = 14)   # Size of the week numbers
+```
+
+![imagen](https://user-images.githubusercontent.com/67192157/94988878-c5ec3600-0570-11eb-9857-e468de565099.png)
 
 ## Add background image
 
