@@ -38,6 +38,7 @@ calendR(
   week.number = FALSE,
   week.number.col = "gray30",
   week.number.size = 8,
+  monthnames,
   months.size = 10,
   months.col = "gray30",
   months.pos = 0.5,
@@ -121,6 +122,8 @@ calendR(
 \item{week.number.col}{If \code{week.number = TRUE} is the color of the week numbers.}
 
 \item{week.number.size}{If \code{week.number = TRUE} is the size of the week numbers.}
+
+\item{monthnames}{Character vector with the names of the months of the calendar. By default they will be upper case and in the system locale.}
 
 \item{months.size}{Font size of the names of the months.}
 

@@ -35,6 +35,7 @@
 #' @param week.number If `TRUE`, the week number of the year for each week is added.
 #' @param week.number.col If `week.number = TRUE` is the color of the week numbers.
 #' @param week.number.size If `week.number = TRUE` is the size of the week numbers.
+#' @param monthnames Character vector with the names of the months of the calendar. By default they will be upper case and in the system locale.
 #' @param months.size Font size of the names of the months.
 #' @param months.col If `month = NULL`, is the color of the month names.
 #' @param months.pos Horizontal align of the month names. Defaults to 0.5 (center).
@@ -119,6 +120,7 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
                     week.number.col = "gray30",
                     week.number.size = 8,
 
+                    monthnames,
                     months.size = 10,
                     months.col = "gray30",
                     months.pos = 0.5,
@@ -421,6 +423,7 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
     }
   }
 
+
   df <- data.frame(week = weekdays,
                    pos.x = 0:6,
                    pos.y = rep(max(t2$monthweek) + 1.75, 7))
@@ -448,6 +451,14 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
 
 
   if(is.null(month) | (!is.null(start_date) & !is.null(end_date))) {
+
+    if(!missing(monthnames)) {
+      if(length(monthnames) == length(levels(t2$monlabel))) {
+        t2$monlabel <- factor(t2$monlabel, labels = monthnames)
+      } else {
+        stop("The length of 'monthname's must equal to the number months")
+      }
+    }
 
     if(lunar == TRUE & l != FALSE) {
       warning("Lunar phases are only available for monthly calendars")
