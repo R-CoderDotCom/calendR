@@ -110,8 +110,7 @@ calendR(month = 1, start = "M")   # Week starts on Monday
 calendR(year = 2021, orientation = "portrait")
 ```
 
-![Calendar_2021](https://user-images.githubusercontent.com/67192157/90625001-291c4600-e219-11ea-9478-7c65accc259a.png)
-
+![Calendar_portrait](https://user-images.githubusercontent.com/67192157/95113135-43b36b80-0742-11eb-8668-a6d2844daa4a.png)
 
 ## Calendar heatmap (Gradient)
 
