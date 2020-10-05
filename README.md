@@ -47,7 +47,7 @@ library(calendR)
 calendR() # Defaults to the current year
 ```
 
-![Calendar_2020](https://user-images.githubusercontent.com/67192157/90884872-db3a4600-e3b0-11ea-8259-31f9c373fc74.png)
+![Calendar_2020](https://user-images.githubusercontent.com/67192157/95111727-35fce680-0740-11eb-9193-d61cd10352be.png)
 
 
 ``` r
@@ -59,7 +59,7 @@ calendR(mbg.col = 2,           # Background color for the month names
         months.pos = 0.5)     # Horizontal alignment of the month names
 ```
 
-![calendR](https://user-images.githubusercontent.com/67192157/92282070-331e9400-eefd-11ea-83c9-0b6d7b5dc6e5.png)
+![calendR](https://user-images.githubusercontent.com/67192157/95111865-693f7580-0740-11eb-8b92-959be1315bbc.png)
 
 
 ## Monthly calendar
