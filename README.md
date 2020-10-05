@@ -82,10 +82,15 @@ calendR(month = 7, year = 2022,
 ## Custom start and end date
 
 ``` r
-calendR(start_date = "2020-09-01", end_date = "2021-05-31", lty = 0, title = "2020-2021", start = "M")
+calendR(start_date = "2020-09-01",  # Start date
+        end_date = "2021-05-31",    # End date
+        lty = 0,              # Line type
+        title = "2020-2021",  # Title
+        start = "M",          # Start on Mondays
+        months.pos = 0)       # Left-align month names
 ```
 
-![imagen](https://user-images.githubusercontent.com/67192157/91883430-b5505380-ec84-11ea-88bf-df7a6fad0dba.png)
+![imagen](https://user-images.githubusercontent.com/67192157/95112213-f2ef4300-0740-11eb-8778-dcdafb5c69ca.png)
 
 
 ## Start of the week (Monday or Sunday)
@@ -117,7 +122,30 @@ calendR(year = 2021, special.days = 1:365,
         low.col = "white")                       # Lower color
 ```
 
-![Calendar_2021_GRADIENT](https://user-images.githubusercontent.com/67192157/90626971-ce381e00-e21b-11ea-919a-b5265c415110.png)
+![Calendar_2021_GRADIENT](https://user-images.githubusercontent.com/67192157/95112323-11edd500-0741-11eb-96f1-34ecf137e8e4.png)
+
+
+### Gradient for certain days
+
+``` r
+# Data
+my_data <- runif(20, 10, 20)
+
+# Create a vector where all the values are
+# a bit lower than the lowest value of your data
+# (This will make the trick)
+days <- rep(min(my_data) - 0.05, 365)
+
+# Fill the days you want with your data
+days[20:39] <- my_data
+
+calendR(year = 2021,
+        special.days = days,
+        gradient = TRUE,   # Needed to create the heat map
+        special.col = rgb(1, 0, 0, alpha = 0.6), # Higher color
+        low.col = "white") # In this case, the color of the values out of the gradient
+```
+![imagen](https://user-images.githubusercontent.com/67192157/95112558-5f6a4200-0741-11eb-92de-be90274d9a16.png)
 
 
 ## Add several events
@@ -136,7 +164,7 @@ calendR(special.days = myfills,
         legend.pos = "right")  # Add a legend if desired
 ```
 
-![imagen](https://user-images.githubusercontent.com/67192157/91709531-2dceeb80-eb83-11ea-8b07-89a84e69ec2d.png)
+![imagen](https://user-images.githubusercontent.com/67192157/95112825-be2fbb80-0741-11eb-9a46-61fee509409d.png)
 
 
 ## Add week number (only on the GitHub development version)
@@ -148,7 +176,7 @@ calendR(year = 2021,
         week.number.size = 8)        # Size of the week numbers
 ```
 
-![imagen](https://user-images.githubusercontent.com/67192157/94988835-6c840700-0570-11eb-8c1a-cb8828572acb.png)
+![imagen](https://user-images.githubusercontent.com/67192157/95112864-ca1b7d80-0741-11eb-969d-b40476859693.png)
 
 
 ``` r
