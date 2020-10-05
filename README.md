@@ -110,7 +110,10 @@ calendR(month = 1, start = "M")   # Week starts on Monday
 calendR(year = 2021, orientation = "portrait")
 ```
 
-![Calendar_portrait](https://user-images.githubusercontent.com/67192157/95113135-43b36b80-0742-11eb-8668-a6d2844daa4a.png)
+<p align="center">
+ <img src="https://user-images.githubusercontent.com/67192157/95113135-43b36b80-0742-11eb-8668-a6d2844daa4a.png">
+</p>
+
 
 ## Calendar heatmap (Gradient)
 
@@ -207,8 +210,9 @@ calendR(mbg.col = 4,                # Background color for the month names
 ```
 
 <p align="center">
- <img src="https://user-images.githubusercontent.com/67192157/92508606-366d9480-f209-11ea-8303-fa11ba984eb7.png">
+ <img src="https://user-images.githubusercontent.com/67192157/95113464-cb00df00-0742-11eb-933f-f2a5df55b51c.png">
 </p>
+
 
 ## Lunar calendar
 
@@ -254,7 +258,7 @@ calendR(year = 2022,                             # Year
         orientation = "p")                       # Orientation
 ```
 <p align="center">
- <img src="https://user-images.githubusercontent.com/67192157/92388597-da771300-f117-11ea-8c9b-baaa68cf8a41.png">
+ <img src="https://user-images.githubusercontent.com/67192157/95113514-da802800-0742-11eb-9d94-be5e0096fee9.png">
 </p>
 
 
