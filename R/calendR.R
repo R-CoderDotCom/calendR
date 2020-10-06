@@ -479,7 +479,7 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
       labs(subtitle = subtitle) +
       scale_x_continuous(expand = c(0.01, 0.01), position = "top",
                          breaks = seq(0, 6), labels = weekdays) +
-      scale_y_continuous(expand = c(0.01, 0.01), trans = "reverse", breaks = unique(t2$woy) + 1) +
+      scale_y_continuous(expand = c(0.01, 0.01), trans = "reverse", breaks = unique(t2$woy) + 1, labels = 1:53) +
       geom_text(data = t2, aes(label = gsub("^0+", "", format(date, "%d"))),
                 size = day.size, family = font.family,
                 color = days.col, fontface = font.style) +
