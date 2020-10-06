@@ -247,6 +247,11 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
 
   if(!is.null(start_date) & !is.null(end_date)) {
 
+  # Temporal fix
+  if(as.Date(end_date) - as.Date(start_date) > 366) {
+    stop("'start_date' and 'end_date' can't me more than 1 year appart")
+  }
+
   if(as.numeric(as.Date(end_date) - as.Date(start_date)) > 0) {
 
     # Set up tibble with all the dates
@@ -468,6 +473,16 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
       geom_tile(aes(fill = fills), color = col, size = lwd, linetype = lty)
 
 
+   weeklabels <- 1:53
+
+   if(length(t2$date) == 365) {
+     weeklabels <- 1:53
+   } else {
+     if(t2$dow[1] == 6){
+       weeklabels <- 1:54
+     }
+   }
+
     if(is.character(special.days) & wend & length(unique(special.days) == length(dates))) {
       p <- p + scale_fill_manual(values = special.col, labels = levels(as.factor(fills)), na.value = "white", na.translate = FALSE)
     } else {
@@ -479,7 +494,7 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
       labs(subtitle = subtitle) +
       scale_x_continuous(expand = c(0.01, 0.01), position = "top",
                          breaks = seq(0, 6), labels = weekdays) +
-      scale_y_continuous(expand = c(0.01, 0.01), trans = "reverse", breaks = unique(t2$woy) + 1, labels = 1:53) +
+      scale_y_continuous(expand = c(0.01, 0.01), trans = "reverse", breaks = unique(t2$woy) + 1, labels = weeklabels) +
       geom_text(data = t2, aes(label = gsub("^0+", "", format(date, "%d"))),
                 size = day.size, family = font.family,
                 color = days.col, fontface = font.style) +
@@ -487,7 +502,7 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
       theme(panel.background = element_rect(fill = NA, color = NA),
             strip.background = element_rect(fill = mbg.col, color = mbg.col),
             plot.background = element_rect(fill = bg.col),
-            panel.grid = element_line(colour = ifelse(bg.img ==  "", bg.col, "transparent")),
+            panel.grid = element_line(colour = ifelse(bg.img == "", bg.col, "transparent")),
             strip.text.x = element_text(hjust = months.pos, face = font.style, color = months.col, size = months.size),
             legend.title = element_text(),
             axis.ticks = element_blank(),
