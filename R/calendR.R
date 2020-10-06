@@ -473,6 +473,7 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
       geom_tile(aes(fill = fills), color = col, size = lwd, linetype = lty)
 
 
+   if(is.null(start_date) & is.null(end_date)) {
    weeklabels <- 1:53
 
    if(length(t2$date) == 365) {
@@ -481,6 +482,9 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
      if(t2$dow[1] == 6){
        weeklabels <- 1:54
      }
+   }
+   } else {
+     weeklabels <-unique(t2$woy) + 1
    }
 
     if(is.character(special.days) & wend & length(unique(special.days) == length(dates))) {
