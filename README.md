@@ -167,6 +167,7 @@ calendR(special.days = myfills,
 
 ![imagen](https://user-images.githubusercontent.com/67192157/95112825-be2fbb80-0741-11eb-9a46-61fee509409d.png)
 
+
 ### Custom colors order
 
 ``` r
@@ -196,8 +197,7 @@ calendR(special.days = myfills,
         special.col = ordered_colors, # Ordered colors
         legend.pos = "right")  # Add a legend if desired
 ```
-![custom_order](https://user-images.githubusercontent.com/67192157/97006673-7df17b00-1540-11eb-9c31-de1bdad5370d.png)
-
+![custom_order](https://user-images.githubusercontent.com/67192157/97010808-3241d000-1546-11eb-9df5-c583f40cf530.png)
 
 ## Add week number (only on the GitHub development version)
 
