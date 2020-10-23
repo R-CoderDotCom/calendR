@@ -168,10 +168,11 @@ calendR(special.days = myfills,
 ![imagen](https://user-images.githubusercontent.com/67192157/95112825-be2fbb80-0741-11eb-9a46-61fee509409d.png)
 
 
-### Custom colors order
+### Colors order
+
+The colors are displayed based on the levels of the factor of the categorical variable.
 
 ``` r
-# The colors are displayed based on the levels of the factor of the categorical variable
 # Current order:
 levels(factor(myfills)) # "Birthday" "Holidays"
 
@@ -179,7 +180,7 @@ levels(factor(myfills)) # "Birthday" "Holidays"
 # Way 1
 #------
 calendR(special.days = myfills,
-        special.col = 3:2,     # Change the order
+        special.col = 3:2,     # Change the order to match the desired colors
         legend.pos = "right")
 
 #------
@@ -198,6 +199,7 @@ calendR(special.days = myfills,
         legend.pos = "right")  # Add a legend if desired
 ```
 ![custom_order](https://user-images.githubusercontent.com/67192157/97010808-3241d000-1546-11eb-9df5-c583f40cf530.png)
+
 
 ## Add week number (only on the GitHub development version)
 
