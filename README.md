@@ -169,7 +169,7 @@ calendR(special.days = myfills,
 
 ### Custom colors order
 
-```
+``` r
 # The colors are displayed based on the levels of the factor of the categorical variable
 # Current order:
 levels(factor(myfills)) # "Birthday" "Holidays"
