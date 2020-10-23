@@ -160,13 +160,43 @@ myfills <- rep(NA, 366)
 myfills[c(1:4, 50, 300:315)] <- "Holidays"
 myfills[16] <- "Birthday"
 
-
 calendR(special.days = myfills,
         special.col = 2:3,     # Add as many colors as events
         legend.pos = "right")  # Add a legend if desired
 ```
 
 ![imagen](https://user-images.githubusercontent.com/67192157/95112825-be2fbb80-0741-11eb-9a46-61fee509409d.png)
+
+### Custom colors order
+
+```
+# The colors are displayed based on the levels of the factor of the categorical variable
+# Current order:
+levels(factor(myfills)) # "Birthday" "Holidays"
+
+#------
+# Way 1
+#------
+calendR(special.days = myfills,
+        special.col = 3:2,     # Change the order
+        legend.pos = "right")
+
+#------
+# Way 2
+#------
+
+# Desired order and colors
+desired_order <- c("Holidays", # (2: red)
+                   "Birthday") # (3: green)
+
+# Order the colors based on the desired order
+ordered_colors <- c(2, 3)[order(desired_order)]
+
+calendR(special.days = myfills,
+        special.col = ordered_colors, # Ordered colors
+        legend.pos = "right")  # Add a legend if desired
+```
+![custom_order](https://user-images.githubusercontent.com/67192157/97006673-7df17b00-1540-11eb-9c31-de1bdad5370d.png)
 
 
 ## Add week number (only on the GitHub development version)
