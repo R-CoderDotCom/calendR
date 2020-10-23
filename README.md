@@ -201,6 +201,31 @@ calendR(special.days = myfills,
 ![custom_order](https://user-images.githubusercontent.com/67192157/97010808-3241d000-1546-11eb-9df5-c583f40cf530.png)
 
 
+### Several events with custom start and end dates
+
+``` r
+start_date <- "2020-04-01"
+end_date <- "2020-12-31"
+
+custom_dates <- seq(as.Date(start_date), as.Date(end_date), by = "1 day")
+events <- rep(NA, length(custom_dates))
+
+# Time difference
+dif <- 365 - length(custom_dates)
+
+myfills <- rep(NA, length(custom_dates))
+
+# Specify the dates as in a 365 days calendar and substract the time difference
+myfills[c(180:210) - dif] <- "Holidays"
+myfills[215 - dif] <- "Birthday"
+
+calendR(start_date = start_date, end_date = end_date,
+        special.days = myfills, special.col = 2:3, legend.pos = "bottom")
+
+```
+
+![imagen](https://user-images.githubusercontent.com/67192157/97031386-7b068280-1560-11eb-8946-f9decac9b16f.png)
+
 ## Add week number (only on the GitHub development version)
 
 ``` r
