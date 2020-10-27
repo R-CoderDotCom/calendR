@@ -67,7 +67,7 @@ calendR(mbg.col = 2,           # Background color for the month names
 ``` r
 calendR(year = 2028, month = 1)
 ```
-![Calendar_enero_2028](https://user-images.githubusercontent.com/67192157/90624619-82d04080-e218-11ea-8570-a2c3b0ccab6d.png)
+![Calendar_January_2028](https://user-images.githubusercontent.com/67192157/97290793-56085d00-1849-11eb-92f9-78f856772961.png)
 
 ``` r
 calendR(month = 7, year = 2022, 
@@ -76,7 +76,7 @@ calendR(month = 7, year = 2022,
         text.pos = c(1, 5, 12, 28))           # Where to add the text
 ```
 
-![Calendar_julio_2022](https://user-images.githubusercontent.com/67192157/90627714-a301fe80-e21c-11ea-84ad-e1038d1b1282.png)
+![calendar_july](https://user-images.githubusercontent.com/67192157/97290979-98ca3500-1849-11eb-9131-b391919a9de8.png)
 
 
 ## Custom start and end date
@@ -100,8 +100,7 @@ calendR(start_date = "2020-09-01",  # Start date
 calendR(month = 1, start = "M")   # Week starts on Monday
 ```
 
-![Calendar_enero_2020](https://user-images.githubusercontent.com/67192157/90624910-02f6a600-e219-11ea-8b8e-4b9a00aa7f06.png)
-
+![Calendar_January_2020](https://user-images.githubusercontent.com/67192157/97291161-d0d17800-1849-11eb-8e04-318918ea485d.png)
 
 ## Orientation ("landscape" or "portrait")
 
@@ -246,7 +245,7 @@ calendR(year = 2021,
         week.number.size = 14)   # Size of the week numbers
 ```
 
-![imagen](https://user-images.githubusercontent.com/67192157/94988878-c5ec3600-0570-11eb-9857-e468de565099.png)
+![imagen](https://user-images.githubusercontent.com/67192157/97290741-42f58d00-1849-11eb-9398-f2e2d32ed541.png)
 
 ## Add background image
 
@@ -280,7 +279,7 @@ calendR(month = 1,
         lunar.size = 7)       # Size of the moons
 ```
 
-![imagen](https://user-images.githubusercontent.com/67192157/92913288-ea019f00-f42a-11ea-956b-c84619058d41.png)
+![Lunar_Calendar](https://user-images.githubusercontent.com/67192157/97291525-57865500-184a-11eb-9afc-7e52e6fe3fc4.png)
 
 
 ## Save as PDF
@@ -337,7 +336,7 @@ calendR(year = 2020,                        # Year
 
 ```
 
-![Calendar_octubre_2020](https://user-images.githubusercontent.com/67192157/90625501-f6bf1880-e219-11ea-8c57-e10512d790b6.png)
+![Custom_colors](https://user-images.githubusercontent.com/67192157/97291394-24dc5c80-184a-11eb-9a41-afa13432bbfe.png)
 
 
 ### Example 3
