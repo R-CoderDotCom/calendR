@@ -51,7 +51,8 @@ calendR() # Defaults to the current year
 
 
 ``` r
-calendR(mbg.col = 2,           # Background color for the month names
+calendR(year = 2020,           # Year
+        mbg.col = 2,           # Background color for the month names
         months.col = "white",  # Text color of the month names
         special.days = c(1, 50, 12, 125, 80,     # Color days of the year
                          99, 102, 205, 266, 360),
