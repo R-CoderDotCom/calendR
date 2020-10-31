@@ -1,4 +1,4 @@
-# calendR R package
+# calendR R package<img width = 150px height = 150px src="https://user-images.githubusercontent.com/67192157/97783151-22ee0280-1b96-11eb-9b78-2ba02395c5c8.png" align="right" />
 Ready to print monthly and yearly calendars made with ggplot2
 
 
