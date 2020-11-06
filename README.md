@@ -83,8 +83,8 @@ calendR(month = 7, year = 2022,
 ## Custom start and end date
 
 ``` r
-calendR(start_date = "2020-09-01",  # Start date
-        end_date = "2021-05-31",    # End date
+calendR(from = "2020-09-01",  # Start date
+        to = "2021-05-31",    # End date
         lty = 0,              # Line type
         title = "2020-2021",  # Title
         start = "M",          # Start on Mondays
@@ -219,7 +219,7 @@ myfills <- rep(NA, length(custom_dates))
 myfills[c(180:210) - dif] <- "Holidays"
 myfills[215 - dif] <- "Birthday"
 
-calendR(start_date = start_date, end_date = end_date,
+calendR(from = start_date, to = end_date,
         special.days = myfills, special.col = 2:3, legend.pos = "bottom")
 
 ```
@@ -342,8 +342,8 @@ calendR(year = 2020,                        # Year
 
 ### Example 3
 ``` r
-calendR(start_date = "2020-09-01", # Custom start date
-        end_date = "2021-05-31",   # Custom end date
+calendR(from = "2020-09-01", # Custom start date
+        to = "2021-05-31",   # Custom end date
         mbg.col = 4,               # Background color for the month names
         months.col = "white",      # Text color of the month names
         special.days = "weekend",  # Color the weekends
