@@ -7,8 +7,8 @@
 calendR(
   year = format(Sys.Date(), "\%Y"),
   month = NULL,
-  start_date = NULL,
-  end_date = NULL,
+  from = NULL,
+  to = NULL,
   start = c("S", "M"),
   orientation = c("portrait", "landscape"),
   title,
@@ -61,9 +61,9 @@ calendR(
 
 \item{month}{Month of the year or \code{NULL} (default) for the yearly calendar.}
 
-\item{start_date}{Custom start date of the calendar. If \code{start_date != NULL}, \code{year} and \code{month} arguments won't be taken into account.}
+\item{from}{Custom start date of the calendar. If \code{from != NULL}, \code{year} and \code{month} arguments won't be taken into account.}
 
-\item{end_date}{Custom end date of the calendar.}
+\item{to}{Custom end date of the calendar.}
 
 \item{start}{\code{"S"} (default) for starting the week on Sunday or \code{"M"} for starting the week on Monday.}
 

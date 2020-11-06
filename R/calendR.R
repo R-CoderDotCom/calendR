@@ -4,8 +4,8 @@
 #'
 #' @param year Calendar year. By default uses the current year.
 #' @param month Month of the year or `NULL` (default) for the yearly calendar.
-#' @param start_date Custom start date of the calendar. If `start_date != NULL`, `year` and `month` arguments won't be taken into account.
-#' @param end_date Custom end date of the calendar.
+#' @param from Custom start date of the calendar. If `from != NULL`, `year` and `month` arguments won't be taken into account.
+#' @param to Custom end date of the calendar.
 #' @param start `"S"` (default) for starting the week on Sunday or `"M"` for starting the week on Monday.
 #' @param orientation The calendar orientation: `"portrait"` or `"landscape"` (default). Also accepts `"p"` and `"l"`.
 #' @param title Title of the the calendar. If not supplied is the year and the month, or the year if `month = NULL`.
@@ -79,8 +79,8 @@
 calendR <- function(year = format(Sys.Date(), "%Y"),
                     month = NULL,
 
-                    start_date = NULL,
-                    end_date = NULL,
+                    from = NULL,
+                    to = NULL,
 
                     start = c("S", "M"),
                     orientation = c("portrait", "landscape"),
@@ -149,12 +149,12 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
   wend <- TRUE
   l <- TRUE
 
-  if((!is.null(start_date) & is.null(end_date))) {
-    stop("Provide an end date with the 'end_date' argument")
+  if((!is.null(from) & is.null(to))) {
+    stop("Provide an end date with the 'to' argument")
   }
 
-  if((is.null(start_date) & !is.null(end_date))) {
-    stop("Provide a start date with the 'start_date' argument")
+  if((is.null(from) & !is.null(to))) {
+    stop("Provide a start date with the 'from' argument")
   }
 
   if(is.character(special.days) & length(unique(na.omit(special.days))) != length(special.col)) {
@@ -210,10 +210,10 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
   }
 
 
-  if(!is.null(start_date) & !is.null(end_date)) {
+  if(!is.null(from) & !is.null(to)) {
 
-    if(as.numeric(as.Date(start_date) - as.Date(end_date)) > 0) {
-      stop("'end_date' must be posterior to 'start_date'")
+    if(as.numeric(as.Date(from) - as.Date(to)) > 0) {
+      stop("'to' must be posterior to 'from'")
     }
 
     if(lunar == TRUE) {
@@ -221,8 +221,8 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
       warning("Lunar phases are only available for monthly calendars")
     }
 
-    mindate <- as.Date(start_date)
-    maxdate <- as.Date(end_date)
+    mindate <- as.Date(from)
+    maxdate <- as.Date(to)
     weeknames <- substring(weeknames, 1, 3)
 
   } else {
@@ -245,14 +245,14 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
     }
   }
 
-  if(!is.null(start_date) & !is.null(end_date)) {
+  if(!is.null(from) & !is.null(to)) {
 
   # Temporal fix
-  if(as.Date(end_date) - as.Date(start_date) > 366) {
-    stop("'start_date' and 'end_date' can't me more than 1 year appart")
+  if(as.Date(to) - as.Date(from) > 366) {
+    stop("'from' and 'to' can't me more than 1 year appart")
   }
 
-  if(as.numeric(as.Date(end_date) - as.Date(start_date)) > 0) {
+  if(as.numeric(as.Date(to) - as.Date(from)) > 0) {
 
     # Set up tibble with all the dates
     filler <- tibble(date = seq(mindate, maxdate, by = "1 day"))
@@ -261,7 +261,7 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
     dates <- seq(mindate, maxdate, by = "1 day")
 
   } else {
-    stop("'end_date' must be posterior to 'start_date'")
+    stop("'to' must be posterior to 'from'")
   }
   } else {
     filler <- tibble(date = seq(mindate, maxdate, by = "1 day"))
@@ -306,7 +306,7 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
 
   } else {
 
-    if(gradient == FALSE){
+    if(gradient == FALSE) {
       if(length(special.days) != length(dates) & (legend.pos != "none" | legend.title != "")) {
         legend.pos = "none"
         warning("gradient = FALSE, so no legend will be plotted")
@@ -318,10 +318,10 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
       }
     }
 
-   # if(any(special.days > length(dates))) {
-   #
-   #   stop("No element of the 'special.days' vector can be greater than the number of days of the corresponding month or year")
-   # }
+    # if(length(special.days) > length(dates)) {
+    #
+    #   stop("No element of the 'special.days' vector can be greater than the number of days of the corresponding month or year")
+    # }
 
     if(gradient == TRUE & (length(special.days) != length(dates))) {
       stop("If gradient = TRUE, the length of 'special.days' must be the same as the number of days of the corresponding month or year")
@@ -355,7 +355,7 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
       mutate(weekend = ifelse(dow == 6 | dow == 5, 1, 0))
 
 
-    if(is.null(special.days)) {
+    if( all(special.days == 0) == TRUE || length(special.days) == 0) {
       special.col <- "white"
     } else {
 
@@ -405,11 +405,12 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
       mutate(weekend = ifelse(dow == 0 | dow == 6, 1, 0))
 
 
-    if(is.null(special.days)) {
+    if(all(special.days == 0) == TRUE  || length(special.days) == 0) {
       special.col <- "white"
     } else {
 
       if(is.character(special.days)) {
+
         if (length(special.days) == length(dates)) {
           fills <- special.days
         } else {
@@ -435,10 +436,10 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
 
   if(missing(title)) {
 
-    if(!is.null(start_date) & !is.null(end_date)) {
+    if(!is.null(from) & !is.null(to)) {
 
-      title <- paste0(format(as.Date(start_date), "%m"), "/", format(as.Date(start_date), "%Y"), " - ",
-                      format(as.Date(end_date), "%m"), "/", format(as.Date(end_date), "%Y"))
+      title <- paste0(format(as.Date(from), "%m"), "/", format(as.Date(from), "%Y"), " - ",
+                      format(as.Date(to), "%m"), "/", format(as.Date(to), "%Y"))
 
     }else{
 
@@ -455,7 +456,7 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
   }
 
 
-  if(is.null(month) | (!is.null(start_date) & !is.null(end_date))) {
+  if(is.null(month) | (!is.null(from) & !is.null(to))) {
 
     if(!missing(monthnames)) {
       if(length(monthnames) == length(levels(t2$monlabel))) {
@@ -473,7 +474,7 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
       geom_tile(aes(fill = fills), color = col, size = lwd, linetype = lty)
 
 
-   if(is.null(start_date) & is.null(end_date)) {
+   if(is.null(from) & is.null(to)) {
    weeklabels <- 1:53
 
    if(length(t2$date) == 365) {
@@ -637,8 +638,8 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
         doc_name <- paste0("Calendar_", tolower(t2$month[1]), "_", year, ".pdf")
 
       } else {
-        if(!is.null(start_date) & !is.null(end_date)) {
-          doc_name <- paste0("Calendar_", start_date, "_", end_date, ".pdf")
+        if(!is.null(from) & !is.null(to)) {
+          doc_name <- paste0("Calendar_", from, "_", to, ".pdf")
         } else {
           doc_name <- paste0("Calendar_", year, ".pdf")
         }
