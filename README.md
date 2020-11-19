@@ -251,7 +251,7 @@ calendR(year = 2021,
 ## Add background image
 
 ``` r
-calendR(mbg.col = 4,                # Background color for the month names
+calendR(mbg.col = 4,               # Background color for the month names
         months.col = "white",      # Text color of the month names
         special.days = "weekend",  # Color the weekends
         special.col = "lightblue", # Color of the special.days
