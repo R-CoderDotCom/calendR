@@ -429,5 +429,5 @@ calendR(month = 10,  # Month
 
 
 ## Social Media
-Facebook: [https://www.facebook.com/RCODERweb](https://www.facebook.com/RCODERweb)
-Twitter: [https://twitter.com/RCoderWeb](https://twitter.com/RCoderWeb)
+- Facebook: [https://www.facebook.com/RCODERweb](https://www.facebook.com/RCODERweb)
+- Twitter: [https://twitter.com/RCoderWeb](https://twitter.com/RCoderWeb)
