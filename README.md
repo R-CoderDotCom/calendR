@@ -428,6 +428,58 @@ calendR(month = 10,  # Month
 ![halloween](https://user-images.githubusercontent.com/67192157/94996393-bdadee00-05a4-11eb-988d-52eafe72352f.png)
 
 
+### Example 5
+
+```r
+calendR(month = 12,
+        start = "M",
+        subtitle = "Merry Christmas!",
+        subtitle.col = "white", lwd = 0.4,
+        title.size = 70, 
+        subtitle.size = 40,
+        day.size = 9,
+        weeknames.size = 10,
+        special.col = rgb(0.2, 0.2, 0.2, 0.2),
+        days.col = "white",
+        title.col = "white",
+        bg.col = "red",
+        low.col = "transparent",
+        col = "white",
+        special.days = c(5, 6, 12, 13, 19, 20, 25, 26, 27, 31),
+        bg.img = "https://user-images.githubusercontent.com/67192157/100520172-b23e0400-319c-11eb-98a8-10fdc95006fe.png",
+        weeknames.col = "white",
+        font.family = "perfect",  # https://www.dafont.com/es/the-perfect-christmas.font
+        pdf = TRUE)
+```
+
+![Christmas_calendar](https://user-images.githubusercontent.com/67192157/100520209-efa29180-319c-11eb-8fb1-c7e0c92eb202.png)
+
+
+```r
+calendR(month = 12,
+        start = "M",
+        subtitle = "Merry Christmas!",
+        subtitle.col = "gray40",
+        lwd = 0.4,
+	title.size = 70,
+        subtitle.size = 40,
+        day.size = 9,
+        weeknames.size = 10,
+	special.days = "weekend",
+        special.col = rgb(1, 1, 1, 0.1),
+        days.col = "gray20",
+	title.col = "gray30",
+        bg.col = "gray40",
+        low.col = "transparent",
+        col = "gray50",
+	weeknames.col = "gray20",
+        bg.img = "https://user-images.githubusercontent.com/67192157/100520175-b4a05e00-319c-11eb-8733-af9f20b674c8.png",
+        font.family = "perfect", # https://www.dafont.com/es/the-perfect-christmas.font
+        pdf = TRUE)
+```
+![Christmas_calendar_2020](https://user-images.githubusercontent.com/67192157/100520249-1a8ce580-319d-11eb-9ff1-0e20d47e15b7.png)
+
+
 ## Social Media
 - Facebook: [https://www.facebook.com/RCODERweb](https://www.facebook.com/RCODERweb)
 - Twitter: [https://twitter.com/RCoderWeb](https://twitter.com/RCoderWeb)
