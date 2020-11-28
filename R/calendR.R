@@ -470,8 +470,17 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
       warning("Lunar phases are only available for monthly calendars")
     }
 
-   p <- ggplot(t2, aes(dow, woy + 1)) +
-      geom_tile(aes(fill = fills), color = col, size = lwd, linetype = lty)
+
+    if(gradient == TRUE || !missing(special.days)) {
+
+      p <- ggplot(t2, aes(dow, woy + 1)) +
+        geom_tile(aes(fill = fills), color = col, size = lwd, linetype = lty)
+
+    } else {
+      p <- ggplot(t2, aes(dow, woy + 1)) +
+        geom_tile(aes(fill = fills), fill = low.col, color = col, size = lwd, linetype = lty)
+
+    }
 
 
    if(is.null(from) & is.null(to)) {
