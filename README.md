@@ -483,6 +483,8 @@ calendR(month = 12,
 ### Example 6
 
 ```r
+windows(210, 297)
+
 # Dancing Script Font
 library(showtext)
 font_add_google(name = "Dancing Script",   
@@ -492,36 +494,35 @@ showtext_auto()
 Sys.setlocale(locale = "English")
 
 calendR(2021,
+        subtitle = NULL,
 	mbg.col = "#73b7fb",      
         months.col = "white",     
         special.days = "weekend",
 	title.col= "#103a63",
 	weeknames.col= "#103a63",
 	days.col = "#14487c",
-	special.col = "#bdddfd", 
+	special.col = "#d7eafd", 
 	lty = 0,   
-	monthnames = c("January", "February", "March", "April", "May", "June", 
-	                "July", "August", "September", "October", "November", "December"),
-	font.family = "dancing",   
-	font.style = "bold",        
+	monthnames = c("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"),
+	font.family = "dancing",     
 	weeknames.size = 6,   
 	week.number = TRUE,
-	week.number.col = "dodgerblue2",
+	week.number.col = "#73b7fb",
 	weeknames = c("Mo", "Tu",  
 	              "We", "Th",
 	              "Fr", "Sa",
- 	             "Su"),        
+ 	              "Su"),        
 	title.size = 40,    
-	months.size = 20,              
-	orientation = "p",  
-	bg.col = "#ebf4fe",
-	day.size = 4,
-	papersize = "A4",
-	start = "M") 
+	months.size = 15,              
+	orientation = "p", 
+	bg.img = "https://user-images.githubusercontent.com/67192157/103295110-9031de80-49f3-11eb-88b9-52e9dd0dc4ea.png",
+	day.size = 3.25,
+	papersize = "A4",,
+	start = "M")  
 ```
 
 <p align="center">
- <img src="https://user-images.githubusercontent.com/67192157/103289202-e5b3be80-49e6-11eb-9ef1-ee8e685d9715.png" alt = "Calendar 2021">
+ <img src="https://user-images.githubusercontent.com/67192157/103295315-f74f9300-49f3-11eb-9064-e1a8504ab417.png" alt = "Calendar 2021">
 </p>
 
 ## Social Media
