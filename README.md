@@ -493,6 +493,8 @@ showtext_auto()
 
 Sys.setlocale(locale = "English")
 
+# Landscape background: https://user-images.githubusercontent.com/67192157/103295646-aee4a500-49f4-11eb-8c5f-2857a7ee13f2.png
+
 calendR(2021,
         subtitle = NULL,
 	mbg.col = "#73b7fb",      
