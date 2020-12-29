@@ -480,6 +480,50 @@ calendR(month = 12,
 ![Christmas_calendar_2020](https://user-images.githubusercontent.com/67192157/100520249-1a8ce580-319d-11eb-9ff1-0e20d47e15b7.png)
 
 
+### Example 6
+
+```r
+# Dancing Script Font
+library(showtext)
+font_add_google(name = "Dancing Script",   
+                family = "dancing") 
+showtext_auto()
+
+Sys.setlocale(locale = "English")
+
+calendR(2021,
+	mbg.col = "#73b7fb",      
+        months.col = "white",     
+        special.days = "weekend",
+	title.col= "#103a63",
+	weeknames.col= "#103a63",
+	days.col = "#14487c",
+	special.col = "#bdddfd", 
+	lty = 0,   
+	monthnames = c("January", "February", "March", "April", "May", "June", 
+	                "July", "August", "September", "October", "November", "December"),
+	font.family = "dancing",   
+	font.style = "bold",        
+	weeknames.size = 6,   
+	week.number = TRUE,
+	week.number.col = "dodgerblue2",
+	weeknames = c("Mo", "Tu",  
+	              "We", "Th",
+	              "Fr", "Sa",
+ 	             "Su"),        
+	title.size = 40,    
+	months.size = 20,              
+	orientation = "p",  
+	bg.col = "#ebf4fe",
+	day.size = 4,
+	papersize = "A4",
+	start = "M") 
+```
+
+<p align="center">
+ <img src="https://user-images.githubusercontent.com/67192157/103289202-e5b3be80-49e6-11eb-9ef1-ee8e685d9715.png" alt = "Calendar 2021">
+</p>
+
 ## Social Media
 - Facebook: [https://www.facebook.com/RCODERweb](https://www.facebook.com/RCODERweb)
 - Twitter: [https://twitter.com/RCoderWeb](https://twitter.com/RCoderWeb)
