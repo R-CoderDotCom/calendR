@@ -574,6 +574,7 @@ calendR(2021,
 ```r
 library(showtext)
 
+# https://www.dafont.com/es/cat-paw.font
 font_add(family = "Cat", regular = "Cat paw.ttf")
 
 windows(11.7, 8.27)
