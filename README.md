@@ -571,6 +571,47 @@ calendR(2021,
  <img src="https://user-images.githubusercontent.com/67192157/103364817-fdf70c80-4abe-11eb-8736-3bb46579a103.png" alt = "Calendar 2021">
 </p>
 
+```r
+library(showtext)
+
+font_add(family = "Cat", regular = "Cat paw.ttf")
+
+windows(11.7, 8.27)
+
+showtext_auto()
+
+calendR(2021,
+        font.family = "Cat",
+        subtitle = "", 
+	bg.img = "https://user-images.githubusercontent.com/67192157/103365300-10be1100-4ac0-11eb-81f1-f06232101cba.png",
+	mbg.col = "#b29a8e",
+	bg.col = "#faf4ef",            
+	months.col = "white",     
+	title.col="#7c6b63",
+	days.col="#6a5c55",
+	weeknames.col = "#7c6b63",
+	special.days = "weekend",
+	special.col = "#f0dbca", 
+	lty = 0,   
+	monthnames = c("January", "February", "March", "Aprrrril", "May", "June", 
+		"July", "August", "September", "October", "November", "December"),        
+	weeknames.size = 7,   
+	week.number = TRUE,
+	week.number.col = "#d4bbb4",
+	weeknames = c("Mo", "Tu","We", "Th","Fr", "Sa","Su"),        
+	title.size = 50,    
+	months.size = 24,              
+	orientation = "l",  
+	day.size = 4.5,
+	start = "M")
+```
+
+
+<p align="center">
+ <img src="https://user-images.githubusercontent.com/67192157/103365556-9fcb2900-4ac0-11eb-8ffe-882cf4fb600b.png" alt = "Calendar 2021">
+</p>
+
+
 
 ## Social Media
 - Facebook: [https://www.facebook.com/RCODERweb](https://www.facebook.com/RCODERweb)
