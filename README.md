@@ -519,7 +519,7 @@ calendR(2021,
 	orientation = "p", 
 	bg.img = "https://user-images.githubusercontent.com/67192157/103295110-9031de80-49f3-11eb-88b9-52e9dd0dc4ea.png",
 	day.size = 3.25,
-	papersize = "A4",,
+	papersize = "A4",
 	start = "M")  
 ```
 
