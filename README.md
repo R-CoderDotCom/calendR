@@ -151,7 +151,7 @@ calendR(year = 2021,
 ![imagen](https://user-images.githubusercontent.com/67192157/95112558-5f6a4200-0741-11eb-92de-be90274d9a16.png)
 
 
-## Gradient with two colors
+## Gradient with two colors (GitHub version only)
 
 ```r
 # Data
