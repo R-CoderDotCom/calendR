@@ -500,7 +500,7 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
     if(is.character(special.days) & wend & length(unique(special.days) == length(dates))) {
       p <- p + scale_fill_manual(values = special.col, labels = levels(as.factor(fills)), na.value = "white", na.translate = FALSE)
     } else {
-      p <- p + scale_fill_gradient(low = low.col, high = special.col)
+      p <- p + scale_fill_gradient(low = low.col, high = special.col, na.value = "white")
     }
 
     p <- p + facet_wrap( ~ monlabel, ncol = ifelse(orientation == "landscape" | orientation == "l", 4, 3), scales = "free") +
@@ -564,7 +564,7 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
       if(is.character(special.days) & wend & length(unique(special.days) == length(dates))) {
         p <- p + scale_fill_manual(values = special.col, labels = levels(as.factor(fills)), na.value = "white", na.translate = FALSE)
       } else {
-        p <- p + scale_fill_gradient(low = low.col, high = special.col)
+        p <- p + scale_fill_gradient(low = low.col, high = special.col, na.value = "white")
       }
 
       p <- p + ggtitle(title) +
