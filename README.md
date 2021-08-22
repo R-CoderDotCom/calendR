@@ -164,7 +164,7 @@ ranking <- c(-3, 2, 2, -1, 0, 3, 0, -3, 2, 1)
 
 df  <- data.frame(dayofyear, team, opponent, opponentHA, ranking)
 
-from <- "2021-10-01",
+from <- "2021-10-01"
 to <- "2022-04-30"
 
 as.Date(to)-as.Date(from) # 211 (+ 1)
