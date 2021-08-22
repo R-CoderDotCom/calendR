@@ -111,8 +111,23 @@ calendR(year = 2021, orientation = "portrait")
 ```
 
 <p align="center">
- <img src="https://user-images.githubusercontent.com/67192157/95113135-43b36b80-0742-11eb-8668-a6d2844daa4a.png">
+ <img src="https://user-images.githubusercontent.com/67192157/130369030-3f696caa-8fde-41ed-8dec-5bf6f372017e.png">
 </p>
+
+
+
+### Specify the number of columns
+
+The following will override the `orientation` argument:
+
+``` r
+# calendR(year = 2021, ncol = 2) 
+```
+
+<p align="center">
+ <img src="https://user-images.githubusercontent.com/67192157/130369003-9ea7653e-1c48-4cfc-a92c-eba55b054396.png">
+</p>
+
 
 
 ## Calendar heatmap (Gradient)
