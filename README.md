@@ -15,7 +15,6 @@ Ready to print monthly and yearly calendars made with ggplot2
 - [Start of the week](#start-of-the-week-monday-or-sunday)
 - [Orientation](#orientation-landscape-or-portrait)
 - [Heat map](#calendar-heatmap-gradient)
-- [Heat map two colors](#gradient-with-two-colors)
 - [Add several events](#add-several-events)
 - [Add week numbers of the year](#add-week-number-only-on-the-github-development-version)
 - [Add background image](#add-background-image)
@@ -151,7 +150,7 @@ calendR(year = 2021,
 ![imagen](https://user-images.githubusercontent.com/67192157/95112558-5f6a4200-0741-11eb-92de-be90274d9a16.png)
 
 
-## Gradient with two colors (GitHub version only)
+### Gradient with two colors (GitHub version only)
 
 ```r
 # Data
