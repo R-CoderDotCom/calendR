@@ -15,6 +15,7 @@ Ready to print monthly and yearly calendars made with ggplot2
 - [Start of the week](#start-of-the-week-monday-or-sunday)
 - [Orientation](#orientation-landscape-or-portrait)
 - [Heat map](#calendar-heatmap-gradient)
+- [Heat map two colors](#gradient-with-two-colors)
 - [Add several events](#add-several-events)
 - [Add week numbers of the year](#add-week-number-only-on-the-github-development-version)
 - [Add background image](#add-background-image)
@@ -148,6 +149,53 @@ calendR(year = 2021,
         low.col = "white") # In this case, the color of the values out of the gradient
 ```
 ![imagen](https://user-images.githubusercontent.com/67192157/95112558-5f6a4200-0741-11eb-92de-be90274d9a16.png)
+
+
+## Gradient with two colors
+
+```r
+# Data
+team <- c("A", "A", "A", "A", "A", "A", "A", "A", "A", "A")
+opponent <- c("B", "C", "D", "B", "D", "C", "D", "B", "B", "D")
+
+opponentHA <- c("@B", "C", "@D", "@B", "@D", "C", "D","B", "@B", "D")
+dayofyear <-  c(16, 69, 69, 88, 103, 121, 154, 176, 182, 202) 
+# This is the day of year with October 1, 2021 set as Day 1
+ranking <- c(-3, 2, 2, -1, 0, 3, 0, -3, 2, 1)
+
+df  <- data.frame(dayofyear, team, opponent, opponentHA, ranking)
+
+from <- "2021-10-01",
+to <- "2022-04-30"
+
+as.Date(to)-as.Date(from) # 211 (+ 1)
+
+# Set all as NA (NA values will be colored with white)
+days <- rep(NA, 212)
+
+# Pass you data to the corresponding days
+days[df$dayofyear] <- df$ranking
+
+calendR(from = "2021-10-01",
+        to = "2022-04-30",
+        start = "M",               
+        mbg.col = 1,           
+        months.col = "white",      
+        special.days = days, 
+        gradient = TRUE,
+        special.col = "#0A8007", # Color highest value special day = green
+        low.col = "red",
+        lty = 0,               
+        weeknames = c("Mo", "Tu",  "We", "Th", "Fr", "Sa", "Su"),
+        title = "Oct - May 2021",
+        subtitle = "Gradient Based on Ranking",
+        title.size = 40, 
+        subtitle.size = 20,
+        orientation = "l")
+```
+
+![imagen](https://user-images.githubusercontent.com/67192157/130355497-0fa6b6b2-91e4-4491-b31a-1b22d8f4d74d.png)
+
 
 
 ## Add several events
