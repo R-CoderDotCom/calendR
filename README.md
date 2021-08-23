@@ -121,7 +121,7 @@ calendR(year = 2021, orientation = "portrait")
 The following will override the `orientation` argument:
 
 ``` r
-# calendR(year = 2021, ncol = 2) 
+calendR(year = 2021, ncol = 2) 
 ```
 
 <p align="center">
