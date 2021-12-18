@@ -48,6 +48,7 @@ calendR(
   bg.col = "white",
   bg.img = "",
   margin = 1,
+  ncol,
   lunar = FALSE,
   lunar.col = "gray60",
   lunar.size = 7,
@@ -142,6 +143,8 @@ calendR(
 \item{bg.img}{Character string containing the URL or the local directory of a image to be used as background.}
 
 \item{margin}{Numeric. Allows controlling the margin of the calendar.}
+
+\item{ncol}{Numeric. Controls the number of columns of the yearly calendar. Overrides the default values for "landscape" and "portrait" orientation.}
 
 \item{lunar}{Boolean. If \code{TRUE}, draws the lunar phases. Only available for monthly calendars.}
 
