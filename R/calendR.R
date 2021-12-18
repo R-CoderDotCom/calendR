@@ -49,6 +49,12 @@
 #' @param lunar Boolean. If `TRUE`, draws the lunar phases. Only available for monthly calendars.
 #' @param lunar.col If `lunar = TRUE`, is the color of the hide part of the moons.
 #' @param lunar.size If `lunar = TRUE`, is the size of the representation of the moons.
+#' @param lunar.line.gradient Boolean. If `TRUE` (and `lunar = TRUE`), colors the outline of the lunar phases by phase progression. Defaults to `FALSE`.
+#' @param lunar.linecol.new If `lunar.line.gradient = TRUE` (and `lunar = TRUE`), is the color of the outline of the lunar phase at new moon. Defaults to `"grey60"`.
+#' @param lunar.linecol.waxing If `lunar.line.gradient = TRUE` (and `lunar = TRUE`), is the color of the outline of the lunar phase at the first quarter. Defaults to `"green"`.
+#' @param lunar.linecol.full If `lunar.line.gradient = TRUE` (and `lunar = TRUE`), is the color of the outline of the lunar phase at full moon. Defaults to `"yellow"`.
+#' @param lunar.linecol.waning If `lunar.line.gradient = TRUE` (and `lunar = TRUE`), is the color of the outline of the lunar phase at the third moon. Defaults to `"red"`.
+#' @param lunar.linecol.old If `lunar.line.gradient = TRUE` (and `lunar = TRUE`), is the color of the outline of the lunar phase at old moon (i.e. just before new moon). Defaults to `lunar.linecol.new`.
 #' @param pdf Boolean. If `TRUE`, saves the calendar in the working directory in A4 format.
 #' @param doc_name If `pdf = TRUE`, is the name of the generated file (without the file extension). If not specified, creates files of the format: `Calendar_year.pdf` for yearly calendars and `Calendar_month_year.pdf` for monthly calendars.
 #' @param papersize PDF paper size. Possible options are `"A6"`, `"A5"`, `"A4"` (default), `"A3"`, `"A2"`, `"A1"` and `"A0"`. Depending on the size you will need to fine-tune some arguments, like the font sizes.
@@ -57,6 +63,7 @@
 #' \itemize{
 #' \item{Soage González, José Carlos.}
 #' \item{Maintainer: José Carlos Soage González. \email{jsoage@@uvigo.es}}
+#' \item{Contributor: Marcel Schilling. \email{foss@@mschilli.com}}
 #' }
 #'
 #' @examples
@@ -139,6 +146,12 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
                     lunar = FALSE,
                     lunar.col = "gray60",
                     lunar.size = 7,
+                    lunar.line.gradient = FALSE,
+                    lunar.linecol.new = "grey60",
+                    lunar.linecol.waxing = "green",
+                    lunar.linecol.full = "yellow",
+                    lunar.linecol.waning = "red",
+                    lunar.linecol.old = lunar.linecol.new,
                     
                     pdf = FALSE,
                     doc_name = "",
@@ -285,6 +298,7 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
   moon_m <- getMoonIllumination(date = dates, keep = c("fraction", "phase", "angle"))
   moon <- moon_m[, 2]
   right <- ifelse(moon_m[, 4] < 0, TRUE, FALSE)
+  moon_phase <- moon_m[, 3]
   
   if(is.character(special.days)) {
     
@@ -545,27 +559,43 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
     # print(p)
     
   } else {
+
+    if(lunar.line.gradient == FALSE) {
+      lunar.linecol.new <- lunar.col
+      lunar.linecol.waxing <- lunar.col
+      lunar.linecol.full <- lunar.col
+      lunar.linecol.waning <- lunar.col
+      lunar.linecol.old <- lunar.col
+    }
     
     tidymoons <- data.frame(
       x = t2$dow + 0.35,
       y =  t2$y + 0.3,
       ratio = moon,
-      right = right
+      right = right,
+      phase = moon_phase
     )
     
     tidymoons2 <- data.frame(
       x = t2$dow + 0.35,
       y =  t2$y + 0.3,
       ratio = 1 - moon,
-      right = !right
+      right = !right,
+      phase = moon_phase
     )
     
     p <- ggplot(t2, aes(dow, y)) +
       geom_tile(aes(fill = fills), color = col, size = lwd, linetype = lty)
     
     if(lunar == TRUE) {
-      p <- p + geom_moon(data = tidymoons, aes(x, y, ratio = ratio, right = right), size = lunar.size, fill = "white") +
-        geom_moon(data = tidymoons2, aes(x, y, ratio = ratio, right = right), size = lunar.size, fill = lunar.col)
+      p <- p + geom_moon(data = tidymoons, aes(x, y, ratio = ratio, right = right, color = phase), size = lunar.size, fill = "white") +
+        geom_moon(data = tidymoons2, aes(x, y, ratio = ratio, right = right, color = phase), size = lunar.size, fill = lunar.col) +
+        scale_color_gradientn(colors = c(lunar.linecol.new,
+                                         lunar.linecol.waxing,
+                                         lunar.linecol.full,
+                                         lunar.linecol.waning,
+                                         lunar.linecol.old),
+                               values = (0:4/4))
     }
     
     
