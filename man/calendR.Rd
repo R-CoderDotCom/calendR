@@ -48,16 +48,9 @@ calendR(
   bg.col = "white",
   bg.img = "",
   margin = 1,
-  ncol,
   lunar = FALSE,
   lunar.col = "gray60",
   lunar.size = 7,
-  lunar.line.gradient = FALSE,
-  lunar.linecol.new = "grey60",
-  lunar.linecol.waxing = "green",
-  lunar.linecol.full = "yellow",
-  lunar.linecol.waning = "red",
-  lunar.linecol.old = lunar.linecol.new,
   pdf = FALSE,
   doc_name = "",
   papersize = "A4"
@@ -150,25 +143,11 @@ calendR(
 
 \item{margin}{Numeric. Allows controlling the margin of the calendar.}
 
-\item{ncol}{Numeric. Controls the number of columns of the yearly calendar. Overrides the default values for "landscape" and "portrait" orientation.}
-
 \item{lunar}{Boolean. If \code{TRUE}, draws the lunar phases. Only available for monthly calendars.}
 
 \item{lunar.col}{If \code{lunar = TRUE}, is the color of the hide part of the moons.}
 
 \item{lunar.size}{If \code{lunar = TRUE}, is the size of the representation of the moons.}
-
-\item{lunar.line.gradient}{Boolean. If \code{TRUE} (and \code{lunar = TRUE}), colors the outline of the lunar phases by phase progression. Defaults to \code{FALSE}.}
-
-\item{lunar.linecol.new}{If \code{lunar.line.gradient = TRUE} (and \code{lunar = TRUE}), is the color of the outline of the lunar phase at new moon. Defaults to \code{"grey60"}.}
-
-\item{lunar.linecol.waxing}{If \code{lunar.line.gradient = TRUE} (and \code{lunar = TRUE}), is the color of the outline of the lunar phase at the first quarter. Defaults to \code{"green"}.}
-
-\item{lunar.linecol.full}{If \code{lunar.line.gradient = TRUE} (and \code{lunar = TRUE}), is the color of the outline of the lunar phase at full moon. Defaults to \code{"yellow"}.}
-
-\item{lunar.linecol.waning}{If \code{lunar.line.gradient = TRUE} (and \code{lunar = TRUE}), is the color of the outline of the lunar phase at the third moon. Defaults to \code{"red"}.}
-
-\item{lunar.linecol.old}{If \code{lunar.line.gradient = TRUE} (and \code{lunar = TRUE}), is the color of the outline of the lunar phase at old moon (i.e. just before new moon). Defaults to \code{lunar.linecol.new}.}
 
 \item{pdf}{Boolean. If \code{TRUE}, saves the calendar in the working directory in A4 format.}
 
@@ -198,6 +177,5 @@ invisible(sapply(1:12 , function(i) calendR(month = i, pdf = TRUE,
 \itemize{
 \item{Soage González, José Carlos.}
 \item{Maintainer: José Carlos Soage González. \email{jsoage@uvigo.es}}
-\item{Contributor: Marcel Schilling. \email{foss@mschilli.com}}
 }
 }
