@@ -216,7 +216,8 @@ calendR(from = "2021-10-01",
 
 ``` r
 # Vector of NA which length is the number of days of the year or month
-myfills <- rep(NA, 366)
+myfills <- rep(NA, 365) 
+# myfills <- rep(NA, 366) # For leap years
 
 # Add the events to the desired days
 myfills[c(1:4, 50, 300:315)] <- "Holidays"
