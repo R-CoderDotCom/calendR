@@ -303,7 +303,7 @@ calendR(year = 2023, special.days = "weekend")
 
 ### Custom weekends
 
-This example is useful to get the position of any day or days of a year, e.g., all the Mondays of 2022, all the Fridays and Saturdays ios 2023, ...
+This example is useful to get the position of any day or days of a year, e.g., all the Mondays of 2022, all the Fridays and Saturdays of 2023, ...
 
 ``` r
 # year: year of the calendar
