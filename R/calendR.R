@@ -79,195 +79,195 @@
 #' @export
 calendR <- function(year = format(Sys.Date(), "%Y"),
                     month = NULL,
-                    
+
                     from = NULL,
                     to = NULL,
-                    
+
                     start = c("S", "M"),
                     orientation = c("portrait", "landscape"),
-                    
+
                     title,
                     title.size = 20,
                     title.col = "gray30",
-                    
+
                     subtitle = "",
                     subtitle.size = 10,
                     subtitle.col = "gray30",
-                    
-                    text = "",
+
+                    text = NULL,
                     text.pos = NULL,
                     text.size = 4,
                     text.col = "gray30",
-                    
+
                     special.days = NULL,
                     special.col = "gray90",
                     gradient = FALSE,
                     low.col = "white",
-                    
+
                     col = "gray30",
                     lwd = 0.5,
                     lty = 1,
-                    
+
                     font.family = "sans",
                     font.style = "plain",
-                    
+
                     day.size = 3,
                     days.col = "gray30",
-                    
+
                     weeknames,
                     weeknames.col = "gray30",
                     weeknames.size = 4.5,
                     week.number = FALSE,
                     week.number.col = "gray30",
                     week.number.size = 8,
-                    
+
                     monthnames,
                     months.size = 10,
                     months.col = "gray30",
                     months.pos = 0.5,
                     mbg.col = "white",
-                    
+
                     legend.pos = "none",
                     legend.title = "",
-                    
+
                     bg.col = "white",
                     bg.img = "",
-                    
+
                     margin = 1,
                     ncol,
-                    
+
                     lunar = FALSE,
                     lunar.col = "gray60",
                     lunar.size = 7,
-                    
+
                     pdf = FALSE,
                     doc_name = "",
                     papersize = "A4") {
-  
+
   if(year < 0) {
     stop("You must be kidding. You don't need a calendar of a year Before Christ :)")
   }
-  
+
   wend <- TRUE
   l <- TRUE
-  
+
   if((!is.null(from) & is.null(to))) {
     stop("Provide an end date with the 'to' argument")
   }
-  
+
   if((is.null(from) & !is.null(to))) {
     stop("Provide a start date with the 'from' argument")
   }
-  
+
   if(is.character(special.days) & length(unique(na.omit(special.days))) != length(special.col)) {
     stop("The number of colors supplied on 'special.col' argument must be the same of length(unique(na.omit(special.days)))")
   }
-  
+
   if (length(unique(start)) != 1) {
     start <- "S"
   }
-  
+
   if (length(unique(orientation)) != 1) {
     orientation <- "landscape"
   }
-  
-  
+
+
   if(missing(ncol)) {
     ncol <- ifelse(orientation == "landscape" | orientation == "l", 4, 3)
   }
-  
-  
+
+
   match.arg(start, c("S", "M"))
   match.arg(orientation, c("landscape", "portrait", "l", "p"))
   match.arg(papersize, c("A6", "A5", "A4", "A3", "A2", "A1", "A0"))
-  
-  
+
+
   if(!is.null(month)){
     if(month > 12) {
       stop("There are no more than 12 months in a year")
     }
-    
+
     if(month <= 0) {
       stop("Months must be between 1 and 12")
     }
-    
+
     if(is.character(month)) {
       stop("You must provide a month in a numeric format, between 1 and 12")
     }
   }
-  
+
   months <- format(seq(as.Date("2016-01-01"), as.Date("2016-12-01"), by = "1 month"), "%B")
-  
-  if(text != "" && is.null(text.pos)){
+
+  if(!is.null(text) && is.null(text.pos)){
     warning("Select the number of days for the text with the 'text.pos' argument")
   }
-  
-  if(text == "" && !is.null(text.pos)){
-    warning("Add the text with the 'text' argument")
+
+  if(is.null(text) && !is.null(text.pos)){
+    warning("Add text with the 'text' argument")
   }
-  
+
   if(missing(weeknames)) {
-    
+
     up <- function(x) {
       substr(x, 1, 1) <- toupper(substr(x, 1, 1))
       x
     }
-    
+
     Day <- seq(as.Date("2020-08-23"), by = 1, len=7)
     weeknames <- c(up(weekdays(Day))[2:7], up(weekdays(Day))[1])
   }
-  
-  
+
+
   if(!is.null(from) & !is.null(to)) {
-    
+
     if(as.numeric(as.Date(from) - as.Date(to)) > 0) {
       stop("'to' must be posterior to 'from'")
     }
-    
+
     if(lunar == TRUE) {
       l <- FALSE
       warning("Lunar phases are only available for monthly calendars")
     }
-    
+
     mindate <- as.Date(from)
     maxdate <- as.Date(to)
     weeknames <- substring(weeknames, 1, 3)
-    
+
   } else {
-    
+
     if(is.null(month)) {
-      
+
       mindate <- as.Date(format(as.Date(paste0(year, "-0", 01, "-01")), "%Y-%m-01"))
       maxdate <- as.Date(format(as.Date(paste0(year, "-12-", 31)), "%Y-%m-31"))
       weeknames <- substring(weeknames, 1, 3)
-      
+
     } else {
-      
+
       if(month >= 10) {
         mindate <- as.Date(format(as.Date(paste0(year, "-", month, "-01")), "%Y-%m-01"))
       } else {
         mindate <- as.Date(format(as.Date(paste0(year, "-0", month, "-01")), "%Y-%m-01"))
       }
-      
+
       maxdate <- seq(mindate, length = 2, by = "months")[2] - 1
     }
   }
-  
+
   if(!is.null(from) & !is.null(to)) {
-    
+
     # Temporal fix
     if(as.Date(to) - as.Date(from) > 366) {
       stop("'from' and 'to' can't me more than 1 year appart")
     }
-    
+
     if(as.numeric(as.Date(to) - as.Date(from)) > 0) {
-      
+
       # Set up tibble with all the dates
       filler <- tibble(date = seq(mindate, maxdate, by = "1 day"))
-      
+
       # Filling colors
       dates <- seq(mindate, maxdate, by = "1 day")
-      
+
     } else {
       stop("'to' must be posterior to 'from'")
     }
@@ -275,72 +275,72 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
     filler <- tibble(date = seq(mindate, maxdate, by = "1 day"))
     dates <- seq(mindate, maxdate, by = "1 day")
   }
-  
+
   fills <- numeric(length(dates))
-  
+
   # Texts
   texts <- character(length(dates))
   texts[text.pos] <- text
-  
-  moon_m <- getMoonIllumination(date = dates, keep = c("fraction", "phase", "angle"))
+
+  moon_m <- suncalc::getMoonIllumination(date = dates, keep = c("fraction", "phase", "angle"))
   moon <- moon_m[, 2]
   right <- ifelse(moon_m[, 4] < 0, TRUE, FALSE)
-  
+
   if(is.character(special.days)) {
-    
+
     if(length(special.days) != length(dates)){
-      
+
       if(special.days != "weekend") {
         stop("special.days must be a numeric vector, a character vector of the length of the number of days of the year or month or 'weekend'")
       } else {
         wend <- FALSE
       }
     }
-    
-    
+
+
     if(gradient == TRUE){
       warning("Gradient won't be created as 'special.days' is of type character. Set gradient = FALSE in this scenario to avoid this warning")
-      
+
       if(legend.title != "" & legend.pos == "none"){
         warning("Legend title specified, but legend.pos == 'none', so no legend will be plotted")
       }
-      
+
     } else {
       if(length(special.days) != length(dates) & (legend.pos != "none" | legend.title != "")) {
         legend.pos = "none"
         warning("gradient = FALSE, so no legend will be plotted")
       }
     }
-    
+
   } else {
-    
+
     if(gradient == FALSE) {
       if(length(special.days) != length(dates) & (legend.pos != "none" | legend.title != "")) {
         legend.pos = "none"
         warning("gradient = FALSE, so no legend will be plotted")
       }
     } else {
-      
+
       if(legend.title != "" & legend.pos == "none"){
         warning("Legend title specified, but legend.pos == 'none', so no legend will be plotted")
       }
     }
-    
+
     # if(length(special.days) > length(dates)) {
     #
     #   stop("No element of the 'special.days' vector can be greater than the number of days of the corresponding month or year")
     # }
-    
+
     if(gradient == TRUE & (length(special.days) != length(dates))) {
       stop("If gradient = TRUE, the length of 'special.days' must be the same as the number of days of the corresponding month or year")
     }
   }
-  
-  
+
+
   if(start == "M") {
-    
+
     weekdays <- weeknames
-    
+
     t1 <- tibble(date = dates, fill = fills) %>%
       right_join(filler, by = "date") %>% # fill in missing dates with NA
       mutate(dow = ifelse(as.numeric(format(date, "%w")) == 0, 6, as.numeric(format(date, "%w")) - 1)) %>%
@@ -350,25 +350,25 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
       mutate(month = toupper(factor(month, levels = months, ordered = TRUE))) %>%
       # arrange(year, month) %>%
       mutate(monlabel = month)
-    
+
     if (!is.null(month)) { # multi-year data set
       t1$monlabel <- paste(t1$month, t1$year)
     }
-    
+
     t2 <- t1 %>%
       mutate(monlabel = factor(monlabel, ordered = TRUE)) %>%
       mutate(monlabel = fct_inorder(monlabel)) %>%
       mutate(monthweek = woy - min(woy),
              y = max(monthweek) - monthweek + 1) %>%
       mutate(weekend = ifelse(dow == 6 | dow == 5, 1, 0))
-    
-    
+
+
     if( all(special.days == 0) == TRUE || length(special.days) == 0) {
       special.col <- "white"
     } else {
-      
+
       if(is.character(special.days)) {
-        
+
         if (length(special.days) == length(dates)) {
           fills <- special.days
         } else {
@@ -376,9 +376,9 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
             fills <- t2$weekend
           }
         }
-        
+
       } else {
-        
+
         if(gradient == TRUE) {
           fills <- special.days
         } else {
@@ -386,11 +386,11 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
         }
       }
     }
-    
+
   } else {
-    
+
     weekdays <- c(weeknames[7], weeknames[1:6])
-    
+
     t1 <- tibble(date = dates, fill = fills) %>%
       right_join(filler, by = "date") %>% # fill in missing dates with NA
       mutate(dow = as.numeric(format(date, "%w"))) %>%
@@ -400,25 +400,25 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
       mutate(month = toupper(factor(month, levels = months, ordered = TRUE))) %>%
       # arrange(year, month) %>%
       mutate(monlabel = month)
-    
+
     if (!is.null(month)) { # Multi-year data set
       t1$monlabel <- paste(t1$month, t1$year)
     }
-    
+
     t2 <- t1 %>%
       mutate(monlabel = factor(monlabel, ordered = TRUE)) %>%
       mutate(monlabel = fct_inorder(monlabel)) %>%
       mutate(monthweek = woy - min(woy),
              y = max(monthweek) - monthweek + 1) %>%
       mutate(weekend = ifelse(dow == 0 | dow == 6, 1, 0))
-    
-    
+
+
     if(all(special.days == 0) == TRUE  || length(special.days) == 0) {
       special.col <- "white"
     } else {
-      
+
       if(is.character(special.days)) {
-        
+
         if (length(special.days) == length(dates)) {
           fills <- special.days
         } else {
@@ -427,7 +427,7 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
           }
         }
       } else {
-        
+
         if(gradient == TRUE) {
           fills <- special.days
         } else {
@@ -436,21 +436,21 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
       }
     }
   }
-  
-  
+
+
   df <- data.frame(week = weekdays,
                    pos.x = 0:6,
                    pos.y = rep(max(t2$monthweek) + 1.75, 7))
-  
+
   if(missing(title)) {
-    
+
     if(!is.null(from) & !is.null(to)) {
-      
+
       title <- paste0(format(as.Date(from), "%m"), "/", format(as.Date(from), "%Y"), " - ",
                       format(as.Date(to), "%m"), "/", format(as.Date(to), "%Y"))
-      
+
     }else{
-      
+
       if(is.null(month)) {
         title <- year
       } else {
@@ -458,14 +458,14 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
       }
     }
   }
-  
+
   if(week.number == FALSE) {
     week.number.col <- "transparent"
   }
-  
-  
+
+
   if(is.null(month) | (!is.null(from) & !is.null(to))) {
-    
+
     if(!missing(monthnames)) {
       if(length(monthnames) == length(levels(t2$monlabel))) {
         t2$monlabel <- factor(t2$monlabel, labels = monthnames)
@@ -473,27 +473,27 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
         stop("The length of 'monthname's must equal to the number months")
       }
     }
-    
+
     if(lunar == TRUE & l != FALSE) {
       warning("Lunar phases are only available for monthly calendars")
     }
-    
-    
+
+
     if(gradient == TRUE || !missing(special.days)) {
-      
+
       p <- ggplot(t2, aes(dow, woy + 1)) +
         geom_tile(aes(fill = fills), color = col, size = lwd, linetype = lty)
-      
+
     } else {
       p <- ggplot(t2, aes(dow, woy + 1)) +
         geom_tile(aes(fill = fills), fill = low.col, color = col, size = lwd, linetype = lty)
-      
+
     }
-    
-    
+
+
     if(is.null(from) & is.null(to)) {
       weeklabels <- 1:53
-      
+
       if(length(t2$date) == 365) {
         weeklabels <- 1:53
       } else {
@@ -504,13 +504,13 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
     } else {
       weeklabels <-unique(t2$woy) + 1
     }
-    
+
     if(is.character(special.days) & wend & length(unique(special.days) == length(dates))) {
       p <- p + scale_fill_manual(values = special.col, labels = levels(as.factor(fills)), na.value = "white", na.translate = FALSE)
     } else {
       p <- p + scale_fill_gradient(low = low.col, high = special.col, na.value = "white")
     }
-    
+
     p <- p + facet_wrap( ~ monlabel, ncol = ncol, scales = "free") +
       ggtitle(title) +
       labs(subtitle = subtitle) +
@@ -537,44 +537,44 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
             plot.margin = unit(c(1 * margin, 0.5 * margin, 1 * margin, 0.5 * margin), "cm"),
             text = element_text(family = font.family, face = font.style),
             strip.placement = "outsite")
-    
+
     if(bg.img != "") {
       p <- ggbackground(p, bg.img)
     }
-    
+
     # print(p)
-    
+
   } else {
-    
+
     tidymoons <- data.frame(
       x = t2$dow + 0.35,
       y =  t2$y + 0.3,
       ratio = moon,
       right = right
     )
-    
+
     tidymoons2 <- data.frame(
       x = t2$dow + 0.35,
       y =  t2$y + 0.3,
       ratio = 1 - moon,
       right = !right
     )
-    
+
     p <- ggplot(t2, aes(dow, y)) +
       geom_tile(aes(fill = fills), color = col, size = lwd, linetype = lty)
-    
+
     if(lunar == TRUE) {
       p <- p + geom_moon(data = tidymoons, aes(x, y, ratio = ratio, right = right), size = lunar.size, fill = "white") +
         geom_moon(data = tidymoons2, aes(x, y, ratio = ratio, right = right), size = lunar.size, fill = lunar.col)
     }
-    
-    
+
+
     if(is.character(special.days) & wend & length(unique(special.days) == length(dates))) {
       p <- p + scale_fill_manual(values = special.col, labels = levels(as.factor(fills)), na.value = "white", na.translate = FALSE)
     } else {
       p <- p + scale_fill_gradient(low = low.col, high = special.col, na.value = "white")
     }
-    
+
     p <- p + ggtitle(title) +
       labs(subtitle = subtitle) +
       geom_text(data = df, aes(label = week, x = pos.x, y = pos.y), size = weeknames.size, family = font.family, color = weeknames.col, fontface = font.style) +
@@ -600,31 +600,31 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
             plot.margin = unit(c(1 * margin,  0.5 * margin, 1 * margin,  0.5 * margin), "cm"),
             text = element_text(family = font.family, face = font.style),
             strip.placement = "outsite")
-    
+
     if(bg.img != "") {
       p <- ggbackground(p, bg.img)
     }
-    
+
     # print(p)
-    
+
   }
-  
+
   if(pdf == FALSE & doc_name != ""){
     warning("Set pdf = TRUE to save the current calendar")
   }
-  
+
   if(pdf == TRUE) {
-    
+
     switch (papersize,
             A6 = {
               a <- 148
               b <- 105
-              
+
             },
             A5 = {
               a <- 210
               b <- 148
-              
+
             },
             A4 = {
               a <- 297
@@ -647,13 +647,13 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
               b <- 841
             },
     )
-    
-    
+
+
     if(doc_name == "") {
       if(!is.null(month)) {
-        
+
         doc_name <- paste0("Calendar_", tolower(t2$month[1]), "_", year, ".pdf")
-        
+
       } else {
         if(!is.null(from) & !is.null(to)) {
           doc_name <- paste0("Calendar_", from, "_", to, ".pdf")
@@ -661,12 +661,12 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
           doc_name <- paste0("Calendar_", year, ".pdf")
         }
       }
-      
-      
+
+
     } else {
       doc_name <- paste0(doc_name, ".pdf")
     }
-    
+
     if(orientation == "landscape" | orientation == "l") {
       ggsave(filename = if(!file.exists(doc_name)) doc_name else stop("File does already exist!"),
              height = b, width = a, units = "mm")
@@ -675,7 +675,7 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
              width = b, height = a, units = "mm")
     }
   }
-  
+
   return(p)
 }
 
