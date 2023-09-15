@@ -289,6 +289,48 @@ calendR(from = start_date, to = end_date,
 
 ![imagen](https://user-images.githubusercontent.com/67192157/97031386-7b068280-1560-11eb-8946-f9decac9b16f.png)
 
+
+
+### Weekends
+
+``` r
+# Calendar with highlighted weekends (Saturday and Sunday)
+calendR(year = 2023, special.days = "weekend")
+```
+
+![image](https://github.com/R-CoderDotCom/calendR/assets/67192157/dd95af99-5f9a-4cf9-b0e1-feddbd981278)
+
+
+### Custom weekends
+
+This example is useful to get the position of any day or days of a year, e.g., all the Mondays of 2022, all the Fridays and Saturdays ios 2023, ...
+
+``` r
+# year: year of the calendar
+# day: 0–6 day OR days of the week, starting on Sunday.
+getDays<- function(year, day) {
+  start <- as.Date(paste0(year,"-01-01"))
+  end <- as.Date(paste0(year,"-12-31"))
+  ndays <- length(seq(start, end, by="1 day"))
+  days <- as.POSIXlt(paste(year, 1:ndays, sep="-"), format="%Y-%j")
+  days_position <- which(seq(start, end, by="1 day") %in% days[days$wday %in% day])
+  days_position  <- days_position [!is.na(days_position)]
+
+  return(days_position )
+}
+
+# Get the weekeneds of 2023
+arab_weekends <- getDays(2023, day = c(5, 6))
+
+# Plot the calendar
+calendR(year = 2023, special.days = arab_weekends)
+```
+
+
+![imagen](https://user-images.githubusercontent.com/67192157/268247947-eb811bc1-8ca9-40c6-9e93-2e6fa71d14dc.png)
+
+
+
 ## Add week number (only on the GitHub development version)
 
 ``` r
