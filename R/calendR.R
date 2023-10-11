@@ -83,7 +83,7 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
                     from = NULL,
                     to = NULL,
 
-                    start = c("S", "M"),
+                    start = c("S", "M", 0:6),
                     orientation = c("portrait", "landscape"),
 
                     title,
@@ -177,7 +177,8 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
   }
 
 
-  match.arg(start, c("S", "M"))
+  match.arg(start |> as.character(), c("S", "M", 0:6))
+  start <- ifelse(start == "S", 0, ifelse(start == "M", 1, as.integer(start)))
   match.arg(orientation, c("landscape", "portrait", "l", "p"))
   match.arg(papersize, c("A6", "A5", "A4", "A3", "A2", "A1", "A0"))
 
@@ -336,107 +337,51 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
     }
   }
 
+  weekdays <- weeknames[(0:6 + start - 1) %% 7 + 1]
+  t1 <- tibble(date = dates, fill = fills) %>%
+    right_join(filler, by = "date") %>% # fill in missing dates with NA
+    mutate(dow = as.numeric(format(date - start, "%w"))) %>%
+    mutate(month = format(date, "%B")) %>%
+    mutate(woy = as.numeric(format(date, "%U")) - (as.numeric(format(date, "%w")) < start)) %>%
+    mutate(year = as.numeric(format(date, "%Y"))) %>%
+    mutate(month = toupper(factor(month, levels = months, ordered = TRUE))) %>%
+    # arrange(year, month) %>%
+    mutate(monlabel = month)
 
-  if(start == "M") {
+  if (!is.null(month)) { # multi-year data set
+    t1$monlabel <- paste(t1$month, t1$year)
+  }
 
-    weekdays <- weeknames
+  t2 <- t1 %>%
+    mutate(monlabel = factor(monlabel, ordered = TRUE)) %>%
+    mutate(monlabel = fct_inorder(monlabel)) %>%
+    mutate(monthweek = woy - min(woy),
+           y = max(monthweek) - monthweek + 1) %>%
+    mutate(weekend = ifelse(as.numeric(format(date, "%w")) %in% c(0, 6), 1, 0))
 
-    t1 <- tibble(date = dates, fill = fills) %>%
-      right_join(filler, by = "date") %>% # fill in missing dates with NA
-      mutate(dow = ifelse(as.numeric(format(date, "%w")) == 0, 6, as.numeric(format(date, "%w")) - 1)) %>%
-      mutate(month = format(date, "%B")) %>%
-      mutate(woy = as.numeric(format(date, "%W"))) %>%
-      mutate(year = as.numeric(format(date, "%Y"))) %>%
-      mutate(month = toupper(factor(month, levels = months, ordered = TRUE))) %>%
-      # arrange(year, month) %>%
-      mutate(monlabel = month)
-
-    if (!is.null(month)) { # multi-year data set
-      t1$monlabel <- paste(t1$month, t1$year)
-    }
-
-    t2 <- t1 %>%
-      mutate(monlabel = factor(monlabel, ordered = TRUE)) %>%
-      mutate(monlabel = fct_inorder(monlabel)) %>%
-      mutate(monthweek = woy - min(woy),
-             y = max(monthweek) - monthweek + 1) %>%
-      mutate(weekend = ifelse(dow == 6 | dow == 5, 1, 0))
-
-
-    if( all(special.days == 0) == TRUE || length(special.days) == 0) {
-      special.col <- "white"
-    } else {
-
-      if(is.character(special.days)) {
-
-        if (length(special.days) == length(dates)) {
-          fills <- special.days
-        } else {
-          if (special.days == "weekend") {
-            fills <- t2$weekend
-          }
-        }
-
-      } else {
-
-        if(gradient == TRUE) {
-          fills <- special.days
-        } else {
-          fills[special.days] <- 1
-        }
-      }
-    }
-
+  if( all(special.days == 0) == TRUE || length(special.days) == 0) {
+    special.col <- "white"
   } else {
 
-    weekdays <- c(weeknames[7], weeknames[1:6])
+    if(is.character(special.days)) {
 
-    t1 <- tibble(date = dates, fill = fills) %>%
-      right_join(filler, by = "date") %>% # fill in missing dates with NA
-      mutate(dow = as.numeric(format(date, "%w"))) %>%
-      mutate(month = format(date, "%B")) %>%
-      mutate(woy = as.numeric(format(date, "%U"))) %>%
-      mutate(year = as.numeric(format(date, "%Y"))) %>%
-      mutate(month = toupper(factor(month, levels = months, ordered = TRUE))) %>%
-      # arrange(year, month) %>%
-      mutate(monlabel = month)
+      if (length(special.days) == length(dates)) {
+        fills <- special.days
+      } else {
+        if (special.days == "weekend") {
+          fills <- t2$weekend
+        }
+      }
 
-    if (!is.null(month)) { # Multi-year data set
-      t1$monlabel <- paste(t1$month, t1$year)
-    }
-
-    t2 <- t1 %>%
-      mutate(monlabel = factor(monlabel, ordered = TRUE)) %>%
-      mutate(monlabel = fct_inorder(monlabel)) %>%
-      mutate(monthweek = woy - min(woy),
-             y = max(monthweek) - monthweek + 1) %>%
-      mutate(weekend = ifelse(dow == 0 | dow == 6, 1, 0))
-
-
-    if(all(special.days == 0) == TRUE  || length(special.days) == 0) {
-      special.col <- "white"
     } else {
 
-      if(is.character(special.days)) {
-
-        if (length(special.days) == length(dates)) {
-          fills <- special.days
-        } else {
-          if (special.days == "weekend") {
-            fills <- t2$weekend
-          }
-        }
+      if(gradient == TRUE) {
+        fills <- special.days
       } else {
-
-        if(gradient == TRUE) {
-          fills <- special.days
-        } else {
-          fills[special.days] <- 1
-        }
+        fills[special.days] <- 1
       }
     }
   }
-
 
   df <- data.frame(week = weekdays,
                    pos.x = 0:6,
