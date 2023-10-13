@@ -6,7 +6,7 @@
 #' @param month Month of the year or `NULL` (default) for the yearly calendar.
 #' @param from Custom start date of the calendar. If `from != NULL`, `year` and `month` arguments won't be taken into account.
 #' @param to Custom end date of the calendar.
-#' @param start `"S"` (default) for starting the week on Sunday or `"M"` for starting the week on Monday.
+#' @param start `"S"` (default) for starting the week on Sunday or `"M"` for starting the week on Monday. Also accepts numbers 0 to 6, where 0 = Sunday and 6 = Saturday.
 #' @param orientation The calendar orientation: `"portrait"` or `"landscape"` (default). Also accepts `"p"` and `"l"`.
 #' @param title Title of the the calendar. If not supplied is the year and the month, or the year if `month = NULL`.
 #' @param title.size Size of the main title.
