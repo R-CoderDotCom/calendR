@@ -5,7 +5,7 @@
 #' @details
 #' \itemize{
 #' \item{Package: calendR}
-#' \item{Version: 1.1}
+#' \item{Version: 1.2}
 #' \item{Maintainer: José Carlos Soage González \email{jsoage@@uvigo.es}}
 #' }
 #'

@@ -21,6 +21,8 @@
 #' @param special.days Numeric vector indicating the days to color or `"weekend"` for coloring all the weekends.
 #' @param special.col Color for the days indicated in special.days. If `gradient = TRUE`, is the higher color of the gradient.
 #' @param gradient Boolean. If `special.days` is a numeric vector of the length of the displayed days, `gradient = TRUE` creates a gradient of the `special.col` on the calendar.
+#' @param na.value.col Color for the missing values in `special.days`. Defaults to `"white"`.
+#' @param limits A numeric vector of length two providing limits of the `special.days` scale when `gradient = TRUE`. Use NA to refer to the existing minimum or maximum limits for gradient scale. Defaults to `NULL` to use the default scale range.
 #' @param low.col If `gradient = TRUE`, is the lower color of the gradient. If `gradient = FALSE` is the background color of the days. Defaults to `"white"`.
 #' @param col Color of the lines of the calendar.
 #' @param lwd Line width of the calendar.
@@ -102,6 +104,8 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
                     special.days = NULL,
                     special.col = "gray90",
                     gradient = FALSE,
+                    limits = NULL,
+                    na.value.col = "white",
                     low.col = "white",
 
                     col = "gray30",
@@ -262,8 +266,8 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
 
     if(as.numeric(as.Date(to) - as.Date(from)) > 0) {
 
-      # Set up tibble with all the dates
-      filler <- tibble(date = seq(mindate, maxdate, by = "1 day"))
+      # Set up dplyr::tibble with all the dates
+      filler <- dplyr::tibble(date = seq(mindate, maxdate, by = "1 day"))
 
       # Filling colors
       dates <- seq(mindate, maxdate, by = "1 day")
@@ -272,7 +276,7 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
       stop("'to' must be posterior to 'from'")
     }
   } else {
-    filler <- tibble(date = seq(mindate, maxdate, by = "1 day"))
+    filler <- dplyr::tibble(date = seq(mindate, maxdate, by = "1 day"))
     dates <- seq(mindate, maxdate, by = "1 day")
   }
 
@@ -341,7 +345,7 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
 
     weekdays <- weeknames
 
-    t1 <- tibble(date = dates, fill = fills) %>%
+    t1 <- dplyr::tibble(date = dates, fill = fills) %>%
       right_join(filler, by = "date") %>% # fill in missing dates with NA
       mutate(dow = ifelse(as.numeric(format(date, "%w")) == 0, 6, as.numeric(format(date, "%w")) - 1)) %>%
       mutate(month = format(date, "%B")) %>%
@@ -391,7 +395,7 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
 
     weekdays <- c(weeknames[7], weeknames[1:6])
 
-    t1 <- tibble(date = dates, fill = fills) %>%
+    t1 <- dplyr::tibble(date = dates, fill = fills) %>%
       right_join(filler, by = "date") %>% # fill in missing dates with NA
       mutate(dow = as.numeric(format(date, "%w"))) %>%
       mutate(month = format(date, "%B")) %>%
@@ -506,9 +510,9 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
     }
 
     if(is.character(special.days) & wend & length(unique(special.days) == length(dates))) {
-      p <- p + scale_fill_manual(values = special.col, labels = levels(as.factor(fills)), na.value = "white", na.translate = FALSE)
+      p <- p + scale_fill_manual(values = special.col, labels = levels(as.factor(fills)), na.value = na.value.col, na.translate = FALSE)
     } else {
-      p <- p + scale_fill_gradient(low = low.col, high = special.col, na.value = "white")
+      p <- p + scale_fill_gradient(low = low.col, high = special.col, na.value = na.value.col, limits = limits)
     }
 
     p <- p + facet_wrap( ~ monlabel, ncol = ncol, scales = "free") +
@@ -570,9 +574,9 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
 
 
     if(is.character(special.days) & wend & length(unique(special.days) == length(dates))) {
-      p <- p + scale_fill_manual(values = special.col, labels = levels(as.factor(fills)), na.value = "white", na.translate = FALSE)
+      p <- p + scale_fill_manual(values = special.col, labels = levels(as.factor(fills)), na.value = na.value.col, na.translate = FALSE)
     } else {
-      p <- p + scale_fill_gradient(low = low.col, high = special.col, na.value = "white")
+      p <- p + scale_fill_gradient(low = low.col, high = special.col, na.value = na.value.col, limits = limits)
     }
 
     p <- p + ggtitle(title) +
@@ -678,4 +682,3 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
 
   return(p)
 }
-
