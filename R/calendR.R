@@ -289,8 +289,7 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
   if(is.character(special.days)) {
 
     if(length(special.days) != length(dates)){
-
-      if(special.days != "weekend") {
+      if(length(special.days) != 1L || special.days != "weekend") {
         stop("special.days must be a numeric vector, a character vector of the length of the number of days of the year or month or 'weekend'")
       } else {
         wend <- FALSE
@@ -372,7 +371,7 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
         if (length(special.days) == length(dates)) {
           fills <- special.days
         } else {
-          if (special.days == "weekend") {
+          if (length(special.days) == 1L && special.days == "weekend") {
             fills <- t2$weekend
           }
         }
@@ -422,7 +421,7 @@ calendR <- function(year = format(Sys.Date(), "%Y"),
         if (length(special.days) == length(dates)) {
           fills <- special.days
         } else {
-          if (special.days == "weekend") {
+          if (length(special.days) == 1L && special.days == "weekend") {
             fills <- t2$weekend
           }
         }
